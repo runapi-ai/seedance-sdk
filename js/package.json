@@ -1,0 +1,64 @@
+{
+  "name": "@runapi.ai/seedance",
+  "version": "0.2.1",
+  "description": "RunAPI Seedance SDK for JavaScript, Ruby, and Go",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "skills",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist",
+    "test:text2video": "dotenv -e manual-tests/.env -- tsx manual-tests/test-text-to-video.ts",
+    "test:manual": "pnpm run test:text2video"
+  },
+  "dependencies": {
+    "@runapi.ai/core": "^0.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@vitest/coverage-v8": "^1.6.0",
+    "dotenv-cli": "^11.0.0",
+    "tsup": "^8.0.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.4.0",
+    "vitest": "^1.6.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "runapi",
+    "runapi-ai",
+    "seedance",
+    "api",
+    "sdk",
+    "typescript",
+    "ruby",
+    "golang"
+  ],
+  "author": "RunAPI",
+  "license": "Apache-2.0",
+  "homepage": "https://runapi.ai/models/seedance",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/runapi-ai/seedance-sdk.git"
+  }
+}
