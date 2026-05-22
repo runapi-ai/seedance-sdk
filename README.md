@@ -1,4 +1,24 @@
-# Seedance API SDK for RunAPI
+<p align="center">
+  <a href="https://runapi.ai"><img src="https://runapi.ai/icon.svg" height="56" alt="RunAPI"></a>
+</p>
+
+<h3 align="center">
+  <a href="https://github.com/runapi-ai/seedance-sdk">Seedance API SDK for RunAPI</a>
+</h3>
+
+<p align="center">
+  Seedance API SDKs for JavaScript, Ruby, and Go on RunAPI.
+</p>
+
+<div align="center">
+
+[![npm](https://img.shields.io/npm/v/@runapi.ai/seedance)](https://www.npmjs.com/package/@runapi.ai/seedance)
+[![RubyGems](https://img.shields.io/gem/v/runapi-seedance)](https://rubygems.org/gems/runapi-seedance)
+[![Go Reference](https://pkg.go.dev/badge/github.com/runapi-ai/seedance-sdk/go.svg)](https://pkg.go.dev/github.com/runapi-ai/seedance-sdk/go)
+[![License](https://img.shields.io/github/license/runapi-ai/seedance-sdk)](https://github.com/runapi-ai/seedance-sdk/blob/main/LICENSE)
+
+</div>
+<br/>
 
 The seedance api SDK packages JavaScript, Ruby, and Go clients for Seedance video generation on RunAPI. Use this seedance api SDK for text-to-video, image-to-video, frame-guided, and reference-based video generation workflows.
 
@@ -19,7 +39,7 @@ const client = new SeedanceClient({ apiKey: 'your-api-key' });
 
 // Generate a video and wait for completion
 const result = await client.textToVideo.run({
-  model: 'seedance-2',
+  model: 'seedance-2.0',
   prompt: 'A cat walking through a sunlit garden',
   aspect_ratio: '16:9',
   duration: 8,
@@ -33,8 +53,8 @@ console.log(result.videos?.[0].url);
 | Model | Description | Credits |
 |-------|-------------|---------|
 | `seedance-1.5-pro` | Mature model with image-to-video and camera lock support | 100/call |
-| `seedance-2` | Newer model with frame guidance and multimodal references | 100/call |
-| `seedance-2-fast` | Faster, cheaper variant of seedance-2 | 50/call |
+| `seedance-2.0` | Newer model with frame guidance and multimodal references | 100/call |
+| `seedance-2.0-fast` | Faster, cheaper variant of seedance-2.0 | 50/call |
 
 ## Generation Modes
 
@@ -42,7 +62,7 @@ console.log(result.videos?.[0].url);
 
 ```typescript
 const result = await client.textToVideo.run({
-  model: 'seedance-2',
+  model: 'seedance-2.0',
   prompt: 'A drone shot over mountains at sunset',
 });
 ```
@@ -58,26 +78,26 @@ const result = await client.textToVideo.run({
 });
 ```
 
-### Frame Mode (seedance-2/2-fast only)
+### Frame Mode (seedance-2.0/2-fast only)
 
 Guide generation with first and optional last frame images.
 
 ```typescript
 const result = await client.textToVideo.run({
-  model: 'seedance-2',
+  model: 'seedance-2.0',
   prompt: 'A sunrise over the ocean',
   first_frame_url: 'https://example.com/start.jpg',
   last_frame_url: 'https://example.com/end.jpg',
 });
 ```
 
-### Reference Mode (seedance-2/2-fast only)
+### Reference Mode (seedance-2.0/2-fast only)
 
 Guide generation with reference images, videos, or audio. **Mutually exclusive with frame mode.**
 
 ```typescript
 const result = await client.textToVideo.run({
-  model: 'seedance-2',
+  model: 'seedance-2.0',
   prompt: 'A person dancing in the same style',
   reference_video_urls: ['https://example.com/dance.mp4'],
 });
@@ -99,14 +119,14 @@ const result = await client.textToVideo.run({
 | `generate_audio` | `boolean` | No | Generate audio track |
 | `callback_url` | `string` | No | Completion webhook URL |
 
-### seedance-2 / seedance-2-fast
+### seedance-2.0 / seedance-2.0-fast
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `model` | `'seedance-2' \| 'seedance-2-fast'` | Yes | Model selection |
+| `model` | `'seedance-2.0' \| 'seedance-2.0-fast'` | Yes | Model selection |
 | `prompt` | `string` | Yes | Text prompt |
 | `aspect_ratio` | `'1:1' \| ... \| 'auto'` | No | Video aspect ratio (`auto` for frame mode only) |
-| `resolution` | `'480p' \| '720p' \| '1080p'` | No | Output resolution (`1080p` requires `seedance-2`; `seedance-2-fast` supports `480p` / `720p`) |
+| `resolution` | `'480p' \| '720p' \| '1080p'` | No | Output resolution (`1080p` requires `seedance-2.0`; `seedance-2.0-fast` supports `480p` / `720p`) |
 | `duration` | `number` (4-15) | No | Video duration in seconds |
 | `first_frame_url` | `string` | No | First frame (frame mode) |
 | `last_frame_url` | `string` | No | Last frame (frame mode) |
@@ -122,7 +142,7 @@ const result = await client.textToVideo.run({
 ```typescript
 // Create task
 const task = await client.textToVideo.create({
-  model: 'seedance-2-fast',
+  model: 'seedance-2.0-fast',
   prompt: 'A golden retriever running on a beach',
 });
 
@@ -142,7 +162,7 @@ For full seedance api documentation including all parameters and response format
 import { SeedanceClient, ValidationError, InsufficientCreditsError } from '@runapi.ai/seedance';
 
 try {
-  await client.textToVideo.run({ model: 'seedance-2', prompt: '...' });
+  await client.textToVideo.run({ model: 'seedance-2.0', prompt: '...' });
 } catch (error) {
   if (error instanceof ValidationError) {
     console.error('Invalid parameters:', error.message);
