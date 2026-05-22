@@ -7,7 +7,7 @@ module RunApi
     # @example
     #   client = RunApi::Seedance::Client.new(api_key: "your-api-key")
     #   result = client.text_to_video.run(
-    #     model: "seedance-2", prompt: "A cat walking through a garden"
+    #     model: "seedance-2.0", prompt: "A cat walking through a garden"
     #   )
     class Client
       # @return [Resources::TextToVideo] Video generation operations.

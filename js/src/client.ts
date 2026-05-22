@@ -12,7 +12,7 @@ import { TextToVideo } from './resources/text-to-video';
  * });
  *
  * const result = await client.textToVideo.run({
- *   model: 'seedance-2',
+ *   model: 'seedance-2.0',
  *   prompt: 'A cat walking through a garden',
  * });
  * ```

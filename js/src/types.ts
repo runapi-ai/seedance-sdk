@@ -3,12 +3,12 @@ import type { AsyncTaskStatus } from '@runapi.ai/core';
 // Model types
 export type SeedanceModel =
   | 'seedance-1.5-pro'
-  | 'seedance-2'
-  | 'seedance-2-fast'
+  | 'seedance-2.0'
+  | 'seedance-2.0-fast'
   | 'seedance-v1-lite'
   | 'seedance-v1-pro'
   | 'seedance-v1-pro-fast';
-export type SeedanceModel2 = 'seedance-2' | 'seedance-2-fast';
+export type SeedanceModel2 = 'seedance-2.0' | 'seedance-2.0-fast';
 export type SeedanceModelV1 = 'seedance-v1-lite' | 'seedance-v1-pro' | 'seedance-v1-pro-fast';
 
 // Aspect ratios
@@ -55,7 +55,7 @@ export interface Generation15ProParams extends GenerationCommonParams {
   lock_camera?: boolean;
 }
 
-// --- seedance-2 / seedance-2-fast modes (mutually exclusive) ---
+// --- seedance-2.0 / seedance-2.0-fast modes (mutually exclusive) ---
 
 /** Common fields for all 2.x modes */
 interface Generation2BaseParams extends GenerationCommonParams {
@@ -69,13 +69,13 @@ interface Generation2BaseParams extends GenerationCommonParams {
 }
 
 /**
- * seedance-2/2-fast text-to-video mode.
+ * seedance-2.0/2-fast text-to-video mode.
  * Pure text prompt, no image/reference inputs.
  */
 export interface Generation2TextParams extends Generation2BaseParams {}
 
 /**
- * seedance-2/2-fast frame mode.
+ * seedance-2.0/2-fast frame mode.
  * Guide generation with first (required) and optional last frame images.
  * Mutually exclusive with reference mode.
  */
@@ -87,7 +87,7 @@ export interface Generation2FrameParams extends Generation2BaseParams {
 }
 
 /**
- * seedance-2/2-fast reference mode.
+ * seedance-2.0/2-fast reference mode.
  * Guide generation with reference images, videos, or audio.
  * Mutually exclusive with frame mode.
  */

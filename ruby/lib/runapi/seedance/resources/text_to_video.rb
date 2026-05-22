@@ -136,14 +136,14 @@ module RunApi
 
         def validate_2!(params)
           validate_optional!(params, :aspect_ratio, Types::ASPECT_RATIOS_2)
-          resolutions = (param(params, :model) == "seedance-2") ? Types::RESOLUTIONS_SEEDANCE_2 : Types::RESOLUTIONS_SEEDANCE_2_FAST
+          resolutions = (param(params, :model) == "seedance-2.0") ? Types::RESOLUTIONS_SEEDANCE_2 : Types::RESOLUTIONS_SEEDANCE_2_FAST
           validate_optional!(params, :resolution, resolutions)
 
           duration = param(params, :duration)
           if duration
             dur_int = duration.to_i
             unless Types::DURATION_2_RANGE.cover?(dur_int)
-              raise Core::ValidationError, "Invalid duration for seedance-2: #{duration}. Must be an integer between 4 and 15"
+              raise Core::ValidationError, "Invalid duration for seedance-2.0: #{duration}. Must be an integer between 4 and 15"
             end
           end
 

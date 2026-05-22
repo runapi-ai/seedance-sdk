@@ -4,7 +4,7 @@ module RunApi
   module Seedance
     module Types
       V1_MODELS = %w[seedance-v1-lite seedance-v1-pro seedance-v1-pro-fast].freeze
-      MODELS = (%w[seedance-1.5-pro seedance-2 seedance-2-fast] + V1_MODELS).freeze
+      MODELS = (%w[seedance-1.5-pro seedance-2.0 seedance-2.0-fast] + V1_MODELS).freeze
 
       ASPECT_RATIOS_1_5 = %w[1:1 4:3 3:4 16:9 9:16 21:9].freeze
       ASPECT_RATIOS_2 = [ *ASPECT_RATIOS_1_5, "auto" ].freeze

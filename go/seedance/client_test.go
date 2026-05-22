@@ -40,7 +40,7 @@ func TestTextToVideoCreate(t *testing.T) {
 	if body["prompt"] != "a sunset over the ocean" {
 		t.Fatalf("unexpected prompt: %v", body["prompt"])
 	}
-	if body["model"] != "seedance-2" {
+	if body["model"] != "seedance-2.0" {
 		t.Fatalf("unexpected model: %v", body["model"])
 	}
 }

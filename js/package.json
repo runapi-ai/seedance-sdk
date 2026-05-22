@@ -1,6 +1,6 @@
 {
   "name": "@runapi.ai/seedance",
-  "version": "0.2.1",
+  "version": "0.2.4",
   "description": "RunAPI Seedance SDK for JavaScript, Ruby, and Go",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -30,7 +30,7 @@
     "test:manual": "pnpm run test:text2video"
   },
   "dependencies": {
-    "@runapi.ai/core": "^0.2.1"
+    "@runapi.ai/core": "^0.2.4"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

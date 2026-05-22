@@ -9,10 +9,10 @@ client = RunApi::Seedance::Client.new(
   base_url: ENV.fetch("RUNAPI_BASE_URL", "http://localhost:3000")
 )
 
-# 1. Text-to-video with seedance-2
-puts "=== Text-to-Video (seedance-2) ==="
+# 1. Text-to-video with seedance-2.0
+puts "=== Text-to-Video (seedance-2.0) ==="
 result = client.text_to_video.run(
-  model: "seedance-2",
+  model: "seedance-2.0",
   prompt: "A cat walking gracefully through a sunlit garden",
   aspect_ratio: "16:9",
   duration: 8
@@ -37,10 +37,10 @@ result["videos"]&.each_with_index do |video, i|
   puts "  Video #{i + 1}: #{video["url"]}"
 end
 
-# 3. Frame mode with seedance-2
-puts "\n=== Frame Mode (seedance-2) ==="
+# 3. Frame mode with seedance-2.0
+puts "\n=== Frame Mode (seedance-2.0) ==="
 result = client.text_to_video.run(
-  model: "seedance-2",
+  model: "seedance-2.0",
   prompt: "A sunrise over the ocean, camera slowly panning right",
   first_frame_url: ENV.fetch("TEST_FIRST_FRAME_URL", "https://example.com/sunrise-start.jpg"),
   duration: 10
@@ -54,7 +54,7 @@ puts "Last frame: #{result["last_frame_url"]}" if result["last_frame_url"]
 # 4. Manual polling (create + get)
 puts "\n=== Manual Polling ==="
 task = client.text_to_video.create(
-  model: "seedance-2-fast",
+  model: "seedance-2.0-fast",
   prompt: "A golden retriever running on a beach"
 )
 raise "Failed to create task" unless task["id"]
@@ -78,7 +78,7 @@ end
 
 begin
   client.text_to_video.create(
-    model: "seedance-2",
+    model: "seedance-2.0",
     prompt: "test",
     first_frame_url: "https://example.com/frame.jpg",
     reference_image_urls: [ "https://example.com/ref.jpg" ]

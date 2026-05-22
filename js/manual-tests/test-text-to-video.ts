@@ -20,7 +20,7 @@ async function main() {
     console.log('-'.repeat(50));
     const createResult = await client.textToVideo.create({
       prompt: 'A cat walking gracefully through a sunlit garden',
-      model: 'seedance-2-fast',
+      model: 'seedance-2.0-fast',
       aspect_ratio: '16:9',
       duration: 8,
     });
@@ -46,7 +46,7 @@ async function main() {
 
     const runResult = await client.textToVideo.run({
       prompt: 'A serene mountain lake at sunset with golden reflections',
-      model: 'seedance-2-fast',
+      model: 'seedance-2.0-fast',
       aspect_ratio: '16:9',
     });
 

@@ -8,8 +8,8 @@ type TaskStatus string
 
 const (
 	ModelSeedance15Pro     SeedanceModel = "seedance-1.5-pro"
-	ModelSeedance2         SeedanceModel = "seedance-2"
-	ModelSeedance2Fast     SeedanceModel = "seedance-2-fast"
+	ModelSeedance2         SeedanceModel = "seedance-2.0"
+	ModelSeedance2Fast     SeedanceModel = "seedance-2.0-fast"
 	ModelSeedanceV1Lite    SeedanceModel = "seedance-v1-lite"
 	ModelSeedanceV1Pro     SeedanceModel = "seedance-v1-pro"
 	ModelSeedanceV1ProFast SeedanceModel = "seedance-v1-pro-fast"
@@ -32,16 +32,16 @@ type TextToVideoParams struct {
 	InputURLs  []string `json:"input_urls,omitempty"`
 	LockCamera *bool    `json:"lock_camera,omitempty"`
 
-	// seedance-2/2-fast frame mode; seedance-v1-lite i2v also uses last_frame_url
+	// seedance-2.0/2-fast frame mode; seedance-v1-lite i2v also uses last_frame_url
 	FirstFrameURL string `json:"first_frame_url,omitempty"`
 	LastFrameURL  string `json:"last_frame_url,omitempty"`
 
-	// seedance-2/2-fast reference mode
+	// seedance-2.0/2-fast reference mode
 	ReferenceImageURLs []string `json:"reference_image_urls,omitempty" help:"optional; max 9 reference images"`
 	ReferenceVideoURLs []string `json:"reference_video_urls,omitempty" help:"optional; max 3 videos, total duration ≤ 15s"`
 	ReferenceAudioURLs []string `json:"reference_audio_urls,omitempty" help:"optional; max 3 audio files, requires image or video"`
 
-	// seedance-2/2-fast additional options
+	// seedance-2.0/2-fast additional options
 	WebSearch *bool `json:"web_search,omitempty"`
 
 	// seedance-v1-lite / v1-pro additional options (ignored on other models)

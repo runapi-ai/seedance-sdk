@@ -13,14 +13,14 @@ describe('TextToVideo', () => {
   });
 
   describe('create', () => {
-    it('should send correct request for text-to-video with seedance-2', async () => {
+    it('should send correct request for text-to-video with seedance-2.0', async () => {
       const mockResponse: TaskCreateResponse = { id: 'task-123' };
       vi.mocked(mockHttp.request).mockResolvedValueOnce(mockResponse);
 
       const textToVideo = new TextToVideo(mockHttp);
       const result = await textToVideo.create({
         prompt: 'A cat walking through a garden',
-        model: 'seedance-2',
+        model: 'seedance-2.0',
         aspect_ratio: '16:9',
         duration: 8,
       });
@@ -31,7 +31,7 @@ describe('TextToVideo', () => {
         {
           body: {
             prompt: 'A cat walking through a garden',
-            model: 'seedance-2',
+            model: 'seedance-2.0',
             aspect_ratio: '16:9',
             duration: 8,
           },
@@ -78,7 +78,7 @@ describe('TextToVideo', () => {
       const textToVideo = new TextToVideo(mockHttp);
       await textToVideo.create({
         prompt: 'A sunrise over the ocean',
-        model: 'seedance-2',
+        model: 'seedance-2.0',
         first_frame_url: 'https://example.com/start.jpg',
         last_frame_url: 'https://example.com/end.jpg',
         duration: 10,
@@ -90,7 +90,7 @@ describe('TextToVideo', () => {
         {
           body: {
             prompt: 'A sunrise over the ocean',
-            model: 'seedance-2',
+            model: 'seedance-2.0',
             first_frame_url: 'https://example.com/start.jpg',
             last_frame_url: 'https://example.com/end.jpg',
             duration: 10,
@@ -106,7 +106,7 @@ describe('TextToVideo', () => {
       const textToVideo = new TextToVideo(mockHttp);
       await textToVideo.create({
         prompt: 'A person dancing in the same style',
-        model: 'seedance-2-fast',
+        model: 'seedance-2.0-fast',
         reference_video_urls: ['https://example.com/dance.mp4'],
         reference_image_urls: ['https://example.com/person.jpg'],
       });
@@ -117,7 +117,7 @@ describe('TextToVideo', () => {
         {
           body: {
             prompt: 'A person dancing in the same style',
-            model: 'seedance-2-fast',
+            model: 'seedance-2.0-fast',
             reference_video_urls: ['https://example.com/dance.mp4'],
             reference_image_urls: ['https://example.com/person.jpg'],
           },
@@ -132,7 +132,7 @@ describe('TextToVideo', () => {
       const textToVideo = new TextToVideo(mockHttp);
       await textToVideo.create({
         prompt: 'Test video',
-        model: 'seedance-2',
+        model: 'seedance-2.0',
         callback_url: 'https://example.com/callback',
         generate_audio: true,
         web_search: false,
@@ -144,7 +144,7 @@ describe('TextToVideo', () => {
         {
           body: {
             prompt: 'Test video',
-            model: 'seedance-2',
+            model: 'seedance-2.0',
             callback_url: 'https://example.com/callback',
             generate_audio: true,
             web_search: false,
@@ -219,7 +219,7 @@ describe('TextToVideo', () => {
       const mockResponse: TextToVideoResponse = {
         id: 'task-123',
         status: 'processing',
-        model: 'seedance-2',
+        model: 'seedance-2.0',
       };
       vi.mocked(mockHttp.request).mockResolvedValueOnce(mockResponse);
 
@@ -238,7 +238,7 @@ describe('TextToVideo', () => {
       const mockResponse: TextToVideoResponse = {
         id: 'task-123',
         status: 'completed',
-        model: 'seedance-2',
+        model: 'seedance-2.0',
         videos: [
           { url: 'https://example.com/video.mp4' },
         ],
@@ -259,7 +259,7 @@ describe('TextToVideo', () => {
       const mockResponse: TextToVideoResponse = {
         id: 'task-123',
         status: 'failed',
-        model: 'seedance-2-fast',
+        model: 'seedance-2.0-fast',
         error: 'Generation failed',
       };
       vi.mocked(mockHttp.request).mockResolvedValueOnce(mockResponse);
@@ -278,12 +278,12 @@ describe('TextToVideo', () => {
       const processingResponse: TextToVideoResponse = {
         id: 'task-123',
         status: 'processing',
-        model: 'seedance-2',
+        model: 'seedance-2.0',
       };
       const completedResponse: TextToVideoResponse = {
         id: 'task-123',
         status: 'completed',
-        model: 'seedance-2',
+        model: 'seedance-2.0',
         videos: [
           { url: 'https://example.com/video.mp4' },
         ],
@@ -297,7 +297,7 @@ describe('TextToVideo', () => {
       const textToVideo = new TextToVideo(mockHttp);
       const result = await textToVideo.run({
         prompt: 'Test video',
-        model: 'seedance-2',
+        model: 'seedance-2.0',
       });
 
       expect(result.status).toBe('completed');
