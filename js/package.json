@@ -1,6 +1,6 @@
 {
   "name": "@runapi.ai/seedance",
-  "version": "0.2.4",
+  "version": "0.2.6",
   "description": "RunAPI Seedance SDK for JavaScript, Ruby, and Go",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -25,12 +25,10 @@
     "build": "tsup",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
-    "clean": "rm -rf dist",
-    "test:text2video": "dotenv -e manual-tests/.env -- tsx manual-tests/test-text-to-video.ts",
-    "test:manual": "pnpm run test:text2video"
+    "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@runapi.ai/core": "^0.2.4"
+    "@runapi.ai/core": "^0.2.5"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

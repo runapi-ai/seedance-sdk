@@ -42,7 +42,7 @@ const result = await client.textToVideo.run({
   model: 'seedance-2.0',
   prompt: 'A cat walking through a sunlit garden',
   aspect_ratio: '16:9',
-  duration: 8,
+  duration_seconds: 8,
 });
 
 console.log(result.videos?.[0].url);
@@ -50,11 +50,11 @@ console.log(result.videos?.[0].url);
 
 ## Models
 
-| Model | Description | Credits |
+| Model | Description | Pricing |
 |-------|-------------|---------|
-| `seedance-1.5-pro` | Mature model with image-to-video and camera lock support | 100/call |
-| `seedance-2.0` | Newer model with frame guidance and multimodal references | 100/call |
-| `seedance-2.0-fast` | Faster, cheaper variant of seedance-2.0 | 50/call |
+| `seedance-1.5-pro` | Mature model with image-to-video and camera lock support | [Pricing](https://runapi.ai/models/seedance/1.5-pro) |
+| `seedance-2.0` | Newer model with frame guidance and multimodal references | [Pricing](https://runapi.ai/models/seedance/2.0) |
+| `seedance-2.0-fast` | Faster, cheaper variant of seedance-2.0 | [Pricing](https://runapi.ai/models/seedance/2.0-fast) |
 
 ## Generation Modes
 
@@ -74,7 +74,8 @@ const result = await client.textToVideo.run({
   model: 'seedance-1.5-pro',
   prompt: 'The flower blooms and petals scatter',
   aspect_ratio: '16:9',
-  input_urls: ['https://example.com/flower.jpg'],
+  duration_seconds: 8,
+  source_image_urls: ['https://cdn.runapi.ai/public/samples/image-to-video.jpg'],
 });
 ```
 
@@ -86,8 +87,8 @@ Guide generation with first and optional last frame images.
 const result = await client.textToVideo.run({
   model: 'seedance-2.0',
   prompt: 'A sunrise over the ocean',
-  first_frame_url: 'https://example.com/start.jpg',
-  last_frame_url: 'https://example.com/end.jpg',
+  first_frame_image_url: 'https://cdn.runapi.ai/public/samples/first-frame.jpg',
+  last_frame_image_url: 'https://cdn.runapi.ai/public/samples/last-frame.jpg',
 });
 ```
 
@@ -99,7 +100,7 @@ Guide generation with reference images, videos, or audio. **Mutually exclusive w
 const result = await client.textToVideo.run({
   model: 'seedance-2.0',
   prompt: 'A person dancing in the same style',
-  reference_video_urls: ['https://example.com/dance.mp4'],
+  reference_video_urls: ['https://cdn.runapi.ai/public/samples/video.mp4'],
 });
 ```
 
@@ -112,9 +113,9 @@ const result = await client.textToVideo.run({
 | `model` | `'seedance-1.5-pro'` | Yes | Model selection |
 | `prompt` | `string` | Yes | Text prompt |
 | `aspect_ratio` | `'1:1' \| '4:3' \| '3:4' \| '16:9' \| '9:16' \| '21:9'` | Yes | Video aspect ratio |
-| `resolution` | `'480p' \| '720p' \| '1080p'` | No | Output resolution |
-| `duration` | `4 \| 8 \| 12` | No | Video duration in seconds |
-| `input_urls` | `string[]` | No | Up to 2 image URLs |
+| `output_resolution` | `'480p' \| '720p' \| '1080p'` | No | Output resolution |
+| `duration_seconds` | `4 \| 8 \| 12` | Yes | Video duration in seconds |
+| `source_image_urls` | `string[]` | No | Up to 2 source image URLs |
 | `lock_camera` | `boolean` | No | Lock camera movement |
 | `generate_audio` | `boolean` | No | Generate audio track |
 | `callback_url` | `string` | No | Completion webhook URL |
@@ -126,10 +127,10 @@ const result = await client.textToVideo.run({
 | `model` | `'seedance-2.0' \| 'seedance-2.0-fast'` | Yes | Model selection |
 | `prompt` | `string` | Yes | Text prompt |
 | `aspect_ratio` | `'1:1' \| ... \| 'auto'` | No | Video aspect ratio (`auto` for frame mode only) |
-| `resolution` | `'480p' \| '720p' \| '1080p'` | No | Output resolution (`1080p` requires `seedance-2.0`; `seedance-2.0-fast` supports `480p` / `720p`) |
-| `duration` | `number` (4-15) | No | Video duration in seconds |
-| `first_frame_url` | `string` | No | First frame (frame mode) |
-| `last_frame_url` | `string` | No | Last frame (frame mode) |
+| `output_resolution` | `'480p' \| '720p' \| '1080p'` | No | Output resolution (`1080p` requires `seedance-2.0`; `seedance-2.0-fast` supports `480p` / `720p`) |
+| `duration_seconds` | `number` (4-15) | No | Video duration in seconds |
+| `first_frame_image_url` | `string` | No | First frame image (frame mode) |
+| `last_frame_image_url` | `string` | No | Last frame image (frame mode) |
 | `reference_image_urls` | `string[]` | No | Reference images (1-12 total refs) |
 | `reference_video_urls` | `string[]` | No | Reference videos (max 3, total duration ≤ 15s) |
 | `reference_audio_urls` | `string[]` | No | Reference audio (requires image or video) |

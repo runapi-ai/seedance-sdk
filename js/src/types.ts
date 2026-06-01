@@ -23,8 +23,8 @@ export type Resolution2 = '480p' | '720p' | '1080p';
 export type ResolutionV1 = '480p' | '720p' | '1080p';
 export type ResolutionV1ProFast = '720p' | '1080p';
 
-// V1 duration — only accepts string enums '5' or '10'.
-export type DurationV1 = '5' | '10';
+// V1 duration_seconds accepts 5 or 10 seconds.
+export type DurationV1 = 5 | 10;
 
 // Common fields shared by all generation modes
 interface GenerationCommonParams {
@@ -34,8 +34,8 @@ interface GenerationCommonParams {
   callback_url?: string;
   /** Generate audio track for the video */
   generate_audio?: boolean;
-  /** Enable NSFW content check */
-  nsfw_checker?: boolean;
+  /** Content safety check toggle */
+  enable_safety_checker?: boolean;
 }
 
 /**
@@ -46,11 +46,11 @@ export interface Generation15ProParams extends GenerationCommonParams {
   model: 'seedance-1.5-pro';
   /** Required for seedance-1.5-pro */
   aspect_ratio: AspectRatio15Pro;
-  resolution?: Resolution15Pro;
+  output_resolution?: Resolution15Pro;
   /** Fixed values: 4, 8, or 12 seconds */
-  duration?: 4 | 8 | 12;
-  /** Up to 2 image URLs for image-to-video */
-  input_urls?: string[];
+  duration_seconds: 4 | 8 | 12;
+  /** Up to 2 source image URLs for image-to-video */
+  source_image_urls?: string[];
   /** Lock camera movement */
   lock_camera?: boolean;
 }
@@ -61,9 +61,9 @@ export interface Generation15ProParams extends GenerationCommonParams {
 interface Generation2BaseParams extends GenerationCommonParams {
   model: SeedanceModel2;
   aspect_ratio?: AspectRatio2;
-  resolution?: Resolution2;
+  output_resolution?: Resolution2;
   /** Integer 4-15 */
-  duration?: number;
+  duration_seconds?: number;
   /** Enable web search for prompt enrichment. */
   web_search?: boolean;
 }
@@ -81,9 +81,9 @@ export interface Generation2TextParams extends Generation2BaseParams {}
  */
 export interface Generation2FrameParams extends Generation2BaseParams {
   /** First frame image URL (required for frame mode) */
-  first_frame_url: string;
+  first_frame_image_url: string;
   /** Last frame image URL */
-  last_frame_url?: string;
+  last_frame_image_url?: string;
 }
 
 /**
@@ -104,53 +104,51 @@ export interface Generation2ReferenceParams extends Generation2BaseParams {
 
 /** Common fields for v1-lite and v1-pro (not v1-pro-fast). */
 interface GenerationV1SharedParams extends GenerationCommonParams {
-  /** `'5'` or `'10'`. Required. */
-  duration: DurationV1;
-  resolution?: ResolutionV1;
+  /** `5` or `10`. Required. */
+  duration_seconds: DurationV1;
+  output_resolution?: ResolutionV1;
   /** Lock camera movement */
   lock_camera?: boolean;
   /** Random seed; `-1` for random. Integer in [-1, 2147483647]. */
   seed?: number;
-  /** Safety checker toggle */
-  enable_safety_checker?: boolean;
 }
 
 /**
  * seedance-v1-lite text-to-video or image-to-video. Mode is auto-detected by
- * `input_urls` presence. `last_frame_url` is only valid in image-to-video mode.
+ * `first_frame_image_url` presence. `last_frame_image_url` is only valid in image-to-video mode.
  */
 export interface GenerationV1LiteParams extends GenerationV1SharedParams {
   model: 'seedance-v1-lite';
-  /** Required in text-to-video mode. Omit when `input_urls` is set. */
+  /** Required in text-to-video mode. Omit when `first_frame_image_url` is set. */
   aspect_ratio?: AspectRatioV1Lite;
-  /** Up to 1 image URL. Triggers image-to-video mode when set. */
-  input_urls?: string[];
+  /** First frame image URL. Triggers image-to-video mode when set. */
+  first_frame_image_url?: string;
   /** Ending frame image URL; image-to-video mode only. */
-  last_frame_url?: string;
+  last_frame_image_url?: string;
 }
 
 /**
  * seedance-v1-pro text-to-video or image-to-video. Mode is auto-detected by
- * `input_urls` presence.
+ * `first_frame_image_url` presence.
  */
 export interface GenerationV1ProParams extends GenerationV1SharedParams {
   model: 'seedance-v1-pro';
-  /** Required in text-to-video mode. Omit when `input_urls` is set. */
+  /** Required in text-to-video mode. Omit when `first_frame_image_url` is set. */
   aspect_ratio?: AspectRatioV1Pro;
-  /** Up to 1 image URL. Triggers image-to-video mode when set. */
-  input_urls?: string[];
+  /** First frame image URL. Triggers image-to-video mode when set. */
+  first_frame_image_url?: string;
 }
 
 /**
  * seedance-v1-pro-fast image-to-video only. Smaller parameter surface —
- * no `aspect_ratio`, `lock_camera`, `seed`, or `enable_safety_checker`.
+ * no `aspect_ratio`, `lock_camera`, or `seed`.
  */
 export interface GenerationV1ProFastParams extends GenerationCommonParams {
   model: 'seedance-v1-pro-fast';
-  /** Required — at least one image URL. */
-  input_urls: [string] | [string, ...string[]];
-  resolution?: ResolutionV1ProFast;
-  duration: DurationV1;
+  /** Required first frame image URL. */
+  first_frame_image_url: string;
+  output_resolution?: ResolutionV1ProFast;
+  duration_seconds: DurationV1;
 }
 
 /** Discriminated union of all generation parameter variants */
@@ -177,14 +175,14 @@ export interface TextToVideoResponse {
   id: string;
   status: AsyncTaskStatus;
   videos?: VideoMetadata[];
-  last_frame_url?: string;
+  last_frame_image_url?: string;
   error?: string;
   [key: string]: unknown;
 }
 
 /**
  * Resolved response returned by the `run()` method after polling sees
- * `status: 'completed'`. Narrows `videos` to non-optional; `last_frame_url`
+ * `status: 'completed'`. Narrows `videos` to non-optional; `last_frame_image_url`
  * stays optional because it may be absent.
  */
 export type CompletedTextToVideoResponse = TextToVideoResponse & {

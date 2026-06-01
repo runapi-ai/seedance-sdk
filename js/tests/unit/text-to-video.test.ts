@@ -22,7 +22,7 @@ describe('TextToVideo', () => {
         prompt: 'A cat walking through a garden',
         model: 'seedance-2.0',
         aspect_ratio: '16:9',
-        duration: 8,
+        duration_seconds: 8,
       });
 
       expect(mockHttp.request).toHaveBeenCalledWith(
@@ -33,14 +33,14 @@ describe('TextToVideo', () => {
             prompt: 'A cat walking through a garden',
             model: 'seedance-2.0',
             aspect_ratio: '16:9',
-            duration: 8,
+            duration_seconds: 8,
           },
         }
       );
       expect(result).toEqual(mockResponse);
     });
 
-    it('should send correct request for seedance-1.5-pro with input_urls', async () => {
+    it('should send correct request for seedance-1.5-pro with source_image_urls', async () => {
       const mockResponse: TaskCreateResponse = { id: 'task-456' };
       vi.mocked(mockHttp.request).mockResolvedValueOnce(mockResponse);
 
@@ -49,9 +49,9 @@ describe('TextToVideo', () => {
         prompt: 'The flower blooms',
         model: 'seedance-1.5-pro',
         aspect_ratio: '16:9',
-        resolution: '720p',
-        duration: 8,
-        input_urls: ['https://example.com/flower.jpg'],
+        output_resolution: '720p',
+        duration_seconds: 8,
+        source_image_urls: ['https://cdn.runapi.ai/public/samples/flower.jpg'],
       });
 
       expect(mockHttp.request).toHaveBeenCalledWith(
@@ -62,9 +62,9 @@ describe('TextToVideo', () => {
             prompt: 'The flower blooms',
             model: 'seedance-1.5-pro',
             aspect_ratio: '16:9',
-            resolution: '720p',
-            duration: 8,
-            input_urls: ['https://example.com/flower.jpg'],
+            output_resolution: '720p',
+            duration_seconds: 8,
+            source_image_urls: ['https://cdn.runapi.ai/public/samples/flower.jpg'],
           },
         }
       );
@@ -79,9 +79,9 @@ describe('TextToVideo', () => {
       await textToVideo.create({
         prompt: 'A sunrise over the ocean',
         model: 'seedance-2.0',
-        first_frame_url: 'https://example.com/start.jpg',
-        last_frame_url: 'https://example.com/end.jpg',
-        duration: 10,
+        first_frame_image_url: 'https://cdn.runapi.ai/public/samples/first-frame.jpg',
+        last_frame_image_url: 'https://cdn.runapi.ai/public/samples/last-frame.jpg',
+        duration_seconds: 10,
       });
 
       expect(mockHttp.request).toHaveBeenCalledWith(
@@ -91,9 +91,9 @@ describe('TextToVideo', () => {
           body: {
             prompt: 'A sunrise over the ocean',
             model: 'seedance-2.0',
-            first_frame_url: 'https://example.com/start.jpg',
-            last_frame_url: 'https://example.com/end.jpg',
-            duration: 10,
+            first_frame_image_url: 'https://cdn.runapi.ai/public/samples/first-frame.jpg',
+            last_frame_image_url: 'https://cdn.runapi.ai/public/samples/last-frame.jpg',
+            duration_seconds: 10,
           },
         }
       );
@@ -107,8 +107,8 @@ describe('TextToVideo', () => {
       await textToVideo.create({
         prompt: 'A person dancing in the same style',
         model: 'seedance-2.0-fast',
-        reference_video_urls: ['https://example.com/dance.mp4'],
-        reference_image_urls: ['https://example.com/person.jpg'],
+        reference_video_urls: ['https://cdn.runapi.ai/public/samples/result.mp4'],
+        reference_image_urls: ['https://cdn.runapi.ai/public/samples/person.jpg'],
       });
 
       expect(mockHttp.request).toHaveBeenCalledWith(
@@ -118,8 +118,8 @@ describe('TextToVideo', () => {
           body: {
             prompt: 'A person dancing in the same style',
             model: 'seedance-2.0-fast',
-            reference_video_urls: ['https://example.com/dance.mp4'],
-            reference_image_urls: ['https://example.com/person.jpg'],
+            reference_video_urls: ['https://cdn.runapi.ai/public/samples/result.mp4'],
+            reference_image_urls: ['https://cdn.runapi.ai/public/samples/person.jpg'],
           },
         }
       );
@@ -162,8 +162,8 @@ describe('TextToVideo', () => {
         model: 'seedance-v1-lite',
         prompt: 'A boat at dawn',
         aspect_ratio: '16:9',
-        resolution: '720p',
-        duration: '5',
+        output_resolution: '720p',
+        duration_seconds: 5,
         lock_camera: true,
         seed: 42,
       });
@@ -176,8 +176,8 @@ describe('TextToVideo', () => {
             model: 'seedance-v1-lite',
             prompt: 'A boat at dawn',
             aspect_ratio: '16:9',
-            resolution: '720p',
-            duration: '5',
+            output_resolution: '720p',
+            duration_seconds: 5,
             lock_camera: true,
             seed: 42,
           },
@@ -193,9 +193,9 @@ describe('TextToVideo', () => {
       await textToVideo.create({
         model: 'seedance-v1-pro-fast',
         prompt: 'Espresso pour',
-        input_urls: ['https://example.com/cup.png'],
-        resolution: '1080p',
-        duration: '5',
+        first_frame_image_url: 'https://cdn.runapi.ai/public/samples/cup.png',
+        output_resolution: '1080p',
+        duration_seconds: 5,
       });
 
       expect(mockHttp.request).toHaveBeenCalledWith(
@@ -205,9 +205,9 @@ describe('TextToVideo', () => {
           body: {
             model: 'seedance-v1-pro-fast',
             prompt: 'Espresso pour',
-            input_urls: ['https://example.com/cup.png'],
-            resolution: '1080p',
-            duration: '5',
+            first_frame_image_url: 'https://cdn.runapi.ai/public/samples/cup.png',
+            output_resolution: '1080p',
+            duration_seconds: 5,
           },
         }
       );
@@ -240,9 +240,9 @@ describe('TextToVideo', () => {
         status: 'completed',
         model: 'seedance-2.0',
         videos: [
-          { url: 'https://example.com/video.mp4' },
+          { url: 'https://cdn.runapi.ai/public/samples/source.mp4' },
         ],
-        last_frame_url: 'https://example.com/last-frame.png',
+        last_frame_image_url: 'https://cdn.runapi.ai/public/samples/last-frame.png',
       };
       vi.mocked(mockHttp.request).mockResolvedValueOnce(mockResponse);
 
@@ -251,8 +251,8 @@ describe('TextToVideo', () => {
 
       expect(result.status).toBe('completed');
       expect(result.videos).toHaveLength(1);
-      expect(result.videos?.[0].url).toBe('https://example.com/video.mp4');
-      expect(result.last_frame_url).toBe('https://example.com/last-frame.png');
+      expect(result.videos?.[0].url).toBe('https://cdn.runapi.ai/public/samples/source.mp4');
+      expect(result.last_frame_image_url).toBe('https://cdn.runapi.ai/public/samples/last-frame.png');
     });
 
     it('should return failed status with error', async () => {
@@ -285,7 +285,7 @@ describe('TextToVideo', () => {
         status: 'completed',
         model: 'seedance-2.0',
         videos: [
-          { url: 'https://example.com/video.mp4' },
+          { url: 'https://cdn.runapi.ai/public/samples/source.mp4' },
         ],
       };
 

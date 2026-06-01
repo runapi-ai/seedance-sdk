@@ -4,6 +4,6 @@
     "outDir": "./dist",
     "noEmit": true
   },
-  "include": ["src/**/*", "manual-tests/**/*"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules", "dist", "tests"]
 }

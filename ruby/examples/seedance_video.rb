@@ -15,7 +15,7 @@ result = client.text_to_video.run(
   model: "seedance-2.0",
   prompt: "A cat walking gracefully through a sunlit garden",
   aspect_ratio: "16:9",
-  duration: 8
+  duration_seconds: 8
 )
 puts "Status: #{result["status"]}"
 result["videos"]&.each_with_index do |video, i|
@@ -28,9 +28,9 @@ result = client.text_to_video.run(
   model: "seedance-1.5-pro",
   prompt: "The flower blooms and petals scatter in the wind",
   aspect_ratio: "16:9",
-  resolution: "720p",
-  duration: 8,
-  input_urls: [ ENV.fetch("TEST_IMAGE_URL", "https://example.com/flower.jpg") ]
+  output_resolution: "720p",
+  duration_seconds: 8,
+  source_image_urls: [ENV.fetch("TEST_IMAGE_URL", "https://cdn.runapi.ai/public/samples/flower.jpg")]
 )
 puts "Status: #{result["status"]}"
 result["videos"]&.each_with_index do |video, i|
@@ -42,14 +42,14 @@ puts "\n=== Frame Mode (seedance-2.0) ==="
 result = client.text_to_video.run(
   model: "seedance-2.0",
   prompt: "A sunrise over the ocean, camera slowly panning right",
-  first_frame_url: ENV.fetch("TEST_FIRST_FRAME_URL", "https://example.com/sunrise-start.jpg"),
-  duration: 10
+  first_frame_image_url: ENV.fetch("TEST_FIRST_FRAME_URL", "https://cdn.runapi.ai/public/samples/first-frame.jpg"),
+  duration_seconds: 10
 )
 puts "Status: #{result["status"]}"
 result["videos"]&.each_with_index do |video, i|
   puts "  Video #{i + 1}: #{video["url"]}"
 end
-puts "Last frame: #{result["last_frame_url"]}" if result["last_frame_url"]
+puts "Last frame: #{result["last_frame_image_url"]}" if result["last_frame_image_url"]
 
 # 4. Manual polling (create + get)
 puts "\n=== Manual Polling ==="
@@ -80,8 +80,8 @@ begin
   client.text_to_video.create(
     model: "seedance-2.0",
     prompt: "test",
-    first_frame_url: "https://example.com/frame.jpg",
-    reference_image_urls: [ "https://example.com/ref.jpg" ]
+    first_frame_image_url: "https://cdn.runapi.ai/public/samples/first-frame.jpg",
+    reference_image_urls: ["https://cdn.runapi.ai/public/samples/reference.jpg"]
   )
 rescue RunApi::Core::ValidationError => e
   puts "Caught mode conflict: #{e.message}"

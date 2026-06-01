@@ -1,6 +1,6 @@
 # Seedance API Ruby SDK for RunAPI
 
-The seedance api Ruby SDK is the language-specific package for Seedance on RunAPI. Use this seedance api package for text-to-video, image-to-video, video-to-video, animation, and edit flows when your application needs JSON request bodies, task status lookup, and consistent RunAPI errors in Ruby.
+The seedance api Ruby SDK is the language-specific package for Seedance on RunAPI. Use this seedance api package for text-to-video, image-to-video, video editing, and animation flows when your application needs JSON request bodies, task status lookup, and consistent RunAPI errors in Ruby.
 
 This seedance api README is the Ruby package guide inside the public `seedance-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/seedance; for API reference, use https://runapi.ai/docs#seedance; for SDK docs, use https://runapi.ai/docs#sdk-seedance.
 
