@@ -7,15 +7,48 @@ type SeedanceModel string
 type TaskStatus string
 
 const (
-	ModelSeedance15Pro     SeedanceModel = "seedance-1.5-pro"
-	ModelSeedance2         SeedanceModel = "seedance-2.0"
-	ModelSeedance2Fast     SeedanceModel = "seedance-2.0-fast"
-	ModelSeedanceV1Lite    SeedanceModel = "seedance-v1-lite"
-	ModelSeedanceV1Pro     SeedanceModel = "seedance-v1-pro"
+	// ModelSeedance15Pro is the 1.5-generation pro model. Supports text-to-video
+	// and image-to-video (via SourceImageURLs, up to 2 images). Requires
+	// AspectRatio and DurationSeconds (4, 8, or 12). Supports audio generation
+	// and camera lock.
+	ModelSeedance15Pro SeedanceModel = "seedance-1.5-pro"
+
+	// ModelSeedance2 is the latest generation model with the highest quality
+	// output. Supports frame mode (first/last frame images), reference mode
+	// (up to 9 reference images, 3 videos, 3 audio files), web search, audio
+	// generation, and flexible duration (4-15 seconds). Prompts up to 20000
+	// characters.
+	ModelSeedance2 SeedanceModel = "seedance-2.0"
+
+	// ModelSeedance2Fast trades some quality for faster generation using the
+	// same 2.0 feature set as ModelSeedance2.
+	ModelSeedance2Fast SeedanceModel = "seedance-2.0-fast"
+
+	// ModelSeedanceV1Lite is the lightweight V1 model. Supports image-to-video
+	// via FirstFrameImageURL and LastFrameImageURL, camera lock, and seed
+	// control. Lower cost than pro variants.
+	ModelSeedanceV1Lite SeedanceModel = "seedance-v1-lite"
+
+	// ModelSeedanceV1Pro is the high-quality V1 model. Supports image-to-video
+	// via FirstFrameImageURL, camera lock, and seed control. Prompts up to
+	// 10000 characters.
+	ModelSeedanceV1Pro SeedanceModel = "seedance-v1-pro"
+
+	// ModelSeedanceV1ProFast is the speed-optimized V1 pro variant. Requires
+	// FirstFrameImageURL (image-to-video only). Supports seed control.
 	ModelSeedanceV1ProFast SeedanceModel = "seedance-v1-pro-fast"
 )
 
 // TextToVideoParams contains parameters for creating a video generation task.
+// The same struct serves both text-to-video and image-to-video workflows;
+// supplying image fields (SourceImageURLs for 1.5-pro, or FirstFrameImageURL
+// for 2.x/v1 models) switches the generation mode.
+//
+// Key cross-field constraints:
+//   - AspectRatio and DurationSeconds are required for seedance-1.5-pro
+//   - FirstFrameImageURL is required for seedance-v1-pro-fast (image-to-video only)
+//   - ReferenceAudioURLs requires at least one image or video reference
+//   - GenerateAudio and WebSearch are only supported on 1.5-pro and 2.x models
 type TextToVideoParams struct {
 	Prompt      string        `json:"prompt" help:"required; text prompt. 1.5-pro: 3-2500 chars; 2.x: 3-20000 chars; v1: 3-10000 chars"`
 	Model       SeedanceModel `json:"model" help:"required; model slug"`
@@ -48,25 +81,32 @@ type TextToVideoParams struct {
 	Seed *int `json:"seed,omitempty" help:"optional; random seed in [-1, 2147483647], -1 = random"`
 }
 
-// AsyncTaskResponse is the base response for async tasks.
+// AsyncTaskResponse is the base response for async generation tasks, embedded
+// in endpoint-specific response types. It implements the core polling interface.
 type AsyncTaskResponse struct {
 	ID     string     `json:"id"`
 	Status TaskStatus `json:"status"`
 	Error  string     `json:"error,omitempty"`
 }
 
-func (r AsyncTaskResponse) GetID() string     { return r.ID }
-func (r AsyncTaskResponse) GetStatus() string { return string(r.Status) }
-func (r AsyncTaskResponse) GetError() string  { return r.Error }
+// GetID returns the task identifier used for polling.
+func (r AsyncTaskResponse) GetID() string { return r.ID }
 
-// VideoMetadata contains metadata about a generated video.
+// GetStatus returns the current task status as a string.
+func (r AsyncTaskResponse) GetStatus() string { return string(r.Status) }
+
+// GetError returns the error message if the task failed, or empty string on success.
+func (r AsyncTaskResponse) GetError() string { return r.Error }
+
+// VideoMetadata contains the download URL for a generated video.
 type VideoMetadata struct {
 	URL string `json:"url"`
 }
 
-// TextToVideoResponse is returned when polling a generation task.
+// TextToVideoResponse is returned when querying a generation task. Videos
+// and LastFrameImageURL are populated once the task reaches a completed status.
 type TextToVideoResponse struct {
 	AsyncTaskResponse
-	Videos       []VideoMetadata `json:"videos,omitempty"`
+	Videos            []VideoMetadata `json:"videos,omitempty"`
 	LastFrameImageURL string          `json:"last_frame_image_url,omitempty"`
 }

@@ -9,15 +9,12 @@ module RunApi
     #   result = client.text_to_video.run(
     #     model: "seedance-2.0", prompt: "A cat walking through a garden"
     #   )
-    class Client
+    class Client < RunApi::Core::Client
       # @return [Resources::TextToVideo] Video generation operations.
       attr_reader :text_to_video
 
       def initialize(api_key: nil, **options)
-        @api_key = Core::Auth.resolve_api_key(api_key)
-
-        client_options = Core::ClientOptions.new(api_key: @api_key, **options)
-        http = client_options.http_client || Core::HttpClient.new(client_options)
+        super
         @text_to_video = Resources::TextToVideo.new(http)
       end
     end

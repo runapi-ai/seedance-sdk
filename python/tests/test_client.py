@@ -1,0 +1,268 @@
+import pytest
+
+from runapi.core import config
+from runapi.core.errors import AuthenticationError, ValidationError
+from runapi.seedance import SeedanceClient
+from runapi.seedance.resources.text_to_video import TextToVideo
+from runapi.seedance.types import CompletedTextToVideoResponse, TextToVideoResponse
+
+
+class FakeHttp:
+    def __init__(self, *responses):
+        self._responses = list(responses)
+        self.calls = []
+
+    def request(self, method, path, body=None, options=None):
+        self.calls.append((method, path, body))
+        if self._responses:
+            return self._responses.pop(0)
+        return {"id": "task_1", "status": "pending"}
+
+
+@pytest.fixture(autouse=True)
+def reset_config(monkeypatch):
+    monkeypatch.delenv("RUNAPI_API_KEY", raising=False)
+    monkeypatch.setattr(config, "api_key", None)
+    yield
+
+
+# --- auth -----------------------------------------------------------------
+
+
+def test_accepts_api_key_parameter():
+    assert isinstance(SeedanceClient(api_key="k", http_client=FakeHttp()), SeedanceClient)
+
+
+def test_falls_back_to_global(monkeypatch):
+    monkeypatch.setattr(config, "api_key", "global-key")
+    assert isinstance(SeedanceClient(http_client=FakeHttp()), SeedanceClient)
+
+
+def test_falls_back_to_env(monkeypatch):
+    monkeypatch.setenv("RUNAPI_API_KEY", "env-key")
+    assert isinstance(SeedanceClient(http_client=FakeHttp()), SeedanceClient)
+
+
+def test_raises_without_api_key():
+    with pytest.raises(AuthenticationError, match="API key is required"):
+        SeedanceClient()
+
+
+# --- injection / accessors ------------------------------------------------
+
+
+def test_uses_injected_http_client():
+    fake = FakeHttp()
+    client = SeedanceClient(api_key="k", http_client=fake)
+    assert client.text_to_video._http is fake
+
+
+def test_exposes_resource_accessors():
+    client = SeedanceClient(api_key="k", http_client=FakeHttp())
+    assert isinstance(client.text_to_video, TextToVideo)
+
+
+# --- request shapes -------------------------------------------------------
+
+
+def test_create_posts_compacted_body():
+    fake = FakeHttp({"id": "t1", "status": "pending"})
+    client = SeedanceClient(api_key="k", http_client=fake)
+    result = client.text_to_video.create(
+        model="seedance-2.0", prompt="a serene lake at dawn", duration_seconds=8, seed=None
+    )
+    assert fake.calls == [
+        (
+            "post",
+            "/api/v1/seedance/text_to_video",
+            {"model": "seedance-2.0", "prompt": "a serene lake at dawn", "duration_seconds": 8},
+        ),
+    ]
+    assert isinstance(result, TextToVideoResponse)
+
+
+def test_get_fetches_by_id():
+    fake = FakeHttp({"id": "t1", "status": "processing"})
+    client = SeedanceClient(api_key="k", http_client=fake)
+    client.text_to_video.get("t1")
+    assert fake.calls == [("get", "/api/v1/seedance/text_to_video/t1", None)]
+
+
+def test_run_narrows_completed_type():
+    fake = FakeHttp(
+        {"id": "t1", "status": "pending"},
+        {"id": "t1", "status": "completed", "videos": [{"url": "https://x/y.mp4"}]},
+    )
+    client = SeedanceClient(api_key="k", http_client=fake)
+    result = client.text_to_video.run(
+        model="seedance-2.0", prompt="a cinematic city flyover", duration_seconds=8
+    )
+    assert isinstance(result, CompletedTextToVideoResponse)
+    assert result.videos[0].url == "https://x/y.mp4"
+
+
+# --- validation -----------------------------------------------------------
+
+
+def test_requires_model():
+    client = SeedanceClient(api_key="k", http_client=FakeHttp())
+    with pytest.raises(ValidationError, match="model is required"):
+        client.text_to_video.create(prompt="a serene lake at dawn")
+
+
+def test_rejects_unknown_model():
+    client = SeedanceClient(api_key="k", http_client=FakeHttp())
+    with pytest.raises(ValidationError, match="Invalid model"):
+        client.text_to_video.create(model="nope", prompt="a serene lake at dawn")
+
+
+def test_requires_prompt():
+    client = SeedanceClient(api_key="k", http_client=FakeHttp())
+    with pytest.raises(ValidationError, match="prompt is required"):
+        client.text_to_video.create(model="seedance-2.0")
+
+
+def test_prompt_length_bounds():
+    client = SeedanceClient(api_key="k", http_client=FakeHttp())
+    with pytest.raises(
+        ValidationError, match="prompt length must be between 3 and 20000 characters"
+    ):
+        client.text_to_video.create(model="seedance-2.0", prompt="hi", duration_seconds=8)
+
+
+# --- conditional validators per model version -----------------------------
+
+
+def test_v2_aspect_ratio_enum():
+    client = SeedanceClient(api_key="k", http_client=FakeHttp())
+    with pytest.raises(ValidationError, match="Invalid aspect_ratio"):
+        client.text_to_video.create(
+            model="seedance-2.0", prompt="a serene lake at dawn", aspect_ratio="bogus"
+        )
+
+
+def test_v2_fast_resolution_excludes_1080p():
+    client = SeedanceClient(api_key="k", http_client=FakeHttp())
+    with pytest.raises(ValidationError, match="Invalid output_resolution"):
+        client.text_to_video.create(
+            model="seedance-2.0-fast", prompt="a serene lake at dawn", output_resolution="1080p"
+        )
+
+
+def test_v2_duration_range():
+    client = SeedanceClient(api_key="k", http_client=FakeHttp())
+    with pytest.raises(
+        ValidationError, match="Must be an integer between 4 and 15"
+    ):
+        client.text_to_video.create(
+            model="seedance-2.0", prompt="a serene lake at dawn", duration_seconds=99
+        )
+
+
+def test_v2_frame_and_reference_conflict():
+    client = SeedanceClient(api_key="k", http_client=FakeHttp())
+    with pytest.raises(
+        ValidationError, match="Cannot use frame mode and reference mode at the same time"
+    ):
+        client.text_to_video.create(
+            model="seedance-2.0",
+            prompt="a serene lake at dawn",
+            first_frame_image_url="https://x/a.png",
+            reference_image_urls=["https://x/b.png"],
+        )
+
+
+def test_v2_rejects_source_image_urls():
+    client = SeedanceClient(api_key="k", http_client=FakeHttp())
+    with pytest.raises(ValidationError, match="source_image_urls is not supported"):
+        client.text_to_video.create(
+            model="seedance-2.0",
+            prompt="a serene lake at dawn",
+            source_image_urls=["https://x/a.png"],
+        )
+
+
+def test_1_5_pro_requires_duration():
+    client = SeedanceClient(api_key="k", http_client=FakeHttp())
+    with pytest.raises(
+        ValidationError, match="duration_seconds is required for seedance-1.5-pro"
+    ):
+        client.text_to_video.create(model="seedance-1.5-pro", prompt="a serene lake at dawn")
+
+
+def test_1_5_pro_invalid_duration():
+    client = SeedanceClient(api_key="k", http_client=FakeHttp())
+    with pytest.raises(
+        ValidationError, match="Invalid duration_seconds for seedance-1.5-pro"
+    ):
+        client.text_to_video.create(
+            model="seedance-1.5-pro", prompt="a serene lake at dawn", duration_seconds=5
+        )
+
+
+def test_1_5_pro_source_image_cap():
+    client = SeedanceClient(api_key="k", http_client=FakeHttp())
+    with pytest.raises(
+        ValidationError, match="source_image_urls accepts at most 2 images"
+    ):
+        client.text_to_video.create(
+            model="seedance-1.5-pro",
+            prompt="a serene lake at dawn",
+            duration_seconds=4,
+            source_image_urls=["a", "b", "c"],
+        )
+
+
+def test_v1_requires_duration():
+    client = SeedanceClient(api_key="k", http_client=FakeHttp())
+    with pytest.raises(
+        ValidationError, match="duration_seconds is required for Seedance V1"
+    ):
+        client.text_to_video.create(model="seedance-v1-lite", prompt="a serene lake at dawn")
+
+
+def test_v1_pro_fast_requires_first_frame():
+    client = SeedanceClient(api_key="k", http_client=FakeHttp())
+    with pytest.raises(
+        ValidationError, match="seedance-v1-pro-fast requires first_frame_image_url"
+    ):
+        client.text_to_video.create(
+            model="seedance-v1-pro-fast", prompt="a serene lake at dawn", duration_seconds=5
+        )
+
+
+def test_v1_image_mode_rejects_aspect_ratio():
+    client = SeedanceClient(api_key="k", http_client=FakeHttp())
+    with pytest.raises(
+        ValidationError, match="aspect_ratio is not accepted in image-to-video mode"
+    ):
+        client.text_to_video.create(
+            model="seedance-v1-lite",
+            prompt="a serene lake at dawn",
+            duration_seconds=5,
+            first_frame_image_url="https://x/a.png",
+            aspect_ratio="1:1",
+        )
+
+
+def test_v1_seed_range():
+    client = SeedanceClient(api_key="k", http_client=FakeHttp())
+    with pytest.raises(
+        ValidationError, match="seed must be an integer between -1 and 2147483647"
+    ):
+        client.text_to_video.create(
+            model="seedance-v1-lite",
+            prompt="a serene lake at dawn",
+            duration_seconds=5,
+            seed=-5,
+        )
+
+
+def test_non_numeric_duration_raises_validation_error():
+    # Regression: a non-numeric duration must raise the SDK's ValidationError,
+    # not a bare ValueError from int(). Fails if int() is unguarded again.
+    client = SeedanceClient(api_key="k", http_client=FakeHttp())
+    with pytest.raises(ValidationError, match="Must be an integer between 4 and 15"):
+        client.text_to_video.create(
+            model="seedance-2.0", prompt="a serene lake at dawn", duration_seconds="abc"
+        )

@@ -1,4 +1,4 @@
-import { createHttpClient, type ClientOptions } from '@runapi.ai/core';
+import { BaseClient, type ClientOptions } from '@runapi.ai/core';
 import { TextToVideo } from './resources/text-to-video';
 
 /**
@@ -17,12 +17,12 @@ import { TextToVideo } from './resources/text-to-video';
  * });
  * ```
  */
-export class SeedanceClient {
+export class SeedanceClient extends BaseClient {
   /** Video generation operations. */
   public readonly textToVideo: TextToVideo;
 
   constructor(options: ClientOptions = {}) {
-    const http = createHttpClient(options);
-    this.textToVideo = new TextToVideo(http);
+    super(options);
+    this.textToVideo = new TextToVideo(this.http);
   }
 }
