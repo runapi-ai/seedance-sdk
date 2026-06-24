@@ -9,7 +9,7 @@ type TaskStatus string
 const (
 	// ModelSeedance15Pro is the 1.5-generation pro model. Supports text-to-video
 	// and image-to-video (via SourceImageURLs, up to 2 images). Requires
-	// AspectRatio and DurationSeconds (4, 8, or 12). Supports audio generation
+	// AspectRatio and DurationSeconds (4-12). Supports audio generation
 	// and camera lock.
 	ModelSeedance15Pro SeedanceModel = "seedance-1.5-pro"
 
@@ -57,7 +57,7 @@ type TextToVideoParams struct {
 	// Common optional fields
 	AspectRatio         string `json:"aspect_ratio,omitempty" help:"required for seedance-1.5-pro and v1 text-to-video. 1.5/2.x: 1:1, 4:3, 3:4, 16:9, 9:16, 21:9; output aspect ratio"`
 	OutputResolution    string `json:"output_resolution,omitempty" help:"optional; output resolution"`
-	DurationSeconds     *int   `json:"duration_seconds,omitempty" help:"required for seedance-1.5-pro: 4, 8, or 12. Optional for 2.x: 4-15. For v1 JSON files, use 5 or 10; duration in seconds"`
+	DurationSeconds     *int   `json:"duration_seconds,omitempty" help:"required for seedance-1.5-pro: 4-12. Optional for 2.x: 4-15. For v1 JSON files, use 5 or 10; duration in seconds"`
 	GenerateAudio       *bool  `json:"generate_audio,omitempty" help:"optional; seedance-1.5-pro and 2.x only"`
 	EnableSafetyChecker *bool  `json:"enable_safety_checker,omitempty" help:"optional; content safety check toggle"`
 

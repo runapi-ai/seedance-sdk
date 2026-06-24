@@ -106,13 +106,13 @@ def test_run_narrows_completed_type():
 
 def test_requires_model():
     client = SeedanceClient(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="model is required"):
+    with pytest.raises(ValidationError, match="model must be one of:"):
         client.text_to_video.create(prompt="a serene lake at dawn")
 
 
 def test_rejects_unknown_model():
     client = SeedanceClient(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="Invalid model"):
+    with pytest.raises(ValidationError, match="model must be one of:"):
         client.text_to_video.create(model="nope", prompt="a serene lake at dawn")
 
 
@@ -135,7 +135,7 @@ def test_prompt_length_bounds():
 
 def test_v2_aspect_ratio_enum():
     client = SeedanceClient(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="Invalid aspect_ratio"):
+    with pytest.raises(ValidationError, match="aspect_ratio must be one of:"):
         client.text_to_video.create(
             model="seedance-2.0", prompt="a serene lake at dawn", aspect_ratio="bogus"
         )
@@ -143,7 +143,7 @@ def test_v2_aspect_ratio_enum():
 
 def test_v2_fast_resolution_excludes_1080p():
     client = SeedanceClient(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="Invalid output_resolution"):
+    with pytest.raises(ValidationError, match="output_resolution must be one of:"):
         client.text_to_video.create(
             model="seedance-2.0-fast", prompt="a serene lake at dawn", output_resolution="1080p"
         )
@@ -152,7 +152,7 @@ def test_v2_fast_resolution_excludes_1080p():
 def test_v2_duration_range():
     client = SeedanceClient(api_key="k", http_client=FakeHttp())
     with pytest.raises(
-        ValidationError, match="Must be an integer between 4 and 15"
+        ValidationError, match="duration_seconds must be between 4 and 15"
     ):
         client.text_to_video.create(
             model="seedance-2.0", prompt="a serene lake at dawn", duration_seconds=99
@@ -185,7 +185,7 @@ def test_v2_rejects_source_image_urls():
 def test_1_5_pro_requires_duration():
     client = SeedanceClient(api_key="k", http_client=FakeHttp())
     with pytest.raises(
-        ValidationError, match="duration_seconds is required for seedance-1.5-pro"
+        ValidationError, match="duration_seconds is required"
     ):
         client.text_to_video.create(model="seedance-1.5-pro", prompt="a serene lake at dawn")
 
@@ -193,10 +193,10 @@ def test_1_5_pro_requires_duration():
 def test_1_5_pro_invalid_duration():
     client = SeedanceClient(api_key="k", http_client=FakeHttp())
     with pytest.raises(
-        ValidationError, match="Invalid duration_seconds for seedance-1.5-pro"
+        ValidationError, match="duration_seconds must be between 4 and 12"
     ):
         client.text_to_video.create(
-            model="seedance-1.5-pro", prompt="a serene lake at dawn", duration_seconds=5
+            model="seedance-1.5-pro", prompt="a serene lake at dawn", duration_seconds=13
         )
 
 
@@ -216,7 +216,7 @@ def test_1_5_pro_source_image_cap():
 def test_v1_requires_duration():
     client = SeedanceClient(api_key="k", http_client=FakeHttp())
     with pytest.raises(
-        ValidationError, match="duration_seconds is required for Seedance V1"
+        ValidationError, match="duration_seconds is required"
     ):
         client.text_to_video.create(model="seedance-v1-lite", prompt="a serene lake at dawn")
 
@@ -224,7 +224,7 @@ def test_v1_requires_duration():
 def test_v1_pro_fast_requires_first_frame():
     client = SeedanceClient(api_key="k", http_client=FakeHttp())
     with pytest.raises(
-        ValidationError, match="seedance-v1-pro-fast requires first_frame_image_url"
+        ValidationError, match="first_frame_image_url is required"
     ):
         client.text_to_video.create(
             model="seedance-v1-pro-fast", prompt="a serene lake at dawn", duration_seconds=5
@@ -260,9 +260,13 @@ def test_v1_seed_range():
 
 def test_non_numeric_duration_raises_validation_error():
     # Regression: a non-numeric duration must raise the SDK's ValidationError,
-    # not a bare ValueError from int(). Fails if int() is unguarded again.
+    # not a bare ValueError from int(). duration_seconds is type: integer, so the
+    # contract validator rejects it as a non-integer (mirroring the gateway)
+    # before any int() coercion runs.
     client = SeedanceClient(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="Must be an integer between 4 and 15"):
+    with pytest.raises(
+        ValidationError, match="duration_seconds must be an integer between 4 and 15"
+    ):
         client.text_to_video.create(
             model="seedance-2.0", prompt="a serene lake at dawn", duration_seconds="abc"
         )

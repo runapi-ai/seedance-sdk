@@ -2,6 +2,7 @@
 
 require "runapi/core"
 require_relative "seedance/types"
+require_relative "seedance/contract_gen"
 require_relative "seedance/resources/text_to_video"
 require_relative "seedance/client"
 

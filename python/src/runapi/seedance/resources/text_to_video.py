@@ -6,26 +6,14 @@ from typing import Any, Dict
 
 from runapi.core import Resource, ValidationError
 
+from ..contract_gen import CONTRACT
 from ..types import (
-    ASPECT_RATIOS_1_5,
-    ASPECT_RATIOS_2,
-    ASPECT_RATIOS_V1_LITE,
-    ASPECT_RATIOS_V1_PRO,
-    DURATION_2_RANGE,
-    DURATIONS_1_5,
-    DURATIONS_V1,
     FRAME_FIELDS,
-    MODELS,
     PROMPT_MAX_LENGTH_1_5,
     PROMPT_MAX_LENGTH_2,
     PROMPT_MAX_LENGTH_V1,
     PROMPT_MIN_LENGTH,
     REFERENCE_FIELDS,
-    RESOLUTIONS_1_5,
-    RESOLUTIONS_SEEDANCE_2,
-    RESOLUTIONS_SEEDANCE_2_FAST,
-    RESOLUTIONS_V1,
-    RESOLUTIONS_V1_PRO_FAST,
     SEED_RANGE,
     V1_MODELS,
     CompletedTextToVideoResponse,
@@ -78,16 +66,13 @@ class TextToVideo(Resource):
         return self._request("get", f"{self.ENDPOINT}/{id}")
 
     def _validate_params(self, params: Dict[str, Any]) -> None:
-        model = params.get("model")
-        if not model:
-            raise ValidationError("model is required")
-        if model not in MODELS:
-            raise ValidationError(f"Invalid model: {model}. Must be one of: {', '.join(MODELS)}")
-
         prompt = params.get("prompt")
         if not prompt:
             raise ValidationError("prompt is required")
 
+        self._validate_contract(CONTRACT["text-to-video"], params)
+
+        model = params.get("model")
         if model == "seedance-1.5-pro":
             max_prompt = PROMPT_MAX_LENGTH_1_5
         elif model in V1_MODELS:
@@ -109,9 +94,6 @@ class TextToVideo(Resource):
     def _validate_v1(self, params: Dict[str, Any]) -> None:
         model = params.get("model")
         has_image = self._field_present(params, "first_frame_image_url")
-
-        if model == "seedance-v1-pro-fast" and not has_image:
-            raise ValidationError("seedance-v1-pro-fast requires first_frame_image_url")
 
         if has_image and self._field_present(params, "aspect_ratio"):
             raise ValidationError(
@@ -138,29 +120,6 @@ class TextToVideo(Resource):
         if model == "seedance-v1-pro-fast":
             self._reject_unsupported(params, ["lock_camera", "seed"], model)
 
-        duration_seconds = params.get("duration_seconds")
-        if not duration_seconds:
-            raise ValidationError(
-                "duration_seconds is required for Seedance V1; must be one of: "
-                f"{', '.join(str(d) for d in DURATIONS_V1)}"
-            )
-        if duration_seconds not in DURATIONS_V1:
-            raise ValidationError(
-                f"Invalid duration_seconds for {model}: {duration_seconds}. Must be one of: "
-                f"{', '.join(str(d) for d in DURATIONS_V1)}"
-            )
-
-        if not has_image:
-            aspect_ratios = (
-                ASPECT_RATIOS_V1_LITE if model == "seedance-v1-lite" else ASPECT_RATIOS_V1_PRO
-            )
-            self._validate_optional(params, "aspect_ratio", aspect_ratios)
-
-        resolutions = (
-            RESOLUTIONS_V1_PRO_FAST if model == "seedance-v1-pro-fast" else RESOLUTIONS_V1
-        )
-        self._validate_optional(params, "output_resolution", resolutions)
-
         seed = params.get("seed")
         if seed is not None:
             if not (isinstance(seed, int) and not isinstance(seed, bool) and seed in SEED_RANGE):
@@ -169,22 +128,6 @@ class TextToVideo(Resource):
                 )
 
     def _validate_1_5_pro(self, params: Dict[str, Any]) -> None:
-        self._validate_optional(params, "aspect_ratio", ASPECT_RATIOS_1_5)
-        self._validate_optional(params, "output_resolution", RESOLUTIONS_1_5)
-
-        duration_seconds = params.get("duration_seconds")
-        if not duration_seconds:
-            raise ValidationError(
-                "duration_seconds is required for seedance-1.5-pro; must be one of: "
-                f"{', '.join(str(d) for d in DURATIONS_1_5)}"
-            )
-
-        if duration_seconds not in DURATIONS_1_5:
-            raise ValidationError(
-                f"Invalid duration_seconds for seedance-1.5-pro: {duration_seconds}. Must be one of: "
-                f"{', '.join(str(d) for d in DURATIONS_1_5)}"
-            )
-
         value = params.get("source_image_urls")
         if isinstance(value, list) and len(value) > 2:
             raise ValidationError("source_image_urls accepts at most 2 images for seedance-1.5-pro")
@@ -200,26 +143,6 @@ class TextToVideo(Resource):
         self._reject_unsupported(params, unsupported, "seedance-1.5-pro")
 
     def _validate_2(self, params: Dict[str, Any]) -> None:
-        self._validate_optional(params, "aspect_ratio", ASPECT_RATIOS_2)
-        resolutions = (
-            RESOLUTIONS_SEEDANCE_2
-            if params.get("model") == "seedance-2.0"
-            else RESOLUTIONS_SEEDANCE_2_FAST
-        )
-        self._validate_optional(params, "output_resolution", resolutions)
-
-        duration_seconds = params.get("duration_seconds")
-        if duration_seconds is not None:
-            try:
-                dur_int = int(duration_seconds)
-            except (TypeError, ValueError):
-                dur_int = None
-            if dur_int is None or dur_int not in DURATION_2_RANGE:
-                raise ValidationError(
-                    f"Invalid duration_seconds for seedance-2.0: {duration_seconds}. "
-                    "Must be an integer between 4 and 15"
-                )
-
         unsupported = ["source_image_urls", "lock_camera"]
         self._reject_unsupported(params, unsupported, params.get("model"))
 

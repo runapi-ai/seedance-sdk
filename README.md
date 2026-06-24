@@ -7,173 +7,142 @@
 </h3>
 
 <p align="center">
-  Seedance API SDKs for JavaScript, Ruby, and Go on RunAPI.
+  Seedance API SDKs for JavaScript, Python, Ruby, Go, and Java on RunAPI.
 </p>
 
 <div align="center">
 
 [![npm](https://img.shields.io/npm/v/@runapi.ai/seedance)](https://www.npmjs.com/package/@runapi.ai/seedance)
+[![PyPI](https://img.shields.io/pypi/v/runapi-seedance)](https://pypi.org/project/runapi-seedance/)
 [![RubyGems](https://img.shields.io/gem/v/runapi-seedance)](https://rubygems.org/gems/runapi-seedance)
 [![Go Reference](https://pkg.go.dev/badge/github.com/runapi-ai/seedance-sdk/go.svg)](https://pkg.go.dev/github.com/runapi-ai/seedance-sdk/go)
+[![Maven Central](https://img.shields.io/maven-central/v/ai.runapi/runapi-seedance)](https://central.sonatype.com/artifact/ai.runapi/runapi-seedance)
 [![License](https://img.shields.io/github/license/runapi-ai/seedance-sdk)](https://github.com/runapi-ai/seedance-sdk/blob/main/LICENSE)
 
 </div>
 <br/>
 
-The seedance api SDK packages JavaScript, Ruby, and Go clients for Seedance video generation on RunAPI. Use this seedance api SDK for text-to-video, image-to-video, frame-guided, and reference-based video generation workflows.
+The Seedance API SDK packages JavaScript, Python, Ruby, Go, and Java clients for Seedance on RunAPI. Use it for text-to-video workflows when your app needs typed request builders, predictable task polling, file upload helpers, account helpers, and consistent RunAPI errors.
 
-## Installation
+Seedance is listed in the RunAPI model catalog at https://runapi.ai/models/seedance. Variant pages below carry pricing, rate-limit, and commercial-usage details. The public `seedance-sdk` repository groups the language packages, examples, CI, and release tags for this model.
+
+## Install
 
 ```bash
 npm install @runapi.ai/seedance
-# or
-pnpm add @runapi.ai/seedance
+pip install runapi-seedance
+gem install runapi-seedance
+go get github.com/runapi-ai/seedance-sdk/go@latest
 ```
 
-## Quick Start
+Gradle:
 
-```typescript
-import { SeedanceClient } from '@runapi.ai/seedance';
-
-const client = new SeedanceClient({ apiKey: 'your-api-key' });
-
-// Generate a video and wait for completion
-const result = await client.textToVideo.run({
-  model: 'seedance-2.0',
-  prompt: 'A cat walking through a sunlit garden',
-  aspect_ratio: '16:9',
-  duration_seconds: 8,
-});
-
-console.log(result.videos?.[0].url);
-```
-
-## Models
-
-| Model | Description | Pricing |
-|-------|-------------|---------|
-| `seedance-1.5-pro` | Mature model with image-to-video and camera lock support | [Pricing](https://runapi.ai/models/seedance/1.5-pro) |
-| `seedance-2.0` | Newer model with frame guidance and multimodal references | [Pricing](https://runapi.ai/models/seedance/2.0) |
-| `seedance-2.0-fast` | Faster, cheaper variant of seedance-2.0 | [Pricing](https://runapi.ai/models/seedance/2.0-fast) |
-
-## Generation Modes
-
-### Text-to-Video (all models)
-
-```typescript
-const result = await client.textToVideo.run({
-  model: 'seedance-2.0',
-  prompt: 'A drone shot over mountains at sunset',
-});
-```
-
-### Image-to-Video (seedance-1.5-pro only)
-
-```typescript
-const result = await client.textToVideo.run({
-  model: 'seedance-1.5-pro',
-  prompt: 'The flower blooms and petals scatter',
-  aspect_ratio: '16:9',
-  duration_seconds: 8,
-  source_image_urls: ['https://cdn.runapi.ai/public/samples/image-to-video.jpg'],
-});
-```
-
-### Frame Mode (seedance-2.0/2-fast only)
-
-Guide generation with first and optional last frame images.
-
-```typescript
-const result = await client.textToVideo.run({
-  model: 'seedance-2.0',
-  prompt: 'A sunrise over the ocean',
-  first_frame_image_url: 'https://cdn.runapi.ai/public/samples/first-frame.jpg',
-  last_frame_image_url: 'https://cdn.runapi.ai/public/samples/last-frame.jpg',
-});
-```
-
-### Reference Mode (seedance-2.0/2-fast only)
-
-Guide generation with reference images, videos, or audio. **Mutually exclusive with frame mode.**
-
-```typescript
-const result = await client.textToVideo.run({
-  model: 'seedance-2.0',
-  prompt: 'A person dancing in the same style',
-  reference_video_urls: ['https://cdn.runapi.ai/public/samples/video.mp4'],
-});
-```
-
-## Parameters
-
-### seedance-1.5-pro
-
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `model` | `'seedance-1.5-pro'` | Yes | Model selection |
-| `prompt` | `string` | Yes | Text prompt |
-| `aspect_ratio` | `'1:1' \| '4:3' \| '3:4' \| '16:9' \| '9:16' \| '21:9'` | Yes | Video aspect ratio |
-| `output_resolution` | `'480p' \| '720p' \| '1080p'` | No | Output resolution |
-| `duration_seconds` | `4 \| 8 \| 12` | Yes | Video duration in seconds |
-| `source_image_urls` | `string[]` | No | Up to 2 source image URLs |
-| `lock_camera` | `boolean` | No | Lock camera movement |
-| `generate_audio` | `boolean` | No | Generate audio track |
-| `callback_url` | `string` | No | Completion webhook URL |
-
-### seedance-2.0 / seedance-2.0-fast
-
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `model` | `'seedance-2.0' \| 'seedance-2.0-fast'` | Yes | Model selection |
-| `prompt` | `string` | Yes | Text prompt |
-| `aspect_ratio` | `'1:1' \| ... \| 'auto'` | No | Video aspect ratio (`auto` for frame mode only) |
-| `output_resolution` | `'480p' \| '720p' \| '1080p'` | No | Output resolution (`1080p` requires `seedance-2.0`; `seedance-2.0-fast` supports `480p` / `720p`) |
-| `duration_seconds` | `number` (4-15) | No | Video duration in seconds |
-| `first_frame_image_url` | `string` | No | First frame image (frame mode) |
-| `last_frame_image_url` | `string` | No | Last frame image (frame mode) |
-| `reference_image_urls` | `string[]` | No | Reference images (1-12 total refs) |
-| `reference_video_urls` | `string[]` | No | Reference videos (max 3, total duration ≤ 15s) |
-| `reference_audio_urls` | `string[]` | No | Reference audio (requires image or video) |
-| `web_search` | `boolean` | No | Enable web search |
-| `generate_audio` | `boolean` | No | Generate audio track |
-| `callback_url` | `string` | No | Completion webhook URL |
-
-## Manual Polling
-
-```typescript
-// Create task
-const task = await client.textToVideo.create({
-  model: 'seedance-2.0-fast',
-  prompt: 'A golden retriever running on a beach',
-});
-
-// Poll for status
-let status = await client.textToVideo.get(task.id);
-while (status.status === 'processing') {
-  await new Promise(r => setTimeout(r, 2000));
-  status = await client.textToVideo.get(task.id);
+```kotlin
+dependencies {
+  implementation("ai.runapi:runapi-seedance:0.1.0")
 }
 ```
 
-For full seedance api documentation including all parameters and response formats, visit https://runapi.ai/docs#seedance.
+Maven:
 
-## Error Handling
+```xml
+<dependency>
+  <groupId>ai.runapi</groupId>
+  <artifactId>runapi-seedance</artifactId>
+  <version>0.1.0</version>
+</dependency>
+```
 
-```typescript
-import { SeedanceClient, ValidationError, InsufficientCreditsError } from '@runapi.ai/seedance';
+Use the Java BOM when installing multiple RunAPI Java modules:
 
-try {
-  await client.textToVideo.run({ model: 'seedance-2.0', prompt: '...' });
-} catch (error) {
-  if (error instanceof ValidationError) {
-    console.error('Invalid parameters:', error.message);
-  } else if (error instanceof InsufficientCreditsError) {
-    console.error('Not enough credits');
-  }
+```kotlin
+dependencies {
+  implementation(platform("ai.runapi:runapi-bom:0.1.0"))
+  implementation("ai.runapi:runapi-seedance")
 }
 ```
 
+## What you can build
 
-## Generated file storage
+- Build apps, agent workflows, batch jobs, and production services around Seedance requests.
+- Install only the language package your app needs while keeping one model-specific repository for docs and releases.
+- Use `create` for submit-only jobs, `get` for status lookup, and `run` for submit-and-poll scripts.
+- Upload local files, URL files, or base64 files through shared RunAPI file helpers.
+- Handle validation, authentication, rate limits, insufficient credits, task failures, and polling timeouts through RunAPI SDK errors.
+
+## Java quick start
+
+```java
+import ai.runapi.seedance.SeedanceClient;
+import ai.runapi.seedance.types.TextToVideoParams;
+import ai.runapi.seedance.types.CompletedTextToVideoResponse;
+import ai.runapi.seedance.types.TextToVideoModel;
+
+SeedanceClient client = SeedanceClient.builder()
+    .apiKey(System.getenv("RUNAPI_API_KEY"))
+    .build();
+
+CompletedTextToVideoResponse result = client.textToVideo().run(
+    TextToVideoParams.builder()
+        .model(TextToVideoModel.SEEDANCE_1_5_PRO)
+        .durationSeconds(5)
+        .prompt("A fast tracking shot through a futuristic train station")
+        .aspectRatio("16:9")
+        .outputResolution("480p")
+        .build()
+);
+```
+
+Java packages target Java 8 bytecode and are tested on Java 8, 11, 17, and 21. Each model artifact depends on `ai.runapi:runapi-core`, so application code normally installs only `ai.runapi:runapi-seedance`.
+
+## Task lifecycle
+
+Most media endpoints are asynchronous. `create()` submits a task and returns its id, `get(id)` fetches the latest task state, and `run(params)` creates the task and polls until it reaches a terminal state. In web request handlers, prefer `create()` plus webhook or later `get()` polling so the server does not hold a worker open.
+
+## Repository layout
+
+- `js/` publishes `@runapi.ai/seedance`.
+- `python/` publishes `runapi-seedance`.
+- `ruby/` publishes `runapi-seedance` when RubyGems publishing resumes.
+- `go/` publishes `github.com/runapi-ai/seedance-sdk/go` and depends on `github.com/runapi-ai/core-sdk/go`.
+- `java/` publishes `ai.runapi:runapi-seedance` and depends on `ai.runapi:runapi-core`.
+
+## Public links
+
+- Model page: https://runapi.ai/models/seedance
+- SDK docs: https://runapi.ai/docs#sdk-seedance
+- Product docs: https://runapi.ai/docs#seedance
+- SDK repository: https://github.com/runapi-ai/seedance-sdk
+- Skill repository: https://github.com/runapi-ai/seedance
+- Provider comparison: https://runapi.ai/providers/bytedance
+- Full catalog: https://runapi.ai/models
+
+## Pricing and variants
+
+Use the most specific Seedance variant page for pricing, rate limits, and commercial usage:
+- [v1 lite](https://runapi.ai/models/seedance/v1-lite)
+- [v1 pro](https://runapi.ai/models/seedance/v1-pro)
+- [v1 pro fast](https://runapi.ai/models/seedance/v1-pro-fast)
+- [1.5 pro](https://runapi.ai/models/seedance/1.5-pro)
+- [2.0](https://runapi.ai/models/seedance/2.0)
+- [2.0 fast](https://runapi.ai/models/seedance/2.0-fast)
+
+Default pricing link for the Seedance SDK: https://runapi.ai/models/seedance/v1-lite
+
+## File storage
 
 RunAPI-generated file URLs are temporary. Download and store generated images, videos, audio, or other files in your own durable storage within 7 days; do not treat returned URLs as long-term assets.
+
+## FAQ
+
+### Which package should I install for Seedance work?
+
+Install the model package for your language: `@runapi.ai/seedance` on npm, `runapi-seedance` on PyPI, `runapi-seedance` on RubyGems, `github.com/runapi-ai/seedance-sdk/go`, or `ai.runapi:runapi-seedance`. Install core SDK packages only when you are building shared SDK infrastructure.
+
+### Where should public links point?
+
+Primary Seedance links point to https://runapi.ai/models/seedance. Pricing and usage-policy links point to variant pages such as https://runapi.ai/models/seedance/v1-lite. Provider comparisons point to https://runapi.ai/providers/bytedance, and broad browsing points to https://runapi.ai/models.
+
+## License
+
+Licensed under the Apache License, Version 2.0.

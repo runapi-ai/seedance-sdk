@@ -25,6 +25,7 @@ export type ResolutionV1ProFast = '720p' | '1080p';
 
 // V1 duration_seconds accepts 5 or 10 seconds.
 export type DurationV1 = 5 | 10;
+export type Duration15Pro = number;
 
 // Common fields shared by all generation modes
 interface GenerationCommonParams {
@@ -47,8 +48,8 @@ export interface Generation15ProParams extends GenerationCommonParams {
   /** Required for seedance-1.5-pro */
   aspect_ratio: AspectRatio15Pro;
   output_resolution?: Resolution15Pro;
-  /** Fixed values: 4, 8, or 12 seconds */
-  duration_seconds: 4 | 8 | 12;
+  /** Integer 4-12 seconds */
+  duration_seconds: Duration15Pro;
   /** Up to 2 source image URLs for image-to-video */
   source_image_urls?: string[];
   /** Lock camera movement */
