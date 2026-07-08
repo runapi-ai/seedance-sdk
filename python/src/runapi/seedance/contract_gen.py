@@ -39,7 +39,7 @@ CONTRACT = {
                     "type": "integer"
                 },
                 "output_resolution": {
-                    "enum": ["480p", "720p", "1080p"]
+                    "enum": ["480p", "720p", "1080p", "4k"]
                 }
             },
             "seedance-2.0-fast": {

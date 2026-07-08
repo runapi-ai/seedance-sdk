@@ -588,7 +588,6 @@ contract.put("imagen-4/text-to-image", new ContractAction(
                     {"callback_url", field()},
                     {"model", field()},
                     {"negative_prompt", field()},
-                    {"output_count", field()},
                     {"prompt", field()},
                     {"seed", field()},
             })},
@@ -597,7 +596,6 @@ contract.put("imagen-4/text-to-image", new ContractAction(
                     {"callback_url", field()},
                     {"model", field()},
                     {"negative_prompt", field()},
-                    {"output_count", field(enumValues(Integer.valueOf(1), Integer.valueOf(2), Integer.valueOf(3), Integer.valueOf(4)))},
                     {"prompt", field()},
                     {"seed", field()},
             })},
@@ -606,7 +604,6 @@ contract.put("imagen-4/text-to-image", new ContractAction(
                     {"callback_url", field()},
                     {"model", field()},
                     {"negative_prompt", field()},
-                    {"output_count", field()},
                     {"prompt", field()},
                     {"seed", field()},
             })},
@@ -794,7 +791,7 @@ contract.put("nano-banana/edit-image", new ContractAction(
             })},
           })));
 contract.put("nano-banana/text-to-image", new ContractAction(
-    list("nano-banana", "nano-banana-2", "nano-banana-pro"),
+    list("nano-banana", "nano-banana-2", "nano-banana-2-lite", "nano-banana-pro"),
           fieldsByModel(new Object[][] {
             {"nano-banana", fields(new Object[][] {
                     {"aspect_ratio", field(enumValues("1:1", "9:16", "16:9", "3:4", "4:3", "3:2", "2:3", "5:4", "4:5", "21:9", "auto"))},
@@ -814,6 +811,15 @@ contract.put("nano-banana/text-to-image", new ContractAction(
                     {"prompt", field()},
                     {"reference_image_urls", field()},
             })},
+            {"nano-banana-2-lite", fields(new Object[][] {
+                    {"aspect_ratio", field(required(), enumValues("1:1", "1:4", "1:8", "2:3", "3:2", "3:4", "4:1", "4:3", "4:5", "5:4", "8:1", "9:16", "16:9", "21:9", "auto"))},
+                    {"callback_url", field()},
+                    {"model", field()},
+                    {"output_format", field()},
+                    {"output_resolution", field()},
+                    {"prompt", field(required(), min(Double.valueOf(1.0)), max(Double.valueOf(20000.0)), length())},
+                    {"reference_image_urls", field()},
+            })},
             {"nano-banana-pro", fields(new Object[][] {
                     {"aspect_ratio", field(enumValues("1:1", "2:3", "3:2", "3:4", "4:3", "4:5", "5:4", "9:16", "16:9", "21:9", "auto"))},
                     {"callback_url", field()},
@@ -823,6 +829,9 @@ contract.put("nano-banana/text-to-image", new ContractAction(
                     {"prompt", field()},
                     {"reference_image_urls", field()},
             })},
+          }),
+          rulesByModel(new Object[][] {
+{"nano-banana-2-lite", rules(rule(conditions(new Object[][] {{"model", "nano-banana-2-lite"}}), list(), list("output_resolution", "output_format")))},
           })));
 contract.put("qwen-2/edit-image", new ContractAction(
     list("qwen-2-edit-image"),
@@ -966,7 +975,7 @@ contract.put("seedance/text-to-video", new ContractAction(
                     {"generate_audio", field()},
                     {"last_frame_image_url", field()},
                     {"model", field()},
-                    {"output_resolution", field(enumValues("480p", "720p", "1080p"))},
+                    {"output_resolution", field(enumValues("480p", "720p", "1080p", "4k"))},
                     {"prompt", field()},
                     {"reference_audio_urls", field()},
                     {"reference_image_urls", field()},
@@ -1619,16 +1628,18 @@ contract.put("suno/replace-section", new ContractAction(
     list(),
           fieldsByModel(new Object[][] {
             {"_", fields(new Object[][] {
-                    {"audio_id", field(required())},
+                    {"audio_id", field()},
                     {"callback_url", field()},
-                    {"full_lyrics", field()},
-                    {"infill_end_time", field()},
-                    {"infill_start_time", field()},
-                    {"lyrics", field()},
+                    {"full_lyrics", field(required())},
+                    {"infill_end_time", field(required())},
+                    {"infill_start_time", field(required())},
+                    {"lyrics", field(required())},
+                    {"model", field(enumValues("suno-v4", "suno-v4.5", "suno-v4.5-all", "suno-v4.5-plus", "suno-v5", "suno-v5.5"))},
                     {"negative_tags", field()},
-                    {"tags", field()},
-                    {"task_id", field(required())},
-                    {"title", field()},
+                    {"tags", field(required())},
+                    {"task_id", field()},
+                    {"title", field(required())},
+                    {"upload_url", field()},
             })},
           })));
 contract.put("suno/separate-audio-stems", new ContractAction(

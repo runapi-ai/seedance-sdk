@@ -63,6 +63,40 @@ class SeedanceClientTest {
   }
 
   @Test
+  void createAcceptsSeedance2Generated4k() throws Exception {
+    CapturingTransport transport = new CapturingTransport("{\"id\":\"task_4k\",\"status\":\"processing\"}");
+    SeedanceClient client = SeedanceClient.builder().apiKey("sk-test").transport(transport).build();
+
+    client.textToVideo().create(
+        TextToVideoParams.builder()
+            .prompt("A cinematic city flyover")
+            .model(TextToVideoModel.SEEDANCE_2_0)
+            .outputResolution("4k")
+            .build()
+    );
+
+    JsonNode body = bodyJson(transport.request);
+    assertEquals("4k", body.get("output_resolution").asText());
+  }
+
+  @Test
+  void createRejectsSeedance2Frame4k() {
+    CapturingTransport transport = new CapturingTransport("{\"id\":\"unused\",\"status\":\"processing\"}");
+    SeedanceClient client = SeedanceClient.builder().apiKey("sk-test").transport(transport).build();
+
+    ValidationException error = assertThrows(
+        ValidationException.class,
+        () -> client.textToVideo().create(
+            TextToVideoParams.builder()
+                .prompt("A cinematic city flyover")
+                .model(TextToVideoModel.SEEDANCE_2_0)
+                .outputResolution("4k")
+                .firstFrameImageUrl("https://cdn.runapi.ai/public/samples/first-frame.jpg")
+                .build()));
+    assertEquals("first_frame_image_url is not allowed when model is seedance-2.0 and output_resolution is 4k", error.getMessage());
+  }
+
+  @Test
   void getDecodesTaskResponseAndExtraFields() {
     CapturingTransport transport = new CapturingTransport("{\"id\":\"task_456\",\"status\":\"completed\",\"videos\":[{\"url\":\"https://file.runapi.ai/generated\"}],\"custom\":\"kept\"}");
     SeedanceClient client = SeedanceClient.builder().apiKey("sk-test").transport(transport).build();

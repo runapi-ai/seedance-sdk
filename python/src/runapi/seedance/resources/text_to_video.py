@@ -147,6 +147,7 @@ class TextToVideo(Resource):
         self._reject_unsupported(params, unsupported, params.get("model"))
 
         self._validate_mode_conflicts(params)
+        self._validate_seedance_2_4k_mode(params)
 
     def _validate_mode_conflicts(self, params: Dict[str, Any]) -> None:
         has_frame = any(self._field_present(params, f) for f in FRAME_FIELDS)
@@ -154,6 +155,16 @@ class TextToVideo(Resource):
 
         if has_frame and has_reference:
             raise ValidationError("Cannot use frame mode and reference mode at the same time")
+
+    def _validate_seedance_2_4k_mode(self, params: Dict[str, Any]) -> None:
+        if params.get("model") != "seedance-2.0" or params.get("output_resolution") != "4k":
+            return
+
+        for field in [*FRAME_FIELDS, *REFERENCE_FIELDS]:
+            if self._field_present(params, field):
+                raise ValidationError(
+                    f"{field} is not allowed when model is seedance-2.0 and output_resolution is 4k"
+                )
 
     def _reject_unsupported(self, params: Dict[str, Any], fields: Any, model: Any) -> None:
         for field in fields:

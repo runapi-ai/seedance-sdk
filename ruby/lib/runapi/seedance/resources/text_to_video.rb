@@ -108,6 +108,7 @@ module RunApi
           reject_unsupported!(params, unsupported, param(params, :model))
 
           validate_mode_conflicts!(params)
+          validate_seedance_2_4k_mode!(params)
         end
 
         def validate_mode_conflicts!(params)
@@ -117,6 +118,17 @@ module RunApi
           if has_frame && has_reference
             raise Core::ValidationError, "Cannot use frame mode and reference mode at the same time"
           end
+        end
+
+        def validate_seedance_2_4k_mode!(params)
+          return unless param(params, :model) == "seedance-2.0"
+          return unless param(params, :output_resolution) == "4k"
+
+          unsupported = Types::FRAME_FIELDS + Types::REFERENCE_FIELDS
+          field = unsupported.find { |candidate| field_present?(params, candidate) }
+          return unless field
+
+          raise Core::ValidationError, "#{field} is not allowed when model is seedance-2.0 and output_resolution is 4k"
         end
 
         def reject_unsupported!(params, fields, model)

@@ -21,7 +21,7 @@ export type AspectRatioV1Pro = '1:1' | '4:3' | '3:4' | '16:9' | '9:16' | '21:9';
 
 // Resolutions
 export type Resolution15Pro = '480p' | '720p' | '1080p';
-export type Resolution2 = '480p' | '720p' | '1080p';
+export type Resolution2 = '480p' | '720p' | '1080p' | '4k';
 export type ResolutionV1 = '480p' | '720p' | '1080p';
 export type ResolutionV1ProFast = '720p' | '1080p';
 

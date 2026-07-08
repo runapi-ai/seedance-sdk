@@ -1,5 +1,5 @@
 import type { HttpClient, RequestOptions, PollingOptions, ActionSchema } from '@runapi.ai/core';
-import { compactParams, validateParams } from '@runapi.ai/core';
+import { compactParams, validateParams, ValidationError } from '@runapi.ai/core';
 import { pollUntilComplete } from '@runapi.ai/core/internal';
 import { contract } from '../contract_gen';
 import type {
@@ -39,6 +39,7 @@ export class TextToVideo {
   async create(params: TextToVideoParams, options?: RequestOptions): Promise<TaskCreateResponse> {
     const body = compactParams(params);
     validateParams(contract['text-to-video'] as ActionSchema, body as Record<string, unknown>);
+    validateSeedance2FourKMode(body as Record<string, unknown>);
     return this.http.request<TaskCreateResponse>('POST', ENDPOINT, {
       body,
       ...options,
@@ -56,4 +57,38 @@ export class TextToVideo {
       ...options,
     });
   }
+}
+
+const SEEDANCE_2_FOUR_K_UNSUPPORTED_FIELDS = [
+  'first_frame_image_url',
+  'last_frame_image_url',
+  'reference_image_urls',
+  'reference_video_urls',
+  'reference_audio_urls',
+];
+
+function validateSeedance2FourKMode(body: Record<string, unknown>): void {
+  if (body.model !== 'seedance-2.0' || body.output_resolution !== '4k') {
+    return;
+  }
+
+  const field = SEEDANCE_2_FOUR_K_UNSUPPORTED_FIELDS.find((candidate) => isPresent(body[candidate]));
+  if (!field) {
+    return;
+  }
+
+  throw new ValidationError(`${field} is not allowed when model is seedance-2.0 and output_resolution is 4k`);
+}
+
+function isPresent(value: unknown): boolean {
+  if (value === undefined || value === null) {
+    return false;
+  }
+  if (typeof value === 'string') {
+    return value.length > 0;
+  }
+  if (Array.isArray(value)) {
+    return value.length > 0;
+  }
+  return true;
 }

@@ -8,6 +8,7 @@ package seedance
 
 import (
 	"context"
+	"errors"
 
 	"github.com/runapi-ai/core-sdk/go/base"
 	"github.com/runapi-ai/core-sdk/go/core"
@@ -60,6 +61,9 @@ func (r *TextToVideo) Create(ctx context.Context, params TextToVideoParams, opts
 	if err := core.ValidateParams(contractSchema["text-to-video"], body); err != nil {
 		return nil, err
 	}
+	if err := validateSeedance2FourKMode(body); err != nil {
+		return nil, err
+	}
 	return core.PostJSON[core.TaskCreateResponse](ctx, r.http, textToVideoPath, body, requestOptions)
 }
 
@@ -74,4 +78,51 @@ func (r *TextToVideo) Get(ctx context.Context, id string, opts ...option.Request
 func (r *TextToVideo) Run(ctx context.Context, params TextToVideoParams, opts ...option.RequestOption) (*TextToVideoResponse, error) {
 	_, pollingOptions := option.ResolveRequestOptions(opts...)
 	return core.RunAsync(ctx, func(ctx context.Context) (*core.TaskCreateResponse, error) { return r.Create(ctx, params, opts...) }, func(ctx context.Context, id string) (*TextToVideoResponse, error) { return r.Get(ctx, id, opts...) }, pollingOptions)
+}
+
+func validateSeedance2FourKMode(body map[string]any) error {
+	if !seedanceStringEquals(body["model"], string(ModelSeedance2)) || !seedanceStringEquals(body["output_resolution"], "4k") {
+		return nil
+	}
+
+	fields := []string{
+		"first_frame_image_url",
+		"last_frame_image_url",
+		"reference_image_urls",
+		"reference_video_urls",
+		"reference_audio_urls",
+	}
+	for _, field := range fields {
+		if seedancePresent(body[field]) {
+			return errors.New(field + " is not allowed when model is seedance-2.0 and output_resolution is 4k")
+		}
+	}
+
+	return nil
+}
+
+func seedanceStringEquals(value any, expected string) bool {
+	switch v := value.(type) {
+	case string:
+		return v == expected
+	case SeedanceModel:
+		return string(v) == expected
+	default:
+		return false
+	}
+}
+
+func seedancePresent(value any) bool {
+	switch v := value.(type) {
+	case nil:
+		return false
+	case string:
+		return v != ""
+	case []string:
+		return len(v) > 0
+	case []any:
+		return len(v) > 0
+	default:
+		return true
+	}
 }

@@ -80,7 +80,8 @@ export const contract = {
           "enum": [
             "480p",
             "720p",
-            "1080p"
+            "1080p",
+            "4k"
           ]
         }
       },

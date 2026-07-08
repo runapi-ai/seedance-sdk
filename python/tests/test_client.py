@@ -157,7 +157,7 @@ def test_v2_mini_accepts_reference_mode():
         model="seedance-2-mini",
         prompt="a compact cinematic scene",
         reference_video_urls=["https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"],
-        reference_audio_urls=["https://cdn.runapi.ai/public/samples/audio.mp3"],
+        reference_audio_urls=["https://cdn.runapi.ai/public/samples/music.mp3"],
         output_resolution="720p",
         aspect_ratio="auto",
         duration_seconds=8,
@@ -172,6 +172,41 @@ def test_v2_mini_resolution_excludes_1080p():
     with pytest.raises(ValidationError, match="output_resolution must be one of:"):
         client.text_to_video.create(
             model="seedance-2-mini", prompt="a serene lake at dawn", output_resolution="1080p"
+        )
+
+
+def test_v2_accepts_generated_4k():
+    fake = FakeHttp({"id": "t1", "status": "pending"})
+    client = SeedanceClient(api_key="k", http_client=fake)
+
+    client.text_to_video.create(
+        model="seedance-2.0", prompt="a cinematic city flyover", output_resolution="4k"
+    )
+
+    assert fake.calls == [
+        (
+            "post",
+            "/api/v1/seedance/text_to_video",
+            {
+                "model": "seedance-2.0",
+                "prompt": "a cinematic city flyover",
+                "output_resolution": "4k",
+            },
+        ),
+    ]
+
+
+def test_v2_rejects_frame_4k():
+    client = SeedanceClient(api_key="k", http_client=FakeHttp())
+    with pytest.raises(
+        ValidationError,
+        match="first_frame_image_url is not allowed when model is seedance-2.0 and output_resolution is 4k",
+    ):
+        client.text_to_video.create(
+            model="seedance-2.0",
+            prompt="a cinematic city flyover",
+            output_resolution="4k",
+            first_frame_image_url="https://x/a.png",
         )
 
 

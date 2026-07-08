@@ -134,7 +134,7 @@ describe('TextToVideo', () => {
         prompt: 'A compact cinematic scene with matched motion and audio',
         model: 'seedance-2-mini',
         reference_video_urls: ['https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4'],
-        reference_audio_urls: ['https://cdn.runapi.ai/public/samples/audio.mp3'],
+        reference_audio_urls: ['https://cdn.runapi.ai/public/samples/music.mp3'],
         output_resolution: '720p',
         aspect_ratio: 'auto',
         duration_seconds: 8,
@@ -149,7 +149,7 @@ describe('TextToVideo', () => {
             prompt: 'A compact cinematic scene with matched motion and audio',
             model: 'seedance-2-mini',
             reference_video_urls: ['https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4'],
-            reference_audio_urls: ['https://cdn.runapi.ai/public/samples/audio.mp3'],
+            reference_audio_urls: ['https://cdn.runapi.ai/public/samples/music.mp3'],
             output_resolution: '720p',
             aspect_ratio: 'auto',
             duration_seconds: 8,
@@ -185,6 +185,43 @@ describe('TextToVideo', () => {
           },
         }
       );
+    });
+
+    it('should accept seedance-2.0 generated 4k requests', async () => {
+      const mockResponse: TaskCreateResponse = { id: 'task-4k' };
+      vi.mocked(mockHttp.request).mockResolvedValueOnce(mockResponse);
+
+      const textToVideo = new TextToVideo(mockHttp);
+      await textToVideo.create({
+        prompt: 'A cinematic city flyover',
+        model: 'seedance-2.0',
+        output_resolution: '4k',
+      });
+
+      expect(mockHttp.request).toHaveBeenCalledWith(
+        'POST',
+        '/api/v1/seedance/text_to_video',
+        {
+          body: {
+            prompt: 'A cinematic city flyover',
+            model: 'seedance-2.0',
+            output_resolution: '4k',
+          },
+        }
+      );
+    });
+
+    it('should reject seedance-2.0 4k with frame inputs', async () => {
+      const textToVideo = new TextToVideo(mockHttp);
+
+      await expect(textToVideo.create({
+        prompt: 'A cinematic city flyover',
+        model: 'seedance-2.0',
+        output_resolution: '4k',
+        first_frame_image_url: 'https://cdn.runapi.ai/public/samples/first-frame.jpg',
+      })).rejects.toThrow('first_frame_image_url is not allowed when model is seedance-2.0 and output_resolution is 4k');
+
+      expect(mockHttp.request).not.toHaveBeenCalled();
     });
 
     it('should send correct request for seedance-v1-lite text-to-video', async () => {

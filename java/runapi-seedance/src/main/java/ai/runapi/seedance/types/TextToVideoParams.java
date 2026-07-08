@@ -77,8 +77,6 @@ public final class TextToVideoParams {
     return SeedanceParamUtils.compact(raw);
   }
 
-
-
   /** Builder for {@link TextToVideoParams}. */
   public static final class Builder {
     private String prompt;
