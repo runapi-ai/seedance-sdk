@@ -2,6 +2,7 @@ export const contract = {
   "text-to-video": {
     "models": [
       "seedance-1.5-pro",
+      "seedance-2-mini",
       "seedance-2.0",
       "seedance-2.0-fast",
       "seedance-v1-lite",
@@ -32,9 +33,30 @@ export const contract = {
             "720p",
             "1080p"
           ]
+        }
+      },
+      "seedance-2-mini": {
+        "aspect_ratio": {
+          "enum": [
+            "1:1",
+            "4:3",
+            "3:4",
+            "16:9",
+            "9:16",
+            "21:9",
+            "auto"
+          ]
         },
-        "seed": {
+        "duration_seconds": {
+          "min": 4,
+          "max": 15,
           "type": "integer"
+        },
+        "output_resolution": {
+          "enum": [
+            "480p",
+            "720p"
+          ]
         }
       },
       "seedance-2.0": {
@@ -60,9 +82,6 @@ export const contract = {
             "720p",
             "1080p"
           ]
-        },
-        "seed": {
-          "type": "integer"
         }
       },
       "seedance-2.0-fast": {
@@ -87,9 +106,6 @@ export const contract = {
             "480p",
             "720p"
           ]
-        },
-        "seed": {
-          "type": "integer"
         }
       },
       "seedance-v1-lite": {
@@ -169,9 +185,6 @@ export const contract = {
             "720p",
             "1080p"
           ]
-        },
-        "seed": {
-          "type": "integer"
         }
       }
     }

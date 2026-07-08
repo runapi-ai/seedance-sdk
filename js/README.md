@@ -1,8 +1,8 @@
-# Seedance API JavaScript SDK for RunAPI
+# Seedance JavaScript SDK for RunAPI
 
-The seedance api JavaScript SDK is the language-specific package for Seedance on RunAPI. Use this seedance api package for text-to-video, image-to-video, video editing, and animation flows when your application needs JSON request bodies, task status lookup, and consistent RunAPI errors in JavaScript.
+The Seedance JavaScript SDK is the language-specific package for Seedance on RunAPI. Use this package for video generation, animation, and video editing workflows when your application needs request bodies, task status lookup, and consistent RunAPI errors in JavaScript.
 
-This seedance api README is the JavaScript package guide inside the public `seedance-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/seedance; for API reference, use https://runapi.ai/docs#seedance; for SDK docs, use https://runapi.ai/docs#sdk-seedance.
+This README is the JavaScript package guide inside the public `seedance-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/seedance; for API reference, use https://runapi.ai/docs#seedance; for SDK docs, use https://runapi.ai/docs#sdk-seedance.
 
 ## Install
 
@@ -16,10 +16,10 @@ npm install @runapi.ai/seedance
 import { SeedanceClient } from '@runapi.ai/seedance';
 
 const client = new SeedanceClient();
-const task = await client.generations.create({
+const task = await client.textToVideo.create({
   // Pass the Seedance JSON request body from https://runapi.ai/docs#seedance.
 });
-const status = await client.generations.get(task.id);
+const status = await client.textToVideo.get(task.id);
 ```
 
 Use `create` when you want to submit a task and return quickly, `get` when you need the latest task state, and `run` when a script should create and poll until completion. In web request handlers, prefer `create` plus webhook or later `get` polling so a worker is not held open.
@@ -28,7 +28,7 @@ RunAPI-generated file URLs are temporary. Download and store generated images, v
 
 ## Language notes
 
-Use the TypeScript types in `src/types.ts` and the resource classes under `src/resources` when building video applications. The available resources include generations. Keep `RUNAPI_API_KEY` in the environment or your secret manager; never commit API keys or callback secrets.
+Use the TypeScript types in `src/types.ts` and the resource classes under `src/resources` when building video applications. The available resources are `textToVideo`. Keep `RUNAPI_API_KEY` in the environment or your secret manager; never commit API keys or callback secrets.
 
 ## Links
 

@@ -149,6 +149,32 @@ def test_v2_fast_resolution_excludes_1080p():
         )
 
 
+def test_v2_mini_accepts_reference_mode():
+    http = FakeHttp([{"id": "task-mini", "status": "processing"}])
+    client = SeedanceClient(api_key="k", http_client=http)
+
+    client.text_to_video.create(
+        model="seedance-2-mini",
+        prompt="a compact cinematic scene",
+        reference_video_urls=["https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"],
+        reference_audio_urls=["https://cdn.runapi.ai/public/samples/audio.mp3"],
+        output_resolution="720p",
+        aspect_ratio="auto",
+        duration_seconds=8,
+        generate_audio=False,
+    )
+
+    assert http.calls[0][2]["model"] == "seedance-2-mini"
+
+
+def test_v2_mini_resolution_excludes_1080p():
+    client = SeedanceClient(api_key="k", http_client=FakeHttp())
+    with pytest.raises(ValidationError, match="output_resolution must be one of:"):
+        client.text_to_video.create(
+            model="seedance-2-mini", prompt="a serene lake at dawn", output_resolution="1080p"
+        )
+
+
 def test_v2_duration_range():
     client = SeedanceClient(api_key="k", http_client=FakeHttp())
     with pytest.raises(

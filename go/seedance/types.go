@@ -24,6 +24,10 @@ const (
 	// same 2.0 feature set as ModelSeedance2.
 	ModelSeedance2Fast SeedanceModel = "seedance-2.0-fast"
 
+	// ModelSeedance2Mini is the compact 2.x model with frame mode, reference
+	// mode, audio generation, web search, and 4-15 second duration support.
+	ModelSeedance2Mini SeedanceModel = "seedance-2-mini"
+
 	// ModelSeedanceV1Lite is the lightweight V1 model. Supports image-to-video
 	// via FirstFrameImageURL and LastFrameImageURL, camera lock, and seed
 	// control. Lower cost than pro variants.
@@ -65,16 +69,16 @@ type TextToVideoParams struct {
 	SourceImageURLs []string `json:"source_image_urls,omitempty" help:"optional for seedance-1.5-pro image-to-video, max 2 source images"`
 	LockCamera      *bool    `json:"lock_camera,omitempty" help:"optional; seedance-1.5-pro, v1-lite, and v1-pro only"`
 
-	// seedance-2.0/2-fast frame mode; seedance-v1-* image-to-video uses first_frame_image_url
+	// seedance-2.x frame mode; seedance-v1-* image-to-video uses first_frame_image_url
 	FirstFrameImageURL string `json:"first_frame_image_url,omitempty" help:"required for seedance-v1-pro-fast and optional for v1 image-to-video; seedance-2.x frame mode first frame image URL"`
 	LastFrameImageURL  string `json:"last_frame_image_url,omitempty" help:"optional; seedance-2.x frame mode last frame image URL, or v1-lite image-to-video end frame image URL"`
 
-	// seedance-2.0/2-fast reference mode
+	// seedance-2.x reference mode
 	ReferenceImageURLs []string `json:"reference_image_urls,omitempty" help:"optional; max 9 reference images"`
 	ReferenceVideoURLs []string `json:"reference_video_urls,omitempty" help:"optional; max 3 videos, total duration ≤ 15s"`
 	ReferenceAudioURLs []string `json:"reference_audio_urls,omitempty" help:"optional; max 3 audio files, requires image or video"`
 
-	// seedance-2.0/2-fast additional options
+	// seedance-2.x additional options
 	WebSearch *bool `json:"web_search,omitempty" help:"optional; seedance-2.x only"`
 
 	// seedance-v1-lite / v1-pro additional options (ignored on other models)

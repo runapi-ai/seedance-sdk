@@ -36,6 +36,7 @@ Generate and edit video with Seedance through RunAPI. The default path for one-o
 When integrating Seedance into an app, backend, worker, library, Rails service, Node service, Go service, webhook pipeline, or production workflow, start by checking the current SDK package and official usage. Confirm install commands, client methods (`create`, `get`, `run`), request fields, response shape, and error classes before using CLI help or raw HTTP examples. Use a RunAPI SDK package:
 
 - JavaScript / TypeScript: `@runapi.ai/seedance`
+- PHP: `runapi-ai/seedance`
 - Ruby: `runapi-seedance`
 - Go: `github.com/runapi-ai/seedance-sdk/go`
 
@@ -83,4 +84,4 @@ RunAPI-generated file URLs are temporary. Download and store generated images, v
 - [1.5 pro](https://runapi.ai/models/seedance/1.5-pro.md)
 - [2.0](https://runapi.ai/models/seedance/2.0.md)
 - [2.0 fast](https://runapi.ai/models/seedance/2.0-fast.md)
-
+- [2.0 mini](https://runapi.ai/models/seedance/2-mini.md)

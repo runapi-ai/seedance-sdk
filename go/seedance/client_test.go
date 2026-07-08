@@ -76,6 +76,33 @@ func TestTextToVideoCreateCompactsParams(t *testing.T) {
 	}
 }
 
+func TestTextToVideoCreateMini(t *testing.T) {
+	stub := &stubHTTPClient{}
+	client := NewClientWithHTTP(stub)
+	dur := 8
+	audio := false
+	_, err := client.TextToVideo.Create(context.Background(), TextToVideoParams{
+		Prompt:             "a compact cinematic scene",
+		Model:              ModelSeedance2Mini,
+		OutputResolution:   "720p",
+		AspectRatio:        "auto",
+		DurationSeconds:    &dur,
+		GenerateAudio:      &audio,
+		ReferenceVideoURLs: []string{"https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"},
+			ReferenceAudioURLs: []string{"https://cdn.runapi.ai/public/samples/audio.mp3"},
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	body := stub.body.(map[string]any)
+	if body["model"] != "seedance-2-mini" {
+		t.Fatalf("unexpected model: %v", body["model"])
+	}
+	if body["output_resolution"] != "720p" {
+		t.Fatalf("unexpected output_resolution: %v", body["output_resolution"])
+	}
+}
+
 func TestTextToVideoCreate15Pro(t *testing.T) {
 	stub := &stubHTTPClient{}
 	client := NewClientWithHTTP(stub)

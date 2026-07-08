@@ -5,10 +5,12 @@ export type SeedanceModel =
   | 'seedance-1.5-pro'
   | 'seedance-2.0'
   | 'seedance-2.0-fast'
+  | 'seedance-2-mini'
   | 'seedance-v1-lite'
   | 'seedance-v1-pro'
   | 'seedance-v1-pro-fast';
-export type SeedanceModel2 = 'seedance-2.0' | 'seedance-2.0-fast';
+export type SeedanceModel2 = 'seedance-2.0' | 'seedance-2.0-fast' | 'seedance-2-mini';
+export type SeedanceModel2WithSafetyChecker = 'seedance-2.0' | 'seedance-2.0-fast';
 export type SeedanceModelV1 = 'seedance-v1-lite' | 'seedance-v1-pro' | 'seedance-v1-pro-fast';
 
 // Aspect ratios
@@ -33,17 +35,23 @@ interface GenerationCommonParams {
   prompt: string;
   /** URL for completion callback */
   callback_url?: string;
-  /** Generate audio track for the video */
-  generate_audio?: boolean;
+}
+
+interface SafetyCheckerParams {
   /** Content safety check toggle */
   enable_safety_checker?: boolean;
+}
+
+interface AudioGenerationParams {
+  /** Generate audio track for the video */
+  generate_audio?: boolean;
 }
 
 /**
  * seedance-1.5-pro generation parameters.
  * Supports text-to-video and image-to-video with camera lock.
  */
-export interface Generation15ProParams extends GenerationCommonParams {
+export interface Generation15ProParams extends GenerationCommonParams, AudioGenerationParams, SafetyCheckerParams {
   model: 'seedance-1.5-pro';
   /** Required for seedance-1.5-pro */
   aspect_ratio: AspectRatio15Pro;
@@ -56,55 +64,77 @@ export interface Generation15ProParams extends GenerationCommonParams {
   lock_camera?: boolean;
 }
 
-// --- seedance-2.0 / seedance-2.0-fast modes (mutually exclusive) ---
+// --- seedance-2.x modes (mutually exclusive) ---
 
 /** Common fields for all 2.x modes */
-interface Generation2BaseParams extends GenerationCommonParams {
-  model: SeedanceModel2;
+interface Generation2BaseFields extends GenerationCommonParams, AudioGenerationParams {
   aspect_ratio?: AspectRatio2;
   output_resolution?: Resolution2;
   /** Integer 4-15 */
   duration_seconds?: number;
-  /** Enable web search for prompt enrichment. */
+}
+
+type Generation2ModelFields =
+  | ({ model: SeedanceModel2WithSafetyChecker } & SafetyCheckerParams)
+  | { model: 'seedance-2-mini' };
+
+interface Generation2TextFields extends Generation2BaseFields {
+  /** Enable web search for prompt enrichment in pure text-to-video mode. */
   web_search?: boolean;
+  first_frame_image_url?: never;
+  last_frame_image_url?: never;
+  reference_image_urls?: never;
+  reference_video_urls?: never;
+  reference_audio_urls?: never;
 }
 
 /**
- * seedance-2.0/2-fast text-to-video mode.
+ * seedance-2.x text-to-video mode.
  * Pure text prompt, no image/reference inputs.
  */
-export interface Generation2TextParams extends Generation2BaseParams {}
+export type Generation2TextParams = Generation2TextFields & Generation2ModelFields;
 
-/**
- * seedance-2.0/2-fast frame mode.
- * Guide generation with first (required) and optional last frame images.
- * Mutually exclusive with reference mode.
- */
-export interface Generation2FrameParams extends Generation2BaseParams {
+interface Generation2FrameFields extends Generation2BaseFields {
   /** First frame image URL (required for frame mode) */
   first_frame_image_url: string;
   /** Last frame image URL */
   last_frame_image_url?: string;
+  web_search?: never;
+  reference_image_urls?: never;
+  reference_video_urls?: never;
+  reference_audio_urls?: never;
 }
 
 /**
- * seedance-2.0/2-fast reference mode.
- * Guide generation with reference images, videos, or audio.
- * Mutually exclusive with frame mode.
+ * seedance-2.x frame mode.
+ * Guide generation with first (required) and optional last frame images.
+ * Mutually exclusive with reference mode.
  */
-export interface Generation2ReferenceParams extends Generation2BaseParams {
+export type Generation2FrameParams = Generation2FrameFields & Generation2ModelFields;
+
+interface Generation2ReferenceFields extends Generation2BaseFields {
   /** Reference image URLs (max 9) */
   reference_image_urls?: string[];
-  /** Reference video URLs (max 3, total duration ≤ 15s) */
+  /** Reference video URLs (max 3, total duration <= 15s) */
   reference_video_urls?: string[];
   /** Reference audio URLs (max 3, requires image or video) */
   reference_audio_urls?: string[];
+  first_frame_image_url?: never;
+  last_frame_image_url?: never;
+  web_search?: never;
 }
+
+/**
+ * seedance-2.x reference mode.
+ * Guide generation with reference images, videos, or audio.
+ * Mutually exclusive with frame mode.
+ */
+export type Generation2ReferenceParams = Generation2ReferenceFields & Generation2ModelFields;
 
 // --- seedance-v1-* modes ---
 
 /** Common fields for v1-lite and v1-pro (not v1-pro-fast). */
-interface GenerationV1SharedParams extends GenerationCommonParams {
+interface GenerationV1SharedParams extends GenerationCommonParams, SafetyCheckerParams {
   /** `5` or `10`. Required. */
   duration_seconds: DurationV1;
   output_resolution?: ResolutionV1;
@@ -144,7 +174,7 @@ export interface GenerationV1ProParams extends GenerationV1SharedParams {
  * seedance-v1-pro-fast image-to-video only. Smaller parameter surface —
  * no `aspect_ratio`, `lock_camera`, or `seed`.
  */
-export interface GenerationV1ProFastParams extends GenerationCommonParams {
+export interface GenerationV1ProFastParams extends GenerationCommonParams, SafetyCheckerParams {
   model: 'seedance-v1-pro-fast';
   /** Required first frame image URL. */
   first_frame_image_url: string;

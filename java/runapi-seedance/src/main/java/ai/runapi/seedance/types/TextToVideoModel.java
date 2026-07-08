@@ -10,6 +10,8 @@ public final class TextToVideoModel extends SeedanceValue {
   public static final TextToVideoModel SEEDANCE_2_0 = new TextToVideoModel("seedance-2.0");
   /** seedance-2.0-fast model slug. */
   public static final TextToVideoModel SEEDANCE_2_0_FAST = new TextToVideoModel("seedance-2.0-fast");
+  /** seedance-2-mini model slug. */
+  public static final TextToVideoModel SEEDANCE_2_MINI = new TextToVideoModel("seedance-2-mini");
   /** seedance-v1-lite model slug. */
   public static final TextToVideoModel SEEDANCE_V1_LITE = new TextToVideoModel("seedance-v1-lite");
   /** seedance-v1-pro model slug. */

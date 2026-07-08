@@ -7,7 +7,7 @@
 </h3>
 
 <p align="center">
-  Seedance API SDKs for JavaScript, Python, Ruby, Go, and Java on RunAPI.
+  Seedance API SDKs for JavaScript, Python, Ruby, Go, Java, and PHP on RunAPI.
 </p>
 
 <div align="center">
@@ -22,9 +22,9 @@
 </div>
 <br/>
 
-The Seedance API SDK packages JavaScript, Python, Ruby, Go, and Java clients for Seedance on RunAPI. Use it for text-to-video workflows when your app needs typed request builders, predictable task polling, file upload helpers, account helpers, and consistent RunAPI errors.
+The Seedance API SDK packages JavaScript, Python, Ruby, Go, Java, and PHP clients for Seedance on RunAPI. Use it for text-to-video workflows when your app needs typed request builders, predictable task polling, file upload helpers, account helpers, and consistent RunAPI errors.
 
-Seedance is listed in the RunAPI model catalog at https://runapi.ai/models/seedance. Variant pages below carry pricing, rate-limit, and commercial-usage details. The public `seedance-sdk` repository groups the language packages, examples, CI, and release tags for this model.
+Seedance is listed in the RunAPI model catalog at https://runapi.ai/models/seedance. Variant pages below carry pricing, rate-limit, and commercial-usage details. The public `seedance-sdk` repository groups the non-PHP language packages, examples, CI, and release tags for this model. The PHP package is released from a split Composer repository.
 
 ## Install
 
@@ -61,6 +61,8 @@ dependencies {
   implementation("ai.runapi:runapi-seedance")
 }
 ```
+
+The PHP package is published from the split Composer repository as `runapi-ai/seedance`; see https://github.com/runapi-ai/seedance-php for PHP install and examples.
 
 ## What you can build
 
@@ -103,7 +105,7 @@ Most media endpoints are asynchronous. `create()` submits a task and returns its
 
 - `js/` publishes `@runapi.ai/seedance`.
 - `python/` publishes `runapi-seedance`.
-- `ruby/` publishes `runapi-seedance` when RubyGems publishing resumes.
+- `ruby/` publishes `runapi-seedance`.
 - `go/` publishes `github.com/runapi-ai/seedance-sdk/go` and depends on `github.com/runapi-ai/core-sdk/go`.
 - `java/` publishes `ai.runapi:runapi-seedance` and depends on `ai.runapi:runapi-core`.
 
@@ -113,6 +115,7 @@ Most media endpoints are asynchronous. `create()` submits a task and returns its
 - SDK docs: https://runapi.ai/docs#sdk-seedance
 - Product docs: https://runapi.ai/docs#seedance
 - SDK repository: https://github.com/runapi-ai/seedance-sdk
+- PHP package repository: https://github.com/runapi-ai/seedance-php
 - Skill repository: https://github.com/runapi-ai/seedance
 - Provider comparison: https://runapi.ai/providers/bytedance
 - Full catalog: https://runapi.ai/models
@@ -126,6 +129,7 @@ Use the most specific Seedance variant page for pricing, rate limits, and commer
 - [1.5 pro](https://runapi.ai/models/seedance/1.5-pro)
 - [2.0](https://runapi.ai/models/seedance/2.0)
 - [2.0 fast](https://runapi.ai/models/seedance/2.0-fast)
+- [2.0 mini](https://runapi.ai/models/seedance/2-mini)
 
 Default pricing link for the Seedance SDK: https://runapi.ai/models/seedance/v1-lite
 
@@ -137,7 +141,7 @@ RunAPI-generated file URLs are temporary. Download and store generated images, v
 
 ### Which package should I install for Seedance work?
 
-Install the model package for your language: `@runapi.ai/seedance` on npm, `runapi-seedance` on PyPI, `runapi-seedance` on RubyGems, `github.com/runapi-ai/seedance-sdk/go`, or `ai.runapi:runapi-seedance`. Install core SDK packages only when you are building shared SDK infrastructure.
+Install the model package for your language: `@runapi.ai/seedance` on npm, `runapi-seedance` on PyPI, `runapi-seedance` on RubyGems, `github.com/runapi-ai/seedance-sdk/go`, `ai.runapi:runapi-seedance` on Maven Central, or `runapi-ai/seedance` on Packagist. Install core SDK packages only when you are building shared SDK infrastructure.
 
 ### Where should public links point?
 

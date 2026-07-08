@@ -39,6 +39,7 @@ class SeedanceClientTest {
 
     assertEquals("\"seedance-1.5-pro\"", json);
     assertEquals(new TextToVideoModel("seedance-1.5-pro"), Json.mapper().readValue(json, TextToVideoModel.class));
+    assertEquals("seedance-2-mini", TextToVideoModel.SEEDANCE_2_MINI.value());
   }
 
   @Test

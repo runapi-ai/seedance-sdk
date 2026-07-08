@@ -125,6 +125,40 @@ describe('TextToVideo', () => {
       );
     });
 
+    it('should send correct request for seedance-2-mini reference mode', async () => {
+      const mockResponse: TaskCreateResponse = { id: 'task-mini' };
+      vi.mocked(mockHttp.request).mockResolvedValueOnce(mockResponse);
+
+      const textToVideo = new TextToVideo(mockHttp);
+      await textToVideo.create({
+        prompt: 'A compact cinematic scene with matched motion and audio',
+        model: 'seedance-2-mini',
+        reference_video_urls: ['https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4'],
+        reference_audio_urls: ['https://cdn.runapi.ai/public/samples/audio.mp3'],
+        output_resolution: '720p',
+        aspect_ratio: 'auto',
+        duration_seconds: 8,
+        generate_audio: false,
+      });
+
+      expect(mockHttp.request).toHaveBeenCalledWith(
+        'POST',
+        '/api/v1/seedance/text_to_video',
+        {
+          body: {
+            prompt: 'A compact cinematic scene with matched motion and audio',
+            model: 'seedance-2-mini',
+            reference_video_urls: ['https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4'],
+            reference_audio_urls: ['https://cdn.runapi.ai/public/samples/audio.mp3'],
+            output_resolution: '720p',
+            aspect_ratio: 'auto',
+            duration_seconds: 8,
+            generate_audio: false,
+          },
+        }
+      );
+    });
+
     it('should include optional parameters', async () => {
       const mockResponse: TaskCreateResponse = { id: 'task-opt' };
       vi.mocked(mockHttp.request).mockResolvedValueOnce(mockResponse);
@@ -133,7 +167,7 @@ describe('TextToVideo', () => {
       await textToVideo.create({
         prompt: 'Test video',
         model: 'seedance-2.0',
-        callback_url: 'https://example.com/callback',
+        callback_url: 'https://your-domain.com/api/callback',
         generate_audio: true,
         web_search: false,
       });
@@ -145,7 +179,7 @@ describe('TextToVideo', () => {
           body: {
             prompt: 'Test video',
             model: 'seedance-2.0',
-            callback_url: 'https://example.com/callback',
+            callback_url: 'https://your-domain.com/api/callback',
             generate_audio: true,
             web_search: false,
           },

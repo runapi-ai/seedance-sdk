@@ -1,6 +1,6 @@
 CONTRACT = {
     "text-to-video": {
-        "models": ["seedance-1.5-pro", "seedance-2.0", "seedance-2.0-fast", "seedance-v1-lite", "seedance-v1-pro", "seedance-v1-pro-fast"],
+        "models": ["seedance-1.5-pro", "seedance-2-mini", "seedance-2.0", "seedance-2.0-fast", "seedance-v1-lite", "seedance-v1-pro", "seedance-v1-pro-fast"],
         "fields_by_model": {
             "seedance-1.5-pro": {
                 "aspect_ratio": {
@@ -14,9 +14,19 @@ CONTRACT = {
                 },
                 "output_resolution": {
                     "enum": ["480p", "720p", "1080p"]
+                }
+            },
+            "seedance-2-mini": {
+                "aspect_ratio": {
+                    "enum": ["1:1", "4:3", "3:4", "16:9", "9:16", "21:9", "auto"]
                 },
-                "seed": {
+                "duration_seconds": {
+                    "min": 4,
+                    "max": 15,
                     "type": "integer"
+                },
+                "output_resolution": {
+                    "enum": ["480p", "720p"]
                 }
             },
             "seedance-2.0": {
@@ -30,9 +40,6 @@ CONTRACT = {
                 },
                 "output_resolution": {
                     "enum": ["480p", "720p", "1080p"]
-                },
-                "seed": {
-                    "type": "integer"
                 }
             },
             "seedance-2.0-fast": {
@@ -46,9 +53,6 @@ CONTRACT = {
                 },
                 "output_resolution": {
                     "enum": ["480p", "720p"]
-                },
-                "seed": {
-                    "type": "integer"
                 }
             },
             "seedance-v1-lite": {
@@ -94,9 +98,6 @@ CONTRACT = {
                 },
                 "output_resolution": {
                     "enum": ["720p", "1080p"]
-                },
-                "seed": {
-                    "type": "integer"
                 }
             }
         }

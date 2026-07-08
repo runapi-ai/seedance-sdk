@@ -1,8 +1,8 @@
-# Seedance API Ruby SDK for RunAPI
+# Seedance Ruby SDK for RunAPI
 
-The seedance api Ruby SDK is the language-specific package for Seedance on RunAPI. Use this seedance api package for text-to-video, image-to-video, video editing, and animation flows when your application needs JSON request bodies, task status lookup, and consistent RunAPI errors in Ruby.
+The Seedance Ruby SDK is the language-specific package for Seedance on RunAPI. Use this package for video generation, animation, and video editing workflows when your application needs request bodies, task status lookup, and consistent RunAPI errors in Ruby.
 
-This seedance api README is the Ruby package guide inside the public `seedance-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/seedance; for API reference, use https://runapi.ai/docs#seedance; for SDK docs, use https://runapi.ai/docs#sdk-seedance.
+This README is the Ruby package guide inside the public `seedance-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/seedance; for API reference, use https://runapi.ai/docs#seedance; for SDK docs, use https://runapi.ai/docs#sdk-seedance.
 
 ## Install
 
@@ -13,13 +13,13 @@ gem install runapi-seedance
 ## Quick start
 
 ```ruby
-require "runapi-seedance"
+require "runapi/seedance"
 
 client = RunApi::Seedance::Client.new
-task = client.generations.create(
+task = client.text_to_video.create(
   # Pass the Seedance JSON request body from https://runapi.ai/docs#seedance.
 )
-status = client.generations.get(task.id)
+status = client.text_to_video.get(task.id)
 ```
 
 Use `create` when you want to submit a task and return quickly, `get` when you need the latest task state, and `run` when a script should create and poll until completion. In web request handlers, prefer `create` plus webhook or later `get` polling so a worker is not held open.
@@ -28,7 +28,7 @@ RunAPI-generated file URLs are temporary. Download and store generated images, v
 
 ## Language notes
 
-Use Ruby keyword arguments and the `RunApi::Seedance` error classes when building video jobs, Rails workers, or scripts. The available resources include generations. Keep `RUNAPI_API_KEY` in the environment or your secret manager; never commit API keys or callback secrets.
+Use Ruby keyword arguments and the `RunApi::Seedance` error classes when building video jobs, Rails workers, or scripts. The available resources are `text_to_video`. Keep `RUNAPI_API_KEY` in the environment or your secret manager; never commit API keys or callback secrets.
 
 ## Links
 
