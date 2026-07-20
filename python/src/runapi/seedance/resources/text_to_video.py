@@ -128,10 +128,6 @@ class TextToVideo(Resource):
                 )
 
     def _validate_1_5_pro(self, params: Dict[str, Any]) -> None:
-        value = params.get("source_image_urls")
-        if isinstance(value, list) and len(value) > 2:
-            raise ValidationError("source_image_urls accepts at most 2 images for seedance-1.5-pro")
-
         unsupported = [
             "first_frame_image_url",
             "last_frame_image_url",

@@ -18,6 +18,9 @@ module RunApi
             },
             "output_resolution" => {
               "enum" => ["480p", "720p", "1080p"]
+            },
+            "source_image_urls" => {
+              "max_items" => 2
             }
           },
           "seedance-2-mini" => {
@@ -31,6 +34,15 @@ module RunApi
             },
             "output_resolution" => {
               "enum" => ["480p", "720p"]
+            },
+            "reference_audio_urls" => {
+              "max_items" => 3
+            },
+            "reference_image_urls" => {
+              "max_items" => 9
+            },
+            "reference_video_urls" => {
+              "max_items" => 3
             }
           },
           "seedance-2.0" => {
@@ -44,6 +56,15 @@ module RunApi
             },
             "output_resolution" => {
               "enum" => ["480p", "720p", "1080p", "4k"]
+            },
+            "reference_audio_urls" => {
+              "max_items" => 3
+            },
+            "reference_image_urls" => {
+              "max_items" => 9
+            },
+            "reference_video_urls" => {
+              "max_items" => 3
             }
           },
           "seedance-2.0-fast" => {
@@ -57,6 +78,15 @@ module RunApi
             },
             "output_resolution" => {
               "enum" => ["480p", "720p"]
+            },
+            "reference_audio_urls" => {
+              "max_items" => 3
+            },
+            "reference_image_urls" => {
+              "max_items" => 9
+            },
+            "reference_video_urls" => {
+              "max_items" => 3
             }
           },
           "seedance-v1-lite" => {

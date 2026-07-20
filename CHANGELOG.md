@@ -1,5 +1,11 @@
 # Changelog
 
+## [js/v0.2.10](https://github.com/runapi-ai/seedance-sdk/releases/tag/js%2Fv0.2.10), [ruby/v0.2.10](https://github.com/runapi-ai/seedance-sdk/releases/tag/ruby%2Fv0.2.10), [go/v0.2.10](https://github.com/runapi-ai/seedance-sdk/releases/tag/go%2Fv0.2.10), [python/v0.1.3](https://github.com/runapi-ai/seedance-sdk/releases/tag/python%2Fv0.1.3) - 2026-07-20
+
+### Changed
+- Validate model-specific source image and reference image, video, and audio limits from the generated contract.
+
+
 ## [js/v0.2.9](https://github.com/runapi-ai/seedance-sdk/releases/tag/js%2Fv0.2.9), [ruby/v0.2.9](https://github.com/runapi-ai/seedance-sdk/releases/tag/ruby%2Fv0.2.9), [go/v0.2.9](https://github.com/runapi-ai/seedance-sdk/releases/tag/go%2Fv0.2.9), [python/v0.1.2](https://github.com/runapi-ai/seedance-sdk/releases/tag/python%2Fv0.1.2), [java/v0.1.3](https://github.com/runapi-ai/seedance-sdk/releases/tag/java%2Fv0.1.3) - 2026-07-08
 
 ### Changed

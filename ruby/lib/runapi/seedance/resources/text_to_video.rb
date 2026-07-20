@@ -95,10 +95,6 @@ module RunApi
         end
 
         def validate_1_5_pro!(params)
-          if (value = param(params, :source_image_urls)).is_a?(Array) && value.size > 2
-            raise Core::ValidationError, "source_image_urls accepts at most 2 images for seedance-1.5-pro"
-          end
-
           unsupported = %i[first_frame_image_url last_frame_image_url reference_image_urls reference_video_urls reference_audio_urls web_search]
           reject_unsupported!(params, unsupported, "seedance-1.5-pro")
         end

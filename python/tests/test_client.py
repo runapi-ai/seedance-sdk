@@ -264,7 +264,7 @@ def test_1_5_pro_invalid_duration():
 def test_1_5_pro_source_image_cap():
     client = SeedanceClient(api_key="k", http_client=FakeHttp())
     with pytest.raises(
-        ValidationError, match="source_image_urls accepts at most 2 images"
+        ValidationError, match="source_image_urls must contain at most 2 items"
     ):
         client.text_to_video.create(
             model="seedance-1.5-pro",
