@@ -9,8 +9,8 @@ type TaskStatus string
 const (
 	// ModelSeedance15Pro is the 1.5-generation pro model. Supports text-to-video
 	// and image-to-video (via SourceImageURLs, up to 2 images). Requires
-	// AspectRatio and DurationSeconds (4-12). Supports audio generation
-	// and camera lock.
+	// AspectRatio and DurationSeconds (4-12). Supports audio generation,
+	// camera lock, and seed control.
 	ModelSeedance15Pro SeedanceModel = "seedance-1.5-pro"
 
 	// ModelSeedance2 is the latest generation model with the highest quality
@@ -53,6 +53,7 @@ const (
 //   - FirstFrameImageURL is required for seedance-v1-pro-fast (image-to-video only)
 //   - ReferenceAudioURLs requires at least one image or video reference
 //   - GenerateAudio and WebSearch are only supported on 1.5-pro and 2.x models
+//   - Seed is supported on 1.5-pro and v1 models
 type TextToVideoParams struct {
 	Prompt      string        `json:"prompt" help:"required; text prompt. 1.5-pro: 3-2500 chars; 2.x: 3-20000 chars; v1: 3-10000 chars"`
 	Model       SeedanceModel `json:"model" help:"required; model slug"`
@@ -81,8 +82,8 @@ type TextToVideoParams struct {
 	// seedance-2.x additional options
 	WebSearch *bool `json:"web_search,omitempty" help:"optional; seedance-2.x only"`
 
-	// seedance-v1-lite / v1-pro additional options (ignored on other models)
-	Seed *int `json:"seed,omitempty" help:"optional; random seed in [-1, 2147483647], -1 = random"`
+	// seedance-1.5-pro and v1 additional options (ignored on other models)
+	Seed *int `json:"seed,omitempty" help:"optional for seedance-1.5-pro and v1 models; random seed in [-1, 2147483647], -1 = random"`
 }
 
 // AsyncTaskResponse is the base response for async generation tasks, embedded

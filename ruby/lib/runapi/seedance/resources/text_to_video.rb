@@ -84,7 +84,7 @@ module RunApi
           unsupported = %i[source_image_urls reference_image_urls reference_video_urls reference_audio_urls web_search generate_audio]
           reject_unsupported!(params, unsupported, model)
 
-          reject_unsupported!(params, %i[lock_camera seed], model) if model == "seedance-v1-pro-fast"
+          reject_unsupported!(params, %i[lock_camera], model) if model == "seedance-v1-pro-fast"
 
           seed = param(params, :seed)
           if seed

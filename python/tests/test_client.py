@@ -243,6 +243,20 @@ def test_v2_rejects_source_image_urls():
         )
 
 
+def test_1_5_pro_sends_seed():
+    fake = FakeHttp({"id": "task_15_seed", "status": "pending"})
+    client = SeedanceClient(api_key="k", http_client=fake)
+    client.text_to_video.create(
+        model="seedance-1.5-pro",
+        prompt="a serene lake at dawn",
+        aspect_ratio="16:9",
+        duration_seconds=4,
+        seed=42,
+    )
+
+    assert fake.calls[0][2]["seed"] == 42
+
+
 def test_1_5_pro_requires_duration():
     client = SeedanceClient(api_key="k", http_client=FakeHttp())
     with pytest.raises(
@@ -290,6 +304,21 @@ def test_v1_pro_fast_requires_first_frame():
         client.text_to_video.create(
             model="seedance-v1-pro-fast", prompt="a serene lake at dawn", duration_seconds=5
         )
+
+
+def test_v1_pro_fast_sends_seed():
+    fake = FakeHttp({"id": "task_fast_seed", "status": "pending"})
+    client = SeedanceClient(api_key="k", http_client=fake)
+    client.text_to_video.create(
+        model="seedance-v1-pro-fast",
+        prompt="animate quickly",
+        first_frame_image_url="https://cdn.runapi.ai/public/samples/image.jpg",
+        output_resolution="720p",
+        duration_seconds=5,
+        seed=42,
+    )
+
+    assert fake.calls[0][2]["seed"] == 42
 
 
 def test_v1_image_mode_rejects_aspect_ratio():

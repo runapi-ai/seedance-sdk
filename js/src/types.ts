@@ -47,11 +47,16 @@ interface AudioGenerationParams {
   generate_audio?: boolean;
 }
 
+interface SeedParams {
+  /** Random seed; `-1` for random. Integer in [-1, 2147483647]. */
+  seed?: number;
+}
+
 /**
  * seedance-1.5-pro generation parameters.
  * Supports text-to-video and image-to-video with camera lock.
  */
-export interface Generation15ProParams extends GenerationCommonParams, AudioGenerationParams, SafetyCheckerParams {
+export interface Generation15ProParams extends GenerationCommonParams, AudioGenerationParams, SafetyCheckerParams, SeedParams {
   model: 'seedance-1.5-pro';
   /** Required for seedance-1.5-pro */
   aspect_ratio: AspectRatio15Pro;
@@ -134,14 +139,12 @@ export type Generation2ReferenceParams = Generation2ReferenceFields & Generation
 // --- seedance-v1-* modes ---
 
 /** Common fields for v1-lite and v1-pro (not v1-pro-fast). */
-interface GenerationV1SharedParams extends GenerationCommonParams, SafetyCheckerParams {
+interface GenerationV1SharedParams extends GenerationCommonParams, SafetyCheckerParams, SeedParams {
   /** `5` or `10`. Required. */
   duration_seconds: DurationV1;
   output_resolution?: ResolutionV1;
   /** Lock camera movement */
   lock_camera?: boolean;
-  /** Random seed; `-1` for random. Integer in [-1, 2147483647]. */
-  seed?: number;
 }
 
 /**
@@ -172,9 +175,9 @@ export interface GenerationV1ProParams extends GenerationV1SharedParams {
 
 /**
  * seedance-v1-pro-fast image-to-video only. Smaller parameter surface —
- * no `aspect_ratio`, `lock_camera`, or `seed`.
+ * no `aspect_ratio` or `lock_camera`.
  */
-export interface GenerationV1ProFastParams extends GenerationCommonParams, SafetyCheckerParams {
+export interface GenerationV1ProFastParams extends GenerationCommonParams, SafetyCheckerParams, SeedParams {
   model: 'seedance-v1-pro-fast';
   /** Required first frame image URL. */
   first_frame_image_url: string;

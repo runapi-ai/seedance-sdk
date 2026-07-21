@@ -34,7 +34,8 @@ RSpec.describe RunApi::Seedance::Resources::TextToVideo do
         output_resolution: "720p",
         duration_seconds: 8,
         source_image_urls: ["https://cdn.runapi.ai/public/samples/input.png"],
-        lock_camera: true
+        lock_camera: true,
+        seed: 42
       )
       expect(http).to receive(:request).with(:post, endpoint, body: params)
         .and_return("id" => "task-15")
@@ -271,6 +272,21 @@ RSpec.describe RunApi::Seedance::Resources::TextToVideo do
       expect do
         text_to_video.create(model: "seedance-v1-pro-fast", prompt: "test", output_resolution: "720p", duration_seconds: 5)
       end.to raise_error(RunApi::Core::ValidationError, /first_frame_image_url is required/)
+    end
+
+    it "POSTs v1-pro-fast with seed" do
+      params = {
+        model: "seedance-v1-pro-fast",
+        prompt: "Animate quickly",
+        first_frame_image_url: "https://cdn.runapi.ai/public/samples/result.png",
+        output_resolution: "720p",
+        duration_seconds: 5,
+        seed: 42
+      }
+      expect(http).to receive(:request).with(:post, endpoint, body: params)
+        .and_return("id" => "task-fast-seed")
+
+      text_to_video.create(**params)
     end
 
     it "rejects aspect_ratio in image-to-video mode" do

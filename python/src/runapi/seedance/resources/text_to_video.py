@@ -118,7 +118,7 @@ class TextToVideo(Resource):
         self._reject_unsupported(params, unsupported, model)
 
         if model == "seedance-v1-pro-fast":
-            self._reject_unsupported(params, ["lock_camera", "seed"], model)
+            self._reject_unsupported(params, ["lock_camera"], model)
 
         seed = params.get("seed")
         if seed is not None:

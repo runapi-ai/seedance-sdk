@@ -202,7 +202,7 @@ public final class TextToVideoParams {
       return this;
     }
 
-    /** Sets the random seed. */
+    /** Sets the random seed for seedance-1.5-pro and V1 models; accepted range is -1 through 2147483647. */
     public Builder seed(int value) {
       this.seed = value;
       return this;

@@ -1,5 +1,11 @@
 # Changelog
 
+## [js/v0.2.11](https://github.com/runapi-ai/seedance-sdk/releases/tag/js%2Fv0.2.11), [ruby/v0.2.11](https://github.com/runapi-ai/seedance-sdk/releases/tag/ruby%2Fv0.2.11), [go/v0.2.11](https://github.com/runapi-ai/seedance-sdk/releases/tag/go%2Fv0.2.11), [python/v0.1.4](https://github.com/runapi-ai/seedance-sdk/releases/tag/python%2Fv0.1.4), [java/v0.1.4](https://github.com/runapi-ai/seedance-sdk/releases/tag/java%2Fv0.1.4) - 2026-07-21
+
+### Added
+- Add optional `seed` support for Seedance 1.5 Pro and V1 Pro Fast requests with integer range validation.
+
+
 ## [js/v0.2.10](https://github.com/runapi-ai/seedance-sdk/releases/tag/js%2Fv0.2.10), [ruby/v0.2.10](https://github.com/runapi-ai/seedance-sdk/releases/tag/ruby%2Fv0.2.10), [go/v0.2.10](https://github.com/runapi-ai/seedance-sdk/releases/tag/go%2Fv0.2.10), [python/v0.1.3](https://github.com/runapi-ai/seedance-sdk/releases/tag/python%2Fv0.1.3) - 2026-07-20
 
 ### Changed

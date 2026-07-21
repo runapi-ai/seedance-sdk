@@ -52,6 +52,7 @@ describe('TextToVideo', () => {
         output_resolution: '720p',
         duration_seconds: 8,
         source_image_urls: ['https://cdn.runapi.ai/public/samples/flower.jpg'],
+        seed: 42,
       });
 
       expect(mockHttp.request).toHaveBeenCalledWith(
@@ -65,10 +66,39 @@ describe('TextToVideo', () => {
             output_resolution: '720p',
             duration_seconds: 8,
             source_image_urls: ['https://cdn.runapi.ai/public/samples/flower.jpg'],
+            seed: 42,
           },
         }
       );
       expect(result).toEqual(mockResponse);
+    });
+
+    it('should send seed for seedance-v1-pro-fast', async () => {
+      const mockResponse: TaskCreateResponse = { id: 'task-fast-seed' };
+      vi.mocked(mockHttp.request).mockResolvedValueOnce(mockResponse);
+
+      const textToVideo = new TextToVideo(mockHttp);
+      await textToVideo.create({
+        prompt: 'Animate the frame quickly',
+        model: 'seedance-v1-pro-fast',
+        first_frame_image_url: 'https://cdn.runapi.ai/public/samples/image.jpg',
+        duration_seconds: 5,
+        seed: 42,
+      });
+
+      expect(mockHttp.request).toHaveBeenCalledWith(
+        'POST',
+        '/api/v1/seedance/text_to_video',
+        {
+          body: {
+            prompt: 'Animate the frame quickly',
+            model: 'seedance-v1-pro-fast',
+            first_frame_image_url: 'https://cdn.runapi.ai/public/samples/image.jpg',
+            duration_seconds: 5,
+            seed: 42,
+          },
+        }
+      );
     });
 
     it('should send correct request for frame mode', async () => {

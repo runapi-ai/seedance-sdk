@@ -53,6 +53,7 @@ class SeedanceClientTest {
             .model(TextToVideoModel.SEEDANCE_1_5_PRO)
             .aspectRatio("1:1")
             .durationSeconds(4)
+            .seed(42)
             .build()
     );
 
@@ -60,6 +61,25 @@ class SeedanceClientTest {
     assertEquals("/api/v1/seedance/text_to_video", transport.request.getPath());
     JsonNode body = bodyJson(transport.request);
     assertNotNull(body);
+    assertEquals(42, body.get("seed").asInt());
+  }
+
+  @Test
+  void createSendsSeedForV1ProFast() throws Exception {
+    CapturingTransport transport = new CapturingTransport("{\"id\":\"task_fast_seed\",\"status\":\"processing\"}");
+    SeedanceClient client = SeedanceClient.builder().apiKey("sk-test").transport(transport).build();
+
+    client.textToVideo().create(
+        TextToVideoParams.builder()
+            .prompt("Animate the frame quickly")
+            .model(TextToVideoModel.SEEDANCE_V1_PRO_FAST)
+            .firstFrameImageUrl("https://cdn.runapi.ai/public/samples/image.jpg")
+            .durationSeconds(5)
+            .seed(42)
+            .build()
+    );
+
+    assertEquals(42, bodyJson(transport.request).get("seed").asInt());
   }
 
   @Test

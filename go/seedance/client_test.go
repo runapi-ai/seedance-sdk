@@ -144,12 +144,14 @@ func TestTextToVideoCreate15Pro(t *testing.T) {
 	stub := &stubHTTPClient{}
 	client := NewClientWithHTTP(stub)
 	dur := 8
+	seed := 42
 	_, err := client.TextToVideo.Create(context.Background(), TextToVideoParams{
 		Prompt:          "a flower blooming",
 		Model:           ModelSeedance15Pro,
 		AspectRatio:     "16:9",
 		DurationSeconds: &dur,
 		SourceImageURLs: []string{"https://cdn.runapi.ai/public/samples/flower.jpg"},
+		Seed:            &seed,
 	})
 	if err != nil {
 		t.Fatal(err)
@@ -161,8 +163,32 @@ func TestTextToVideoCreate15Pro(t *testing.T) {
 	if body["duration_seconds"] != float64(8) {
 		t.Fatalf("unexpected duration_seconds: %v", body["duration_seconds"])
 	}
+	if body["seed"] != float64(42) {
+		t.Fatalf("unexpected seed: %v", body["seed"])
+	}
 	urls, ok := body["source_image_urls"].([]any)
 	if !ok || len(urls) != 1 {
 		t.Fatalf("expected source_image_urls with 1 item, got: %v", body["source_image_urls"])
+	}
+}
+
+func TestTextToVideoCreateV1ProFastWithSeed(t *testing.T) {
+	stub := &stubHTTPClient{}
+	client := NewClientWithHTTP(stub)
+	dur := 5
+	seed := 42
+	_, err := client.TextToVideo.Create(context.Background(), TextToVideoParams{
+		Prompt:             "animate the frame quickly",
+		Model:              ModelSeedanceV1ProFast,
+		FirstFrameImageURL: "https://cdn.runapi.ai/public/samples/image.jpg",
+		DurationSeconds:    &dur,
+		Seed:               &seed,
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	body := stub.body.(map[string]any)
+	if body["seed"] != float64(42) {
+		t.Fatalf("unexpected seed: %v", body["seed"])
 	}
 }
