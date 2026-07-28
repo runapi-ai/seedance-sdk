@@ -112,8 +112,8 @@ Most media endpoints are asynchronous. `create()` submits a task and returns its
 ## Public links
 
 - Model page: https://runapi.ai/models/seedance
-- SDK docs: https://runapi.ai/docs#sdk-seedance
-- Product docs: https://runapi.ai/docs#seedance
+- SDK docs: https://runapi.ai/docs/resources/sdks
+- Product docs: https://runapi.ai/docs/api/seedance/text-to-video
 - SDK repository: https://github.com/runapi-ai/seedance-sdk
 - PHP package repository: https://github.com/runapi-ai/seedance-php
 - Skill repository: https://github.com/runapi-ai/seedance
