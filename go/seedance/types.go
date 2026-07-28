@@ -1,5 +1,7 @@
 package seedance
 
+import "github.com/runapi-ai/core-sdk/go/core"
+
 // SeedanceModel identifies a Seedance model variant.
 type SeedanceModel string
 
@@ -89,6 +91,7 @@ type TextToVideoParams struct {
 // AsyncTaskResponse is the base response for async generation tasks, embedded
 // in endpoint-specific response types. It implements the core polling interface.
 type AsyncTaskResponse struct {
+	core.TaskBillingFacts
 	ID     string     `json:"id"`
 	Status TaskStatus `json:"status"`
 	Error  string     `json:"error,omitempty"`

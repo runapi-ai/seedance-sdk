@@ -1,5 +1,35 @@
 # Changelog
 
+## [go/v0.2.12](https://github.com/runapi-ai/seedance-sdk/releases/tag/go%2Fv0.2.12) - 2026-07-28
+
+### Added
+- Expose persisted billing facts on task responses.
+
+### Fixed
+- Reject request fields that Seedance model variants do not support before sending the API request.
+
+## [js/v0.2.12](https://github.com/runapi-ai/seedance-sdk/releases/tag/js%2Fv0.2.12) - 2026-07-28
+
+### Added
+- Type task billing facts on task responses.
+
+### Fixed
+- Reject request fields that Seedance model variants do not support before sending the API request.
+
+## [ruby/v0.2.12](https://github.com/runapi-ai/seedance-sdk/releases/tag/ruby%2Fv0.2.12) - 2026-07-28
+
+### Added
+- Expose live pricing through the shared core SDK.
+
+### Fixed
+- Reject request fields that Seedance model variants do not support before sending the API request.
+
+## [python/v0.2.1](https://github.com/runapi-ai/seedance-sdk/releases/tag/python%2Fv0.2.1) - 2026-07-28
+
+### Fixed
+- Reject request fields that Seedance model variants do not support before sending the API request.
+
+
 ## [python/v0.2.0](https://github.com/runapi-ai/seedance-sdk/releases/tag/python%2Fv0.2.0) - 2026-07-24
 
 ### Added

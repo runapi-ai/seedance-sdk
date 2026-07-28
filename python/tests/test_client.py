@@ -235,7 +235,7 @@ def test_v2_frame_and_reference_conflict():
 
 def test_v2_rejects_source_image_urls():
     client = SeedanceClient(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="source_image_urls is not supported"):
+    with pytest.raises(ValidationError, match="source_image_urls is not allowed when model is seedance-2.0"):
         client.text_to_video.create(
             model="seedance-2.0",
             prompt="a serene lake at dawn",

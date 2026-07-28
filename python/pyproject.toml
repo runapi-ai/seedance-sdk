@@ -4,14 +4,14 @@ build-backend = "hatchling.build"
 
 [project]
 name = "runapi-seedance"
-version = "0.2.0"
+version = "0.2.1"
 description = "RunAPI Seedance SDK for text-to-video workflows in JavaScript, Python, Ruby, Go, Java, and PHP"
 readme = "README.md"
 requires-python = ">=3.9"
 license = "Apache-2.0"
 authors = [{ name = "RunAPI", email = "contact@runapi.ai" }]
 keywords = ["runapi", "runapi-ai", "seedance", "api", "sdk", "typescript", "python", "ruby", "golang", "java", "maven", "gradle", "video-generation", "text-to-video", "video-api", "seedance-api"]
-dependencies = ["runapi-core>=0.3.0"]
+dependencies = ["runapi-core>=0.3.1"]
 
 [project.urls]
 Homepage = "https://runapi.ai/models/seedance"
@@ -19,7 +19,7 @@ Documentation = "https://runapi.ai/docs#sdk-seedance"
 Source = "https://github.com/runapi-ai/seedance-sdk"
 Issues = "https://github.com/runapi-ai/seedance-sdk/issues"
 Changelog = "https://github.com/runapi-ai/seedance-sdk/blob/main/CHANGELOG.md"
-"Release Notes" = "https://github.com/runapi-ai/seedance-sdk/releases/tag/python%2Fv0.2.0"
+"Release Notes" = "https://github.com/runapi-ai/seedance-sdk/releases/tag/python%2Fv0.2.1"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/runapi"]

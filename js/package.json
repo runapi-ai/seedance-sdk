@@ -3,7 +3,7 @@
   "runapi": {
     "slug": "seedance"
   },
-  "version": "0.2.11",
+  "version": "0.2.12",
   "description": "RunAPI Seedance SDK for text-to-video workflows in JavaScript, Python, Ruby, Go, Java, and PHP",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -31,7 +31,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@runapi.ai/core": "^0.2.15"
+    "@runapi.ai/core": "^0.3.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

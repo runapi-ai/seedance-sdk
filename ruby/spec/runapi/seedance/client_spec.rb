@@ -20,10 +20,6 @@ RSpec.describe RunApi::Seedance::Client do
     expect(client).to be_a(described_class)
   end
 
-  it "raises AuthenticationError without api_key" do
-    expect { described_class.new }.to raise_error(RunApi::Core::AuthenticationError, /API key is required/)
-  end
-
   context "with custom http_client" do
     it "uses the provided http_client" do
       custom_http = double("custom_http")

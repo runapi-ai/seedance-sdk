@@ -228,6 +228,95 @@ export const contract = {
           "type": "integer"
         }
       }
-    }
+    },
+    "rules": [
+      {
+        "when": {
+          "model": "seedance-1.5-pro"
+        },
+        "forbidden": [
+          "first_frame_image_url",
+          "last_frame_image_url",
+          "reference_image_urls",
+          "reference_video_urls",
+          "reference_audio_urls",
+          "web_search"
+        ]
+      },
+      {
+        "when": {
+          "model": "seedance-2-mini"
+        },
+        "forbidden": [
+          "source_image_urls",
+          "lock_camera",
+          "seed",
+          "enable_safety_checker"
+        ]
+      },
+      {
+        "when": {
+          "model": "seedance-2.0"
+        },
+        "forbidden": [
+          "source_image_urls",
+          "lock_camera",
+          "seed"
+        ]
+      },
+      {
+        "when": {
+          "model": "seedance-2.0-fast"
+        },
+        "forbidden": [
+          "source_image_urls",
+          "lock_camera",
+          "seed"
+        ]
+      },
+      {
+        "when": {
+          "model": "seedance-v1-lite"
+        },
+        "forbidden": [
+          "source_image_urls",
+          "reference_image_urls",
+          "reference_video_urls",
+          "reference_audio_urls",
+          "web_search",
+          "generate_audio"
+        ]
+      },
+      {
+        "when": {
+          "model": "seedance-v1-pro"
+        },
+        "forbidden": [
+          "source_image_urls",
+          "last_frame_image_url",
+          "reference_image_urls",
+          "reference_video_urls",
+          "reference_audio_urls",
+          "web_search",
+          "generate_audio"
+        ]
+      },
+      {
+        "when": {
+          "model": "seedance-v1-pro-fast"
+        },
+        "forbidden": [
+          "aspect_ratio",
+          "source_image_urls",
+          "lock_camera",
+          "last_frame_image_url",
+          "reference_image_urls",
+          "reference_video_urls",
+          "reference_audio_urls",
+          "web_search",
+          "generate_audio"
+        ]
+      }
+    ]
   }
 } as const;

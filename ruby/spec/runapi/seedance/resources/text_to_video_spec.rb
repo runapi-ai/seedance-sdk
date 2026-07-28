@@ -72,12 +72,12 @@ RSpec.describe RunApi::Seedance::Resources::TextToVideo do
 
     it "rejects first_frame_image_url (frame mode is seedance-2.0 only)" do
       expect { text_to_video.create(**base_params.merge(first_frame_image_url: "https://cdn.runapi.ai/public/samples/result.png")) }
-        .to raise_error(RunApi::Core::ValidationError, /first_frame_image_url is not supported for seedance-1\.5-pro/)
+        .to raise_error(RunApi::Core::ValidationError, /first_frame_image_url is not allowed when model is seedance-1\.5-pro/)
     end
 
     it "rejects reference_image_urls (reference mode is seedance-2.0 only)" do
       expect { text_to_video.create(**base_params.merge(reference_image_urls: ["https://cdn.runapi.ai/public/samples/result.png"])) }
-        .to raise_error(RunApi::Core::ValidationError, /reference_image_urls is not supported/)
+        .to raise_error(RunApi::Core::ValidationError, /reference_image_urls is not allowed when model is seedance-1\.5-pro/)
     end
   end
 
@@ -157,7 +157,7 @@ RSpec.describe RunApi::Seedance::Resources::TextToVideo do
           prompt: "test",
           source_image_urls: ["https://cdn.runapi.ai/public/samples/result.png"]
         )
-      end.to raise_error(RunApi::Core::ValidationError, /source_image_urls is not supported for seedance-2.0/)
+      end.to raise_error(RunApi::Core::ValidationError, /source_image_urls is not allowed when model is seedance-2.0/)
     end
 
     it "rejects lock_camera (1.5-pro only field)" do
@@ -167,7 +167,7 @@ RSpec.describe RunApi::Seedance::Resources::TextToVideo do
           prompt: "test",
           lock_camera: true
         )
-      end.to raise_error(RunApi::Core::ValidationError, /lock_camera is not supported for seedance-2.0-fast/)
+      end.to raise_error(RunApi::Core::ValidationError, /lock_camera is not allowed when model is seedance-2.0-fast/)
     end
 
     it "raises ValidationError for out-of-range duration_seconds" do
@@ -312,7 +312,7 @@ RSpec.describe RunApi::Seedance::Resources::TextToVideo do
           output_resolution: "720p",
           duration_seconds: 5
         )
-      end.to raise_error(RunApi::Core::ValidationError, /last_frame_image_url is only supported by seedance-v1-lite/)
+      end.to raise_error(RunApi::Core::ValidationError, /last_frame_image_url is not allowed when model is seedance-v1-pro/)
     end
 
     it "rejects 480p on v1-pro-fast" do
