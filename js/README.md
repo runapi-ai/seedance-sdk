@@ -2,7 +2,7 @@
 
 The Seedance JavaScript SDK is the language-specific package for Seedance on RunAPI. Use this package for video generation, animation, and video editing workflows when your application needs request bodies, task status lookup, and consistent RunAPI errors in JavaScript.
 
-This README is the JavaScript package guide inside the public `seedance-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/seedance; for API reference, use https://runapi.ai/docs#seedance; for SDK docs, use https://runapi.ai/docs#sdk-seedance.
+This README is the JavaScript package guide inside the public `seedance-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/seedance; for API reference, use https://runapi.ai/docs/api/seedance/text-to-video; for SDK docs, use https://runapi.ai/docs/resources/sdks.
 
 ## Install
 
@@ -17,7 +17,7 @@ import { SeedanceClient } from '@runapi.ai/seedance';
 
 const client = new SeedanceClient();
 const task = await client.textToVideo.create({
-  // Pass the Seedance JSON request body from https://runapi.ai/docs#seedance.
+  // Pass the Seedance JSON request body from https://runapi.ai/docs/api/seedance/text-to-video.
 });
 const status = await client.textToVideo.get(task.id);
 ```
@@ -33,8 +33,8 @@ Use the TypeScript types in `src/types.ts` and the resource classes under `src/r
 ## Links
 
 - Model page: https://runapi.ai/models/seedance
-- SDK docs: https://runapi.ai/docs#sdk-seedance
-- Product docs: https://runapi.ai/docs#seedance
+- SDK docs: https://runapi.ai/docs/resources/sdks
+- Product docs: https://runapi.ai/docs/api/seedance/text-to-video
 - Pricing and rate limits: https://runapi.ai/models/seedance/v1-lite
 - Provider comparison: https://runapi.ai/providers/bytedance
 - Full catalog: https://runapi.ai/models

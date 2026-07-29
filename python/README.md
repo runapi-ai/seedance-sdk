@@ -2,7 +2,7 @@
 
 The Seedance Python SDK is the language-specific package for Seedance on RunAPI. Use this package for video generation, animation, and video editing workflows when your application needs request bodies, task status lookup, and consistent RunAPI errors in Python.
 
-This README is the Python package guide inside the public `seedance-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/seedance; for API reference, use https://runapi.ai/docs#seedance; for SDK docs, use https://runapi.ai/docs#sdk-seedance.
+This README is the Python package guide inside the public `seedance-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/seedance; for API reference, use https://runapi.ai/docs/api/seedance/text-to-video; for SDK docs, use https://runapi.ai/docs/resources/sdks.
 
 ## Install
 
@@ -47,8 +47,8 @@ Pass parameters as keyword arguments and catch the `runapi.seedance` error class
 ## Links
 
 - Model page: https://runapi.ai/models/seedance
-- SDK docs: https://runapi.ai/docs#sdk-seedance
-- Product docs: https://runapi.ai/docs#seedance
+- SDK docs: https://runapi.ai/docs/resources/sdks
+- Product docs: https://runapi.ai/docs/api/seedance/text-to-video
 - Pricing and rate limits: https://runapi.ai/models/seedance/v1-lite
 - Provider comparison: https://runapi.ai/providers/bytedance
 - Full catalog: https://runapi.ai/models
