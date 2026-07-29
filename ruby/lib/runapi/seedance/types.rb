@@ -8,8 +8,8 @@ module RunApi
     # contract; the constants here back the bespoke checks the contract cannot
     # express (per-model prompt length and seed range).
     module Types
-      # V1-generation model identifiers: lite (low-cost), pro (high-quality), and pro-fast (speed-optimized).
-      V1_MODELS = %w[seedance-v1-lite seedance-v1-pro seedance-v1-pro-fast].freeze
+      # V1-generation model identifiers: pro (high-quality) and pro-fast (speed-optimized).
+      V1_MODELS = %w[seedance-v1-pro seedance-v1-pro-fast].freeze
 
       # Valid seed range; -1 requests a random seed.
       SEED_RANGE = (-1..2_147_483_647)

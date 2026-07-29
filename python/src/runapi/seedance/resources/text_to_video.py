@@ -100,12 +100,8 @@ class TextToVideo(Resource):
                 "aspect_ratio is not accepted in image-to-video mode; it is derived from the image"
             )
 
-        if self._field_present(params, "last_frame_image_url") and not (
-            model == "seedance-v1-lite" and has_image
-        ):
-            raise ValidationError(
-                "last_frame_image_url is only supported by seedance-v1-lite in image-to-video mode"
-            )
+        if self._field_present(params, "last_frame_image_url"):
+            raise ValidationError(f"last_frame_image_url is not supported by {model}")
 
         unsupported = [
             "source_image_urls",

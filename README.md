@@ -39,7 +39,7 @@ Gradle:
 
 ```kotlin
 dependencies {
-  implementation("ai.runapi:runapi-seedance:0.1.4")
+  implementation("ai.runapi:runapi-seedance:0.1.5")
 }
 ```
 
@@ -49,7 +49,7 @@ Maven:
 <dependency>
   <groupId>ai.runapi</groupId>
   <artifactId>runapi-seedance</artifactId>
-  <version>0.1.4</version>
+  <version>0.1.5</version>
 </dependency>
 ```
 
@@ -57,7 +57,7 @@ Use the Java BOM when installing multiple RunAPI Java modules:
 
 ```kotlin
 dependencies {
-  implementation(platform("ai.runapi:runapi-bom:0.2.7"))
+  implementation(platform("ai.runapi:runapi-bom:0.2.9"))
   implementation("ai.runapi:runapi-seedance")
 }
 ```
@@ -123,7 +123,6 @@ Most media endpoints are asynchronous. `create()` submits a task and returns its
 ## Pricing and variants
 
 Use the most specific Seedance variant page for pricing, rate limits, and commercial usage:
-- [v1 lite](https://runapi.ai/models/seedance/v1-lite)
 - [v1 pro](https://runapi.ai/models/seedance/v1-pro)
 - [v1 pro fast](https://runapi.ai/models/seedance/v1-pro-fast)
 - [1.5 pro](https://runapi.ai/models/seedance/1.5-pro)
@@ -131,7 +130,7 @@ Use the most specific Seedance variant page for pricing, rate limits, and commer
 - [2.0 fast](https://runapi.ai/models/seedance/2.0-fast)
 - [2.0 mini](https://runapi.ai/models/seedance/2-mini)
 
-Default pricing link for the Seedance SDK: https://runapi.ai/models/seedance/v1-lite
+Default pricing link for the Seedance SDK: https://runapi.ai/models/seedance/v1-pro
 
 ## File storage
 
@@ -145,7 +144,7 @@ Install the model package for your language: `@runapi.ai/seedance` on npm, `runa
 
 ### Where should public links point?
 
-Primary Seedance links point to https://runapi.ai/models/seedance. Pricing and usage-policy links point to variant pages such as https://runapi.ai/models/seedance/v1-lite. Provider comparisons point to https://runapi.ai/providers/bytedance, and broad browsing points to https://runapi.ai/models.
+Primary Seedance links point to https://runapi.ai/models/seedance. Pricing and usage-policy links point to variant pages such as https://runapi.ai/models/seedance/v1-pro. Provider comparisons point to https://runapi.ai/providers/bytedance, and broad browsing points to https://runapi.ai/models.
 
 ## License
 

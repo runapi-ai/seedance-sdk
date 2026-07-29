@@ -1,6 +1,6 @@
 CONTRACT = {
     "text-to-video": {
-        "models": ["seedance-1.5-pro", "seedance-2-mini", "seedance-2.0", "seedance-2.0-fast", "seedance-v1-lite", "seedance-v1-pro", "seedance-v1-pro-fast"],
+        "models": ["seedance-1.5-pro", "seedance-2-mini", "seedance-2.0", "seedance-2.0-fast", "seedance-v1-pro", "seedance-v1-pro-fast"],
         "fields_by_model": {
             "seedance-1.5-pro": {
                 "aspect_ratio": {
@@ -90,22 +90,6 @@ CONTRACT = {
                     "max_items": 3
                 }
             },
-            "seedance-v1-lite": {
-                "aspect_ratio": {
-                    "enum": ["1:1", "4:3", "3:4", "16:9", "9:16", "9:21"]
-                },
-                "duration_seconds": {
-                    "enum": [5, 10],
-                    "required": True,
-                    "type": "integer"
-                },
-                "output_resolution": {
-                    "enum": ["480p", "720p", "1080p"]
-                },
-                "seed": {
-                    "type": "integer"
-                }
-            },
             "seedance-v1-pro": {
                 "aspect_ratio": {
                     "enum": ["1:1", "4:3", "3:4", "16:9", "9:16", "21:9"]
@@ -161,11 +145,6 @@ CONTRACT = {
                 "model": "seedance-2.0-fast"
             },
             "forbidden": ["source_image_urls", "lock_camera", "seed"]
-        }, {
-            "when": {
-                "model": "seedance-v1-lite"
-            },
-            "forbidden": ["source_image_urls", "reference_image_urls", "reference_video_urls", "reference_audio_urls", "web_search", "generate_audio"]
         }, {
             "when": {
                 "model": "seedance-v1-pro"

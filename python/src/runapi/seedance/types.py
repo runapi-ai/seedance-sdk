@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from runapi.core import BaseModel, TaskResponse, optional, required
 
-V1_MODELS = ["seedance-v1-lite", "seedance-v1-pro", "seedance-v1-pro-fast"]
+V1_MODELS = ["seedance-v1-pro", "seedance-v1-pro-fast"]
 
 SEED_RANGE = range(-1, 2_147_483_648)
 

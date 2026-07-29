@@ -293,7 +293,7 @@ def test_v1_requires_duration():
     with pytest.raises(
         ValidationError, match="duration_seconds is required"
     ):
-        client.text_to_video.create(model="seedance-v1-lite", prompt="a serene lake at dawn")
+        client.text_to_video.create(model="seedance-v1-pro", prompt="a serene lake at dawn")
 
 
 def test_v1_pro_fast_requires_first_frame():
@@ -327,7 +327,7 @@ def test_v1_image_mode_rejects_aspect_ratio():
         ValidationError, match="aspect_ratio is not accepted in image-to-video mode"
     ):
         client.text_to_video.create(
-            model="seedance-v1-lite",
+            model="seedance-v1-pro",
             prompt="a serene lake at dawn",
             duration_seconds=5,
             first_frame_image_url="https://x/a.png",
@@ -341,7 +341,7 @@ def test_v1_seed_range():
         ValidationError, match="seed must be an integer between -1 and 2147483647"
     ):
         client.text_to_video.create(
-            model="seedance-v1-lite",
+            model="seedance-v1-pro",
             prompt="a serene lake at dawn",
             duration_seconds=5,
             seed=-5,

@@ -6,17 +6,15 @@ export type SeedanceModel =
   | 'seedance-2.0'
   | 'seedance-2.0-fast'
   | 'seedance-2-mini'
-  | 'seedance-v1-lite'
   | 'seedance-v1-pro'
   | 'seedance-v1-pro-fast';
 export type SeedanceModel2 = 'seedance-2.0' | 'seedance-2.0-fast' | 'seedance-2-mini';
 export type SeedanceModel2WithSafetyChecker = 'seedance-2.0' | 'seedance-2.0-fast';
-export type SeedanceModelV1 = 'seedance-v1-lite' | 'seedance-v1-pro' | 'seedance-v1-pro-fast';
+export type SeedanceModelV1 = 'seedance-v1-pro' | 'seedance-v1-pro-fast';
 
 // Aspect ratios
 export type AspectRatio15Pro = '1:1' | '4:3' | '3:4' | '16:9' | '9:16' | '21:9';
 export type AspectRatio2 = AspectRatio15Pro | 'auto';
-export type AspectRatioV1Lite = '1:1' | '4:3' | '3:4' | '16:9' | '9:16' | '9:21';
 export type AspectRatioV1Pro = '1:1' | '4:3' | '3:4' | '16:9' | '9:16' | '21:9';
 
 // Resolutions
@@ -138,27 +136,13 @@ export type Generation2ReferenceParams = Generation2ReferenceFields & Generation
 
 // --- seedance-v1-* modes ---
 
-/** Common fields for v1-lite and v1-pro (not v1-pro-fast). */
+/** Common fields for v1-pro (not v1-pro-fast). */
 interface GenerationV1SharedParams extends GenerationCommonParams, SafetyCheckerParams, SeedParams {
   /** `5` or `10`. Required. */
   duration_seconds: DurationV1;
   output_resolution?: ResolutionV1;
   /** Lock camera movement */
   lock_camera?: boolean;
-}
-
-/**
- * seedance-v1-lite text-to-video or image-to-video. Mode is auto-detected by
- * `first_frame_image_url` presence. `last_frame_image_url` is only valid in image-to-video mode.
- */
-export interface GenerationV1LiteParams extends GenerationV1SharedParams {
-  model: 'seedance-v1-lite';
-  /** Required in text-to-video mode. Omit when `first_frame_image_url` is set. */
-  aspect_ratio?: AspectRatioV1Lite;
-  /** First frame image URL. Triggers image-to-video mode when set. */
-  first_frame_image_url?: string;
-  /** Ending frame image URL; image-to-video mode only. */
-  last_frame_image_url?: string;
 }
 
 /**
@@ -191,7 +175,6 @@ export type TextToVideoParams =
   | Generation2TextParams
   | Generation2FrameParams
   | Generation2ReferenceParams
-  | GenerationV1LiteParams
   | GenerationV1ProParams
   | GenerationV1ProFastParams;
 

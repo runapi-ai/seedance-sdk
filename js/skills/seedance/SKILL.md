@@ -78,7 +78,6 @@ RunAPI-generated file URLs are temporary. Download and store generated images, v
 
 ## Variants
 
-- [v1 lite](https://runapi.ai/models/seedance/v1-lite.md)
 - [v1 pro](https://runapi.ai/models/seedance/v1-pro.md)
 - [v1 pro fast](https://runapi.ai/models/seedance/v1-pro-fast.md)
 - [1.5 pro](https://runapi.ai/models/seedance/1.5-pro.md)

@@ -237,37 +237,6 @@ RSpec.describe RunApi::Seedance::Resources::TextToVideo do
   end
 
   describe "#create (seedance-v1-*)" do
-    it "POSTs v1-lite text-to-video happy path" do
-      params = {
-        model: "seedance-v1-lite",
-        prompt: "A boat at dawn",
-        aspect_ratio: "16:9",
-        output_resolution: "720p",
-        duration_seconds: 5,
-        lock_camera: true,
-        seed: 42
-      }
-      expect(http).to receive(:request).with(:post, endpoint, body: params)
-        .and_return("id" => "task-v1")
-
-      text_to_video.create(**params)
-    end
-
-    it "POSTs v1-lite image-to-video with last_frame_image_url" do
-      params = {
-        model: "seedance-v1-lite",
-        prompt: "Animate",
-        first_frame_image_url: "https://cdn.runapi.ai/public/samples/first-frame.png",
-        last_frame_image_url: "https://cdn.runapi.ai/public/samples/last-frame.png",
-        output_resolution: "720p",
-        duration_seconds: 10
-      }
-      expect(http).to receive(:request).with(:post, endpoint, body: params)
-        .and_return("id" => "task-v1")
-
-      text_to_video.create(**params)
-    end
-
     it "rejects v1-pro-fast without first_frame_image_url" do
       expect do
         text_to_video.create(model: "seedance-v1-pro-fast", prompt: "test", output_resolution: "720p", duration_seconds: 5)
@@ -292,7 +261,7 @@ RSpec.describe RunApi::Seedance::Resources::TextToVideo do
     it "rejects aspect_ratio in image-to-video mode" do
       expect do
         text_to_video.create(
-          model: "seedance-v1-lite",
+          model: "seedance-v1-pro",
           prompt: "test",
           first_frame_image_url: "https://cdn.runapi.ai/public/samples/result.png",
           aspect_ratio: "16:9",
@@ -330,7 +299,7 @@ RSpec.describe RunApi::Seedance::Resources::TextToVideo do
     it "rejects duration_seconds not in v1 enum" do
       expect do
         text_to_video.create(
-          model: "seedance-v1-lite",
+          model: "seedance-v1-pro",
           prompt: "test",
           aspect_ratio: "16:9",
           output_resolution: "720p",
@@ -342,7 +311,7 @@ RSpec.describe RunApi::Seedance::Resources::TextToVideo do
     it "rejects seed out of range" do
       expect do
         text_to_video.create(
-          model: "seedance-v1-lite",
+          model: "seedance-v1-pro",
           prompt: "test",
           aspect_ratio: "16:9",
           output_resolution: "720p",
@@ -355,7 +324,7 @@ RSpec.describe RunApi::Seedance::Resources::TextToVideo do
     it "rejects prompt longer than 10000 characters for v1" do
       expect do
         text_to_video.create(
-          model: "seedance-v1-lite",
+          model: "seedance-v1-pro",
           prompt: "a" * 10001,
           aspect_ratio: "16:9",
           output_resolution: "720p",

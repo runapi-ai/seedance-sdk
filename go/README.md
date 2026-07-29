@@ -39,7 +39,7 @@ Use the public Go module with `github.com/runapi-ai/core-sdk/go` options when bu
 - Model page: https://runapi.ai/models/seedance
 - SDK docs: https://runapi.ai/docs/resources/sdks
 - Product docs: https://runapi.ai/docs/api/seedance/text-to-video
-- Pricing and rate limits: https://runapi.ai/models/seedance/v1-lite
+- Pricing and rate limits: https://runapi.ai/models/seedance/v1-pro
 - Provider comparison: https://runapi.ai/providers/bytedance
 - Full catalog: https://runapi.ai/models
 - Repository: https://github.com/runapi-ai/seedance-sdk

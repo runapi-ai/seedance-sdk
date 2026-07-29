@@ -254,38 +254,6 @@ describe('TextToVideo', () => {
       expect(mockHttp.request).not.toHaveBeenCalled();
     });
 
-    it('should send correct request for seedance-v1-lite text-to-video', async () => {
-      const mockResponse: TaskCreateResponse = { id: 'task-v1-lite' };
-      vi.mocked(mockHttp.request).mockResolvedValueOnce(mockResponse);
-
-      const textToVideo = new TextToVideo(mockHttp);
-      await textToVideo.create({
-        model: 'seedance-v1-lite',
-        prompt: 'A boat at dawn',
-        aspect_ratio: '16:9',
-        output_resolution: '720p',
-        duration_seconds: 5,
-        lock_camera: true,
-        seed: 42,
-      });
-
-      expect(mockHttp.request).toHaveBeenCalledWith(
-        'POST',
-        '/api/v1/seedance/text_to_video',
-        {
-          body: {
-            model: 'seedance-v1-lite',
-            prompt: 'A boat at dawn',
-            aspect_ratio: '16:9',
-            output_resolution: '720p',
-            duration_seconds: 5,
-            lock_camera: true,
-            seed: 42,
-          },
-        }
-      );
-    });
-
     it('should send correct request for seedance-v1-pro-fast image-to-video', async () => {
       const mockResponse: TaskCreateResponse = { id: 'task-v1-fast' };
       vi.mocked(mockHttp.request).mockResolvedValueOnce(mockResponse);

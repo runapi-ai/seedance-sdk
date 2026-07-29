@@ -1,5 +1,12 @@
 # Changelog
 
+## [js/v0.2.13](https://github.com/runapi-ai/seedance-sdk/releases/tag/js%2Fv0.2.13), [ruby/v0.2.13](https://github.com/runapi-ai/seedance-sdk/releases/tag/ruby%2Fv0.2.13), [go/v0.2.13](https://github.com/runapi-ai/seedance-sdk/releases/tag/go%2Fv0.2.13), [python/v0.2.2](https://github.com/runapi-ai/seedance-sdk/releases/tag/python%2Fv0.2.2), [java/v0.1.5](https://github.com/runapi-ai/seedance-sdk/releases/tag/java%2Fv0.1.5) - 2026-07-29
+
+### Removed
+- Remove seedance-v1-lite from the supported Seedance model contract.
+  Migration: Use seedance-v1-pro or another supported Seedance model.
+
+
 ## [go/v0.2.12](https://github.com/runapi-ai/seedance-sdk/releases/tag/go%2Fv0.2.12) - 2026-07-28
 
 ### Added

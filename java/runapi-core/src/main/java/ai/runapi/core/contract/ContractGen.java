@@ -88,7 +88,7 @@ contract.put("elevenlabs/text-to-speech", new ContractAction(
             {"text-to-speech-multilingual-v2", fields(new Object[][] {
                     {"callback_url", field()},
                     {"language_code", field()},
-                    {"model", field()},
+                    {"model", field(required())},
                     {"next_text", field()},
                     {"previous_text", field()},
                     {"similarity_boost", field()},
@@ -102,7 +102,7 @@ contract.put("elevenlabs/text-to-speech", new ContractAction(
             {"text-to-speech-turbo-v2.5", fields(new Object[][] {
                     {"callback_url", field()},
                     {"language_code", field()},
-                    {"model", field()},
+                    {"model", field(required())},
                     {"next_text", field()},
                     {"previous_text", field()},
                     {"similarity_boost", field()},
@@ -121,12 +121,12 @@ contract.put("fish-audio/text-to-speech", new ContractAction(
     list("s1", "s2-pro"),
           fieldsByModel(new Object[][] {
             {"s1", fields(new Object[][] {
-                    {"model", field()},
+                    {"model", field(required())},
                     {"references", field()},
                     {"text", field(required())},
             })},
             {"s2-pro", fields(new Object[][] {
-                    {"model", field()},
+                    {"model", field(required())},
                     {"references", field()},
                     {"text", field(required())},
             })},
@@ -281,9 +281,9 @@ contract.put("gemini-omni/create-audio", new ContractAction(
           fieldsByModel(new Object[][] {
             {"gemini-omni-audio", fields(new Object[][] {
                     {"audio_id", field(required())},
-                    {"example_dialogue", field()},
-                    {"name", field(required())},
-                    {"voice_description", field()},
+                    {"example_dialogue", field(max(Double.valueOf(120.0)), length())},
+                    {"name", field(required(), max(Double.valueOf(210.0)), length())},
+                    {"voice_description", field(max(Double.valueOf(20000.0)), length())},
             })},
           })));
 contract.put("gemini-omni/create-character", new ContractAction(
@@ -291,8 +291,8 @@ contract.put("gemini-omni/create-character", new ContractAction(
           fieldsByModel(new Object[][] {
             {"gemini-omni-character", fields(new Object[][] {
                     {"audio_ids", field()},
-                    {"character_name", field()},
-                    {"descriptions", field(required())},
+                    {"character_name", field(max(Double.valueOf(210.0)), length())},
+                    {"descriptions", field(required(), max(Double.valueOf(20000.0)), length())},
                     {"reference_image_url", field(required())},
             })},
           })));
@@ -307,7 +307,7 @@ contract.put("gemini-omni/text-to-video", new ContractAction(
                     {"duration_seconds", field()},
                     {"model", field()},
                     {"output_resolution", field(enumValues("720p"))},
-                    {"prompt", field(required())},
+                    {"prompt", field(required(), max(Double.valueOf(20000.0)), length())},
                     {"reference_image_urls", field()},
                     {"seed", field()},
                     {"video_list", field()},
@@ -320,9 +320,9 @@ contract.put("gemini-omni/text-to-video", new ContractAction(
                     {"duration_seconds", field(required(), enumValues(Integer.valueOf(4), Integer.valueOf(6), Integer.valueOf(8), Integer.valueOf(10)))},
                     {"model", field()},
                     {"output_resolution", field(enumValues("720p", "1080p", "4k"))},
-                    {"prompt", field(required())},
+                    {"prompt", field(required(), max(Double.valueOf(20000.0)), length())},
                     {"reference_image_urls", field(maxItems(7))},
-                    {"seed", field()},
+                    {"seed", field(min(Double.valueOf(0.0)), max(Double.valueOf(2147483647.0)))},
                     {"video_list", field(maxItems(1))},
             })},
           }),
@@ -420,7 +420,7 @@ contract.put("grok-imagine/edit-image", new ContractAction(
             {"grok-imagine-edit-image", fields(new Object[][] {
                     {"callback_url", field()},
                     {"enable_safety_checker", field()},
-                    {"model", field()},
+                    {"model", field(required())},
                     {"prompt", field()},
                     {"source_image_url", field(required())},
             })},
@@ -430,10 +430,10 @@ contract.put("grok-imagine/extend", new ContractAction(
           fieldsByModel(new Object[][] {
             {"_", fields(new Object[][] {
                     {"callback_url", field()},
-                    {"extension_duration_seconds", field(enumValues(Integer.valueOf(6), Integer.valueOf(10)))},
-                    {"prompt", field()},
-                    {"source_task_id", field()},
-                    {"start_seconds", field()},
+                    {"extension_duration_seconds", field(required(), enumValues(Integer.valueOf(6), Integer.valueOf(10)))},
+                    {"prompt", field(required(), max(Double.valueOf(5000.0)), length())},
+                    {"source_task_id", field(required())},
+                    {"start_seconds", field(required(), min(Double.valueOf(0.0)))},
             })},
           })));
 contract.put("grok-imagine/image-to-video", new ContractAction(
@@ -442,13 +442,13 @@ contract.put("grok-imagine/image-to-video", new ContractAction(
             {"grok-imagine-image-to-video", fields(new Object[][] {
                     {"aspect_ratio", field(enumValues("2:3", "3:2", "1:1", "16:9", "9:16"))},
                     {"callback_url", field()},
-                    {"duration_seconds", field()},
+                    {"duration_seconds", field(min(Double.valueOf(6.0)), max(Double.valueOf(30.0)))},
                     {"enable_safety_checker", field()},
-                    {"index", field()},
-                    {"model", field()},
+                    {"index", field(min(Double.valueOf(0.0)), max(Double.valueOf(5.0)))},
+                    {"model", field(required())},
                     {"motion_style", field(enumValues("fun", "normal", "spicy"))},
                     {"output_resolution", field(enumValues("480p", "720p"))},
-                    {"prompt", field()},
+                    {"prompt", field(max(Double.valueOf(5000.0)), length())},
                     {"reference_image_urls", field()},
                     {"source_image_url", field()},
                     {"source_task_id", field()},
@@ -459,10 +459,10 @@ contract.put("grok-imagine/image-to-video", new ContractAction(
                     {"duration_seconds", field(min(Double.valueOf(1.0)), max(Double.valueOf(30.0)))},
                     {"enable_safety_checker", field()},
                     {"index", field()},
-                    {"model", field()},
+                    {"model", field(required())},
                     {"motion_style", field()},
                     {"output_resolution", field(enumValues("480p", "720p"))},
-                    {"prompt", field()},
+                    {"prompt", field(max(Double.valueOf(5000.0)), length())},
                     {"reference_image_urls", field()},
                     {"source_image_url", field(required())},
                     {"source_task_id", field()},
@@ -473,7 +473,7 @@ contract.put("grok-imagine/image-to-video", new ContractAction(
                     {"duration_seconds", field(min(Double.valueOf(1.0)), max(Double.valueOf(15.0)))},
                     {"enable_safety_checker", field()},
                     {"index", field()},
-                    {"model", field()},
+                    {"model", field(required())},
                     {"motion_style", field()},
                     {"output_resolution", field(enumValues("480p", "720p"))},
                     {"prompt", field(min(Double.valueOf(1.0)), max(Double.valueOf(4096.0)), length())},
@@ -495,8 +495,8 @@ contract.put("grok-imagine/text-to-image", new ContractAction(
                     {"callback_url", field()},
                     {"enable_pro", field()},
                     {"enable_safety_checker", field()},
-                    {"model", field()},
-                    {"prompt", field()},
+                    {"model", field(required())},
+                    {"prompt", field(required(), max(Double.valueOf(5000.0)), length())},
             })},
           })));
   }
@@ -508,12 +508,12 @@ contract.put("grok-imagine/text-to-video", new ContractAction(
             {"grok-imagine-text-to-video", fields(new Object[][] {
                     {"aspect_ratio", field(enumValues("2:3", "3:2", "1:1", "16:9", "9:16"))},
                     {"callback_url", field()},
-                    {"duration_seconds", field()},
+                    {"duration_seconds", field(min(Double.valueOf(6.0)), max(Double.valueOf(30.0)))},
                     {"enable_safety_checker", field()},
-                    {"model", field()},
+                    {"model", field(required())},
                     {"motion_style", field(enumValues("fun", "normal", "spicy"))},
                     {"output_resolution", field(enumValues("480p", "720p"))},
-                    {"prompt", field()},
+                    {"prompt", field(required(), max(Double.valueOf(5000.0)), length())},
                     {"reference_image_urls", field()},
             })},
             {"grok-imagine-video-1.5-fast", fields(new Object[][] {
@@ -521,10 +521,10 @@ contract.put("grok-imagine/text-to-video", new ContractAction(
                     {"callback_url", field()},
                     {"duration_seconds", field(min(Double.valueOf(1.0)), max(Double.valueOf(30.0)))},
                     {"enable_safety_checker", field()},
-                    {"model", field()},
+                    {"model", field(required())},
                     {"motion_style", field()},
                     {"output_resolution", field(enumValues("480p", "720p"))},
-                    {"prompt", field(required())},
+                    {"prompt", field(required(), max(Double.valueOf(5000.0)), length())},
                     {"reference_image_urls", field()},
             })},
             {"grok-imagine-video-1.5-preview", fields(new Object[][] {
@@ -532,7 +532,7 @@ contract.put("grok-imagine/text-to-video", new ContractAction(
                     {"callback_url", field()},
                     {"duration_seconds", field(min(Double.valueOf(1.0)), max(Double.valueOf(15.0)))},
                     {"enable_safety_checker", field()},
-                    {"model", field()},
+                    {"model", field(required())},
                     {"motion_style", field()},
                     {"output_resolution", field(enumValues("480p", "720p"))},
                     {"prompt", field(required(), min(Double.valueOf(1.0)), max(Double.valueOf(4096.0)), length())},
@@ -549,7 +549,7 @@ contract.put("grok-imagine/upscale-image", new ContractAction(
           fieldsByModel(new Object[][] {
             {"_", fields(new Object[][] {
                     {"callback_url", field()},
-                    {"source_task_id", field()},
+                    {"source_task_id", field(required())},
             })},
           })));
 contract.put("hailuo/image-to-video", new ContractAction(
@@ -1320,11 +1320,11 @@ contract.put("openai-tts/text-to-speech", new ContractAction(
     list("tts-1", "tts-1-hd"),
           fieldsByModel(new Object[][] {
             {"tts-1", fields(new Object[][] {
-                    {"model", field()},
+                    {"model", field(required())},
                     {"text", field(required(), max(Double.valueOf(4096.0)), length())},
             })},
             {"tts-1-hd", fields(new Object[][] {
-                    {"model", field()},
+                    {"model", field(required())},
                     {"text", field(required(), max(Double.valueOf(4096.0)), length())},
             })},
           })));
@@ -1536,7 +1536,7 @@ contract.put("runway/text-to-video", new ContractAction(
             })},
           })));
 contract.put("seedance/text-to-video", new ContractAction(
-    list("seedance-1.5-pro", "seedance-2-mini", "seedance-2.0", "seedance-2.0-fast", "seedance-v1-lite", "seedance-v1-pro", "seedance-v1-pro-fast"),
+    list("seedance-1.5-pro", "seedance-2-mini", "seedance-2.0", "seedance-2.0-fast", "seedance-v1-pro", "seedance-v1-pro-fast"),
           fieldsByModel(new Object[][] {
             {"seedance-1.5-pro", fields(new Object[][] {
                     {"aspect_ratio", field(enumValues("1:1", "4:3", "3:4", "16:9", "9:16", "21:9"))},
@@ -1598,19 +1598,6 @@ contract.put("seedance/text-to-video", new ContractAction(
                     {"reference_video_urls", field(maxItems(3))},
                     {"web_search", field()},
             })},
-            {"seedance-v1-lite", fields(new Object[][] {
-                    {"aspect_ratio", field(enumValues("1:1", "4:3", "3:4", "16:9", "9:16", "9:21"))},
-                    {"callback_url", field()},
-                    {"duration_seconds", field(required(), enumValues(Integer.valueOf(5), Integer.valueOf(10)))},
-                    {"enable_safety_checker", field()},
-                    {"first_frame_image_url", field()},
-                    {"last_frame_image_url", field()},
-                    {"lock_camera", field()},
-                    {"model", field()},
-                    {"output_resolution", field(enumValues("480p", "720p", "1080p"))},
-                    {"prompt", field()},
-                    {"seed", field()},
-            })},
             {"seedance-v1-pro", fields(new Object[][] {
                     {"aspect_ratio", field(enumValues("1:1", "4:3", "3:4", "16:9", "9:16", "21:9"))},
                     {"callback_url", field()},
@@ -1639,7 +1626,6 @@ contract.put("seedance/text-to-video", new ContractAction(
 {"seedance-2-mini", rules(rule(conditions(new Object[][] {{"model", "seedance-2-mini"}}), list(), list("source_image_urls", "lock_camera", "seed", "enable_safety_checker")))},
 {"seedance-2.0", rules(rule(conditions(new Object[][] {{"model", "seedance-2.0"}}), list(), list("source_image_urls", "lock_camera", "seed")))},
 {"seedance-2.0-fast", rules(rule(conditions(new Object[][] {{"model", "seedance-2.0-fast"}}), list(), list("source_image_urls", "lock_camera", "seed")))},
-{"seedance-v1-lite", rules(rule(conditions(new Object[][] {{"model", "seedance-v1-lite"}}), list(), list("source_image_urls", "reference_image_urls", "reference_video_urls", "reference_audio_urls", "web_search", "generate_audio")))},
 {"seedance-v1-pro", rules(rule(conditions(new Object[][] {{"model", "seedance-v1-pro"}}), list(), list("source_image_urls", "last_frame_image_url", "reference_image_urls", "reference_video_urls", "reference_audio_urls", "web_search", "generate_audio")))},
 {"seedance-v1-pro-fast", rules(rule(conditions(new Object[][] {{"model", "seedance-v1-pro-fast"}}), list(), list("aspect_ratio", "source_image_urls", "lock_camera", "last_frame_image_url", "reference_image_urls", "reference_video_urls", "reference_audio_urls", "web_search", "generate_audio")))},
           })));
@@ -1701,9 +1687,6 @@ contract.put("seedream/edit-image", new ContractAction(
 {"seedream-5-pro-edit", rules(rule(conditions(new Object[][] {{"model", "seedream-5-pro-edit"}}), list(), list("output_resolution", "output_count", "seed")))},
 {"seedream-v4-edit", rules(rule(conditions(new Object[][] {{"model", "seedream-v4-edit"}}), list(), list("output_format")))},
           })));
-  }
-
-  private static void addActions10(Map<String, ContractAction> contract) {
 contract.put("seedream/text-to-image", new ContractAction(
     list("seedream-4.5-text-to-image", "seedream-5-lite-text-to-image", "seedream-5-pro-text-to-image", "seedream-v4-text-to-image"),
           fieldsByModel(new Object[][] {
@@ -1758,6 +1741,9 @@ contract.put("seedream/text-to-image", new ContractAction(
 {"seedream-5-pro-text-to-image", rules(rule(conditions(new Object[][] {{"model", "seedream-5-pro-text-to-image"}}), list(), list("output_resolution", "output_count", "seed")))},
 {"seedream-v4-text-to-image", rules(rule(conditions(new Object[][] {{"model", "seedream-v4-text-to-image"}}), list(), list("output_format")))},
           })));
+  }
+
+  private static void addActions10(Map<String, ContractAction> contract) {
 contract.put("suno/add-instrumental", new ContractAction(
     list("suno-v4.5-plus", "suno-v5", "suno-v5.5"),
           fieldsByModel(new Object[][] {
@@ -1765,10 +1751,10 @@ contract.put("suno/add-instrumental", new ContractAction(
                     {"audio_weight", field()},
                     {"callback_url", field()},
                     {"model", field(required())},
-                    {"negative_tags", field()},
+                    {"negative_tags", field(required())},
                     {"style_weight", field()},
-                    {"tags", field()},
-                    {"title", field()},
+                    {"tags", field(required())},
+                    {"title", field(required())},
                     {"upload_url", field(required())},
                     {"vocal_gender", field(enumValues("male", "female"))},
                     {"weirdness_constraint", field()},
@@ -1777,10 +1763,10 @@ contract.put("suno/add-instrumental", new ContractAction(
                     {"audio_weight", field()},
                     {"callback_url", field()},
                     {"model", field(required())},
-                    {"negative_tags", field()},
+                    {"negative_tags", field(required())},
                     {"style_weight", field()},
-                    {"tags", field()},
-                    {"title", field()},
+                    {"tags", field(required())},
+                    {"title", field(required())},
                     {"upload_url", field(required())},
                     {"vocal_gender", field(enumValues("male", "female"))},
                     {"weirdness_constraint", field()},
@@ -1789,10 +1775,10 @@ contract.put("suno/add-instrumental", new ContractAction(
                     {"audio_weight", field()},
                     {"callback_url", field()},
                     {"model", field(required())},
-                    {"negative_tags", field()},
+                    {"negative_tags", field(required())},
                     {"style_weight", field()},
-                    {"tags", field()},
-                    {"title", field()},
+                    {"tags", field(required())},
+                    {"title", field(required())},
                     {"upload_url", field(required())},
                     {"vocal_gender", field(enumValues("male", "female"))},
                     {"weirdness_constraint", field()},
@@ -1806,10 +1792,10 @@ contract.put("suno/add-vocals", new ContractAction(
                     {"callback_url", field()},
                     {"lyrics", field(required())},
                     {"model", field(required())},
-                    {"negative_tags", field()},
-                    {"style", field()},
+                    {"negative_tags", field(required())},
+                    {"style", field(required())},
                     {"style_weight", field()},
-                    {"title", field()},
+                    {"title", field(required())},
                     {"upload_url", field(required())},
                     {"vocal_gender", field(enumValues("male", "female"))},
                     {"weirdness_constraint", field()},
@@ -1819,10 +1805,10 @@ contract.put("suno/add-vocals", new ContractAction(
                     {"callback_url", field()},
                     {"lyrics", field(required())},
                     {"model", field(required())},
-                    {"negative_tags", field()},
-                    {"style", field()},
+                    {"negative_tags", field(required())},
+                    {"style", field(required())},
                     {"style_weight", field()},
-                    {"title", field()},
+                    {"title", field(required())},
                     {"upload_url", field(required())},
                     {"vocal_gender", field(enumValues("male", "female"))},
                     {"weirdness_constraint", field()},
@@ -1841,7 +1827,7 @@ contract.put("suno/boost-style", new ContractAction(
     list(),
           fieldsByModel(new Object[][] {
             {"_", fields(new Object[][] {
-                    {"description", field()},
+                    {"description", field(required())},
             })},
           })));
 contract.put("suno/check-voice", new ContractAction(
@@ -1855,9 +1841,9 @@ contract.put("suno/convert-audio", new ContractAction(
     list(),
           fieldsByModel(new Object[][] {
             {"_", fields(new Object[][] {
-                    {"audio_id", field()},
+                    {"audio_id", field(required())},
                     {"callback_url", field()},
-                    {"task_id", field()},
+                    {"task_id", field(required())},
             })},
           })));
 contract.put("suno/cover-audio", new ContractAction(
@@ -2098,7 +2084,7 @@ contract.put("suno/extend-music", new ContractAction(
                     {"lyrics", field()},
                     {"model", field(required())},
                     {"negative_tags", field()},
-                    {"parameter_mode", field(enumValues("source", "custom"))},
+                    {"parameter_mode", field(required(), enumValues("source", "custom"))},
                     {"persona_id", field()},
                     {"persona_type", field(enumValues("style", "voice"))},
                     {"prompt", field()},
@@ -2120,7 +2106,7 @@ contract.put("suno/extend-music", new ContractAction(
                     {"lyrics", field()},
                     {"model", field(required())},
                     {"negative_tags", field()},
-                    {"parameter_mode", field(enumValues("source", "custom"))},
+                    {"parameter_mode", field(required(), enumValues("source", "custom"))},
                     {"persona_id", field()},
                     {"persona_type", field(enumValues("style", "voice"))},
                     {"prompt", field()},
@@ -2142,7 +2128,7 @@ contract.put("suno/extend-music", new ContractAction(
                     {"lyrics", field()},
                     {"model", field(required())},
                     {"negative_tags", field()},
-                    {"parameter_mode", field(enumValues("source", "custom"))},
+                    {"parameter_mode", field(required(), enumValues("source", "custom"))},
                     {"persona_id", field()},
                     {"persona_type", field(enumValues("style", "voice"))},
                     {"prompt", field()},
@@ -2164,7 +2150,7 @@ contract.put("suno/extend-music", new ContractAction(
                     {"lyrics", field()},
                     {"model", field(required())},
                     {"negative_tags", field()},
-                    {"parameter_mode", field(enumValues("source", "custom"))},
+                    {"parameter_mode", field(required(), enumValues("source", "custom"))},
                     {"persona_id", field()},
                     {"persona_type", field(enumValues("style", "voice"))},
                     {"prompt", field()},
@@ -2186,7 +2172,7 @@ contract.put("suno/extend-music", new ContractAction(
                     {"lyrics", field()},
                     {"model", field(required())},
                     {"negative_tags", field()},
-                    {"parameter_mode", field(enumValues("source", "custom"))},
+                    {"parameter_mode", field(required(), enumValues("source", "custom"))},
                     {"persona_id", field()},
                     {"persona_type", field(enumValues("style", "voice"))},
                     {"prompt", field()},
@@ -2208,7 +2194,7 @@ contract.put("suno/extend-music", new ContractAction(
                     {"lyrics", field()},
                     {"model", field(required())},
                     {"negative_tags", field()},
-                    {"parameter_mode", field(enumValues("source", "custom"))},
+                    {"parameter_mode", field(required(), enumValues("source", "custom"))},
                     {"persona_id", field()},
                     {"persona_type", field(enumValues("style", "voice"))},
                     {"prompt", field()},
@@ -2242,17 +2228,17 @@ contract.put("suno/generate-midi", new ContractAction(
           fieldsByModel(new Object[][] {
             {"_", fields(new Object[][] {
                     {"callback_url", field()},
-                    {"task_id", field()},
+                    {"task_id", field(required())},
             })},
           })));
 contract.put("suno/generate-persona", new ContractAction(
     list(),
           fieldsByModel(new Object[][] {
             {"_", fields(new Object[][] {
-                    {"audio_id", field()},
-                    {"description", field()},
-                    {"name", field()},
-                    {"task_id", field()},
+                    {"audio_id", field(required())},
+                    {"description", field(required())},
+                    {"name", field(required())},
+                    {"task_id", field(required())},
             })},
           })));
   }
@@ -2275,8 +2261,8 @@ contract.put("suno/get-timestamped-lyrics", new ContractAction(
     list(),
           fieldsByModel(new Object[][] {
             {"_", fields(new Object[][] {
-                    {"audio_id", field()},
-                    {"task_id", field()},
+                    {"audio_id", field(required())},
+                    {"task_id", field(required())},
             })},
           })));
 contract.put("suno/regenerate-validation-phrase", new ContractAction(
@@ -2465,11 +2451,11 @@ contract.put("suno/visualize-music", new ContractAction(
     list(),
           fieldsByModel(new Object[][] {
             {"_", fields(new Object[][] {
-                    {"audio_id", field()},
+                    {"audio_id", field(required())},
                     {"author", field()},
                     {"callback_url", field()},
                     {"domain_name", field()},
-                    {"task_id", field()},
+                    {"task_id", field(required())},
             })},
           })));
   }
@@ -2483,7 +2469,7 @@ contract.put("suno/voice-to-validation-phrase", new ContractAction(
                     {"language", field(enumValues("en", "zh", "es", "fr", "pt", "de", "ja", "ko", "hi", "ru"))},
                     {"vocal_end_seconds", field(required())},
                     {"vocal_start_seconds", field(required())},
-                    {"voice_url", field()},
+                    {"voice_url", field(required())},
             })},
           })));
 contract.put("topaz/upscale-image", new ContractAction(
@@ -2491,7 +2477,7 @@ contract.put("topaz/upscale-image", new ContractAction(
           fieldsByModel(new Object[][] {
             {"topaz-upscale-image", fields(new Object[][] {
                     {"callback_url", field()},
-                    {"model", field()},
+                    {"model", field(required())},
                     {"source_image_url", field(required())},
                     {"upscale_factor", field(required(), enumValues(Integer.valueOf(1), Integer.valueOf(2), Integer.valueOf(4), Integer.valueOf(8)))},
             })},
@@ -2501,7 +2487,7 @@ contract.put("topaz/upscale-video", new ContractAction(
           fieldsByModel(new Object[][] {
             {"topaz-upscale-video", fields(new Object[][] {
                     {"callback_url", field()},
-                    {"model", field()},
+                    {"model", field(required())},
                     {"source_video_url", field(required())},
                     {"upscale_factor", field(enumValues(Integer.valueOf(1), Integer.valueOf(2), Integer.valueOf(4)))},
             })},
@@ -2733,7 +2719,7 @@ contract.put("wan/image-to-video", new ContractAction(
                     {"background_audio_url", field()},
                     {"callback_url", field()},
                     {"driving_audio_url", field()},
-                    {"duration_seconds", field()},
+                    {"duration_seconds", field(enumValues(Integer.valueOf(5), Integer.valueOf(10), Integer.valueOf(15)))},
                     {"enable_prompt_expansion", field()},
                     {"enable_safety_checker", field()},
                     {"first_frame_image_url", field(required())},

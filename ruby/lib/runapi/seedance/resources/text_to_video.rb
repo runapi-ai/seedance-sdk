@@ -77,8 +77,8 @@ module RunApi
             raise Core::ValidationError, "aspect_ratio is not accepted in image-to-video mode; it is derived from the image"
           end
 
-          if field_present?(params, :last_frame_image_url) && !(model == "seedance-v1-lite" && has_image)
-            raise Core::ValidationError, "last_frame_image_url is only supported by seedance-v1-lite in image-to-video mode"
+          if field_present?(params, :last_frame_image_url)
+            raise Core::ValidationError, "last_frame_image_url is not supported by #{model}"
           end
 
           unsupported = %i[source_image_urls reference_image_urls reference_video_urls reference_audio_urls web_search generate_audio]

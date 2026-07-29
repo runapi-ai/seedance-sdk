@@ -30,11 +30,6 @@ const (
 	// mode, audio generation, web search, and 4-15 second duration support.
 	ModelSeedance2Mini SeedanceModel = "seedance-2-mini"
 
-	// ModelSeedanceV1Lite is the lightweight V1 model. Supports image-to-video
-	// via FirstFrameImageURL and LastFrameImageURL, camera lock, and seed
-	// control. Lower cost than pro variants.
-	ModelSeedanceV1Lite SeedanceModel = "seedance-v1-lite"
-
 	// ModelSeedanceV1Pro is the high-quality V1 model. Supports image-to-video
 	// via FirstFrameImageURL, camera lock, and seed control. Prompts up to
 	// 10000 characters.
@@ -70,11 +65,11 @@ type TextToVideoParams struct {
 
 	// seedance-1.5-pro image-to-video source images
 	SourceImageURLs []string `json:"source_image_urls,omitempty" help:"optional for seedance-1.5-pro image-to-video, max 2 source images"`
-	LockCamera      *bool    `json:"lock_camera,omitempty" help:"optional; seedance-1.5-pro, v1-lite, and v1-pro only"`
+	LockCamera      *bool    `json:"lock_camera,omitempty" help:"optional; seedance-1.5-pro and v1-pro only"`
 
 	// seedance-2.x frame mode; seedance-v1-* image-to-video uses first_frame_image_url
 	FirstFrameImageURL string `json:"first_frame_image_url,omitempty" help:"required for seedance-v1-pro-fast and optional for v1 image-to-video; seedance-2.x frame mode first frame image URL"`
-	LastFrameImageURL  string `json:"last_frame_image_url,omitempty" help:"optional; seedance-2.x frame mode last frame image URL, or v1-lite image-to-video end frame image URL"`
+	LastFrameImageURL  string `json:"last_frame_image_url,omitempty" help:"optional; seedance-2.x frame mode last frame image URL"`
 
 	// seedance-2.x reference mode
 	ReferenceImageURLs []string `json:"reference_image_urls,omitempty" help:"optional; max 9 reference images"`

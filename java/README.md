@@ -16,7 +16,7 @@ Gradle:
 
 ```kotlin
 dependencies {
-  implementation("ai.runapi:runapi-seedance:0.1.4")
+  implementation("ai.runapi:runapi-seedance:0.1.5")
 }
 ```
 
@@ -26,7 +26,7 @@ Maven:
 <dependency>
   <groupId>ai.runapi</groupId>
   <artifactId>runapi-seedance</artifactId>
-  <version>0.1.4</version>
+  <version>0.1.5</version>
 </dependency>
 ```
 
@@ -34,7 +34,7 @@ Use the BOM when multiple RunAPI Java modules are installed:
 
 ```kotlin
 dependencies {
-  implementation(platform("ai.runapi:runapi-bom:0.2.7"))
+  implementation(platform("ai.runapi:runapi-bom:0.2.9"))
   implementation("ai.runapi:runapi-seedance")
 }
 ```
@@ -47,7 +47,7 @@ Maven BOM:
     <dependency>
       <groupId>ai.runapi</groupId>
       <artifactId>runapi-bom</artifactId>
-      <version>0.2.7</version>
+      <version>0.2.9</version>
       <type>pom</type>
       <scope>import</scope>
     </dependency>
@@ -181,7 +181,7 @@ try {
 - Model page: https://runapi.ai/models/seedance
 - SDK docs: https://runapi.ai/docs/resources/sdks
 - Product docs: https://runapi.ai/docs/api/seedance/text-to-video
-- Pricing and rate limits: https://runapi.ai/models/seedance/v1-lite
+- Pricing and rate limits: https://runapi.ai/models/seedance/v1-pro
 - Full catalog: https://runapi.ai/models
 - Repository: https://github.com/runapi-ai/seedance-sdk
 
