@@ -5,6 +5,7 @@ export type SeedanceModel =
   | 'seedance-1.5-pro'
   | 'seedance-2.0'
   | 'seedance-2.0-fast'
+  | 'seedance-2.5'
   | 'seedance-2-mini'
   | 'seedance-v1-pro'
   | 'seedance-v1-pro-fast';
@@ -20,6 +21,7 @@ export type AspectRatioV1Pro = '1:1' | '4:3' | '3:4' | '16:9' | '9:16' | '21:9';
 // Resolutions
 export type Resolution15Pro = '480p' | '720p' | '1080p';
 export type Resolution2 = '480p' | '720p' | '1080p' | '4k';
+export type Resolution25 = '480p' | '720p';
 export type ResolutionV1 = '480p' | '720p' | '1080p';
 export type ResolutionV1ProFast = '720p' | '1080p';
 
@@ -134,6 +136,51 @@ interface Generation2ReferenceFields extends Generation2BaseFields {
  */
 export type Generation2ReferenceParams = Generation2ReferenceFields & Generation2ModelFields;
 
+// --- seedance-2.5 modes (mutually exclusive) ---
+
+export type OutputFormat25 = 'mp4' | 'mov';
+
+interface Generation25BaseFields extends GenerationCommonParams, AudioGenerationParams, SafetyCheckerParams {
+  model: 'seedance-2.5';
+  aspect_ratio?: AspectRatio2;
+  output_resolution?: Resolution25;
+  /** `-1` selects duration automatically; explicit durations are integers from 4 through 30. */
+  duration_seconds?: number;
+  /** Return the generated video's last frame. */
+  return_last_frame?: boolean;
+  /** Output video container. */
+  output_format?: OutputFormat25;
+  /** Enable online prompt enrichment. */
+  web_search?: boolean;
+}
+
+export interface Generation25TextParams extends Generation25BaseFields {
+  first_frame_image_url?: never;
+  last_frame_image_url?: never;
+  reference_image_urls?: never;
+  reference_video_urls?: never;
+  reference_audio_urls?: never;
+}
+
+export interface Generation25FrameParams extends Generation25BaseFields {
+  first_frame_image_url: string;
+  last_frame_image_url?: string;
+  reference_image_urls?: never;
+  reference_video_urls?: never;
+  reference_audio_urls?: never;
+}
+
+export interface Generation25ReferenceParams extends Generation25BaseFields {
+  /** Reference image URLs, up to 30. */
+  reference_image_urls?: string[];
+  /** Reference video URLs, up to 10. */
+  reference_video_urls?: string[];
+  /** Reference audio URLs, up to 10. */
+  reference_audio_urls?: string[];
+  first_frame_image_url?: never;
+  last_frame_image_url?: never;
+}
+
 // --- seedance-v1-* modes ---
 
 /** Common fields for v1-pro (not v1-pro-fast). */
@@ -175,6 +222,9 @@ export type TextToVideoParams =
   | Generation2TextParams
   | Generation2FrameParams
   | Generation2ReferenceParams
+  | Generation25TextParams
+  | Generation25FrameParams
+  | Generation25ReferenceParams
   | GenerationV1ProParams
   | GenerationV1ProFastParams;
 

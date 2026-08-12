@@ -1,6 +1,6 @@
 CONTRACT = {
     "text-to-video": {
-        "models": ["seedance-1.5-pro", "seedance-2-mini", "seedance-2.0", "seedance-2.0-fast", "seedance-v1-pro", "seedance-v1-pro-fast"],
+        "models": ["seedance-1.5-pro", "seedance-2-mini", "seedance-2.0", "seedance-2.0-fast", "seedance-2.5", "seedance-v1-pro", "seedance-v1-pro-fast"],
         "fields_by_model": {
             "seedance-1.5-pro": {
                 "aspect_ratio": {
@@ -90,6 +90,39 @@ CONTRACT = {
                     "max_items": 3
                 }
             },
+            "seedance-2.5": {
+                "aspect_ratio": {
+                    "enum": ["1:1", "4:3", "3:4", "16:9", "9:16", "21:9", "auto"]
+                },
+                "duration_seconds": {
+                    "enum": [-1, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30],
+                    "type": "integer"
+                },
+                "model": {
+                    "required": True
+                },
+                "output_format": {
+                    "enum": ["mp4", "mov"]
+                },
+                "output_resolution": {
+                    "enum": ["480p", "720p"]
+                },
+                "prompt": {
+                    "required": True,
+                    "min": 3,
+                    "max": 30000,
+                    "length": True
+                },
+                "reference_audio_urls": {
+                    "max_items": 10
+                },
+                "reference_image_urls": {
+                    "max_items": 30
+                },
+                "reference_video_urls": {
+                    "max_items": 10
+                }
+            },
             "seedance-v1-pro": {
                 "aspect_ratio": {
                     "enum": ["1:1", "4:3", "3:4", "16:9", "9:16", "21:9"]
@@ -127,34 +160,56 @@ CONTRACT = {
         },
         "rules": [{
             "when": {
+                "model": "seedance-2.5",
+                "first_frame_image_url": {
+                    "present": True
+                }
+            },
+            "forbidden": ["reference_image_urls", "reference_video_urls", "reference_audio_urls"]
+        }, {
+            "when": {
+                "model": "seedance-2.5",
+                "last_frame_image_url": {
+                    "present": True
+                }
+            },
+            "required": ["first_frame_image_url"],
+            "forbidden": ["reference_image_urls", "reference_video_urls", "reference_audio_urls"]
+        }, {
+            "when": {
                 "model": "seedance-1.5-pro"
             },
-            "forbidden": ["first_frame_image_url", "last_frame_image_url", "reference_image_urls", "reference_video_urls", "reference_audio_urls", "web_search"]
+            "forbidden": ["first_frame_image_url", "last_frame_image_url", "reference_image_urls", "reference_video_urls", "reference_audio_urls", "web_search", "return_last_frame", "output_format"]
         }, {
             "when": {
                 "model": "seedance-2-mini"
             },
-            "forbidden": ["source_image_urls", "lock_camera", "seed", "enable_safety_checker"]
+            "forbidden": ["source_image_urls", "lock_camera", "seed", "enable_safety_checker", "return_last_frame", "output_format"]
         }, {
             "when": {
                 "model": "seedance-2.0"
             },
-            "forbidden": ["source_image_urls", "lock_camera", "seed"]
+            "forbidden": ["source_image_urls", "lock_camera", "seed", "return_last_frame", "output_format"]
         }, {
             "when": {
                 "model": "seedance-2.0-fast"
+            },
+            "forbidden": ["source_image_urls", "lock_camera", "seed", "return_last_frame", "output_format"]
+        }, {
+            "when": {
+                "model": "seedance-2.5"
             },
             "forbidden": ["source_image_urls", "lock_camera", "seed"]
         }, {
             "when": {
                 "model": "seedance-v1-pro"
             },
-            "forbidden": ["source_image_urls", "last_frame_image_url", "reference_image_urls", "reference_video_urls", "reference_audio_urls", "web_search", "generate_audio"]
+            "forbidden": ["source_image_urls", "last_frame_image_url", "reference_image_urls", "reference_video_urls", "reference_audio_urls", "web_search", "generate_audio", "return_last_frame", "output_format"]
         }, {
             "when": {
                 "model": "seedance-v1-pro-fast"
             },
-            "forbidden": ["aspect_ratio", "source_image_urls", "lock_camera", "last_frame_image_url", "reference_image_urls", "reference_video_urls", "reference_audio_urls", "web_search", "generate_audio"]
+            "forbidden": ["aspect_ratio", "source_image_urls", "lock_camera", "last_frame_image_url", "reference_image_urls", "reference_video_urls", "reference_audio_urls", "web_search", "generate_audio", "return_last_frame", "output_format"]
         }]
     }
 }

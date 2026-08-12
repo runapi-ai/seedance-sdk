@@ -73,16 +73,17 @@ class TextToVideo(Resource):
         self._validate_contract(CONTRACT["text-to-video"], params)
 
         model = params.get("model")
-        if model == "seedance-1.5-pro":
-            max_prompt = PROMPT_MAX_LENGTH_1_5
-        elif model in V1_MODELS:
-            max_prompt = PROMPT_MAX_LENGTH_V1
-        else:
-            max_prompt = PROMPT_MAX_LENGTH_2
-        if not (PROMPT_MIN_LENGTH <= len(prompt) <= max_prompt):
-            raise ValidationError(
-                f"prompt length must be between {PROMPT_MIN_LENGTH} and {max_prompt} characters"
-            )
+        if model != "seedance-2.5":
+            if model == "seedance-1.5-pro":
+                max_prompt = PROMPT_MAX_LENGTH_1_5
+            elif model in V1_MODELS:
+                max_prompt = PROMPT_MAX_LENGTH_V1
+            else:
+                max_prompt = PROMPT_MAX_LENGTH_2
+            if not (PROMPT_MIN_LENGTH <= len(prompt) <= max_prompt):
+                raise ValidationError(
+                    f"prompt length must be between {PROMPT_MIN_LENGTH} and {max_prompt} characters"
+                )
 
         if model == "seedance-1.5-pro":
             self._validate_1_5_pro(params)

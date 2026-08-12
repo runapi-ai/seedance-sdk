@@ -53,13 +53,15 @@ module RunApi
           validate_contract!(CONTRACT["text-to-video"], params)
 
           model = param(params, :model)
-          max_prompt = case model
-          when "seedance-1.5-pro" then Types::PROMPT_MAX_LENGTH_1_5
-          when *Types::V1_MODELS then Types::PROMPT_MAX_LENGTH_V1
-          else Types::PROMPT_MAX_LENGTH_2
-          end
-          unless prompt.length.between?(Types::PROMPT_MIN_LENGTH, max_prompt)
-            raise Core::ValidationError, "prompt length must be between #{Types::PROMPT_MIN_LENGTH} and #{max_prompt} characters"
+          unless model == "seedance-2.5"
+            max_prompt = case model
+            when "seedance-1.5-pro" then Types::PROMPT_MAX_LENGTH_1_5
+            when *Types::V1_MODELS then Types::PROMPT_MAX_LENGTH_V1
+            else Types::PROMPT_MAX_LENGTH_2
+            end
+            unless prompt.length.between?(Types::PROMPT_MIN_LENGTH, max_prompt)
+              raise Core::ValidationError, "prompt length must be between #{Types::PROMPT_MIN_LENGTH} and #{max_prompt} characters"
+            end
           end
 
           case model

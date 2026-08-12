@@ -21,7 +21,7 @@
 </div>
 <br/>
 
-Generate video with Seedance 1.5 Pro, 2.0, 2.0 Fast, and 2.0 Mini text-to-video and image-to-video. This skill helps Claude Code, Codex, Gemini CLI, Cursor, and 50+ agents integrate Seedance through RunAPI.
+Generate video with Seedance 1.5 Pro, 2.0, 2.0 Fast, 2.0 Mini, and 2.5 text, frame, and reference workflows. This skill helps Claude Code, Codex, Gemini CLI, Cursor, and 50+ agents integrate Seedance through RunAPI.
 
 The canonical agent file is `skills/seedance/SKILL.md`.
 
@@ -51,9 +51,11 @@ import { SeedanceClient } from '@runapi.ai/seedance';
 
 const client = new SeedanceClient();
 const result = await client.textToVideo.run({
-  model: 'seedance-2.0',
-  prompt: 'A drone shot over mountains at sunset',
-  aspect_ratio: '16:9',
+  model: 'seedance-2.5',
+  prompt: 'A drone shot over mountains at sunset, following the reference pacing',
+  reference_video_urls: ['https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4'],
+  duration_seconds: -1,
+  output_resolution: '720p',
 });
 const url = result.videos[0].url;
 ```
@@ -76,6 +78,7 @@ const url = result.videos[0].url;
 - [2.0](https://runapi.ai/models/seedance/2.0)
 - [2.0 fast](https://runapi.ai/models/seedance/2.0-fast)
 - [2.0 mini](https://runapi.ai/models/seedance/2-mini)
+- [2.5](https://runapi.ai/models/seedance/2.5)
 
 ## Agent rules
 

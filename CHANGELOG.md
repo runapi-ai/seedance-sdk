@@ -1,5 +1,11 @@
 # Changelog
 
+## [js/v0.2.14](https://github.com/runapi-ai/seedance-sdk/releases/tag/js%2Fv0.2.14), [ruby/v0.2.14](https://github.com/runapi-ai/seedance-sdk/releases/tag/ruby%2Fv0.2.14), [go/v0.2.14](https://github.com/runapi-ai/seedance-sdk/releases/tag/go%2Fv0.2.14), [python/v0.2.3](https://github.com/runapi-ai/seedance-sdk/releases/tag/python%2Fv0.2.3), [java/v0.1.6](https://github.com/runapi-ai/seedance-sdk/releases/tag/java%2Fv0.1.6) - 2026-08-12
+
+### Added
+- Add Seedance 2.5 text, frame-guided, and multimodal reference request support.
+
+
 ## [js/v0.2.13](https://github.com/runapi-ai/seedance-sdk/releases/tag/js%2Fv0.2.13), [ruby/v0.2.13](https://github.com/runapi-ai/seedance-sdk/releases/tag/ruby%2Fv0.2.13), [go/v0.2.13](https://github.com/runapi-ai/seedance-sdk/releases/tag/go%2Fv0.2.13), [python/v0.2.2](https://github.com/runapi-ai/seedance-sdk/releases/tag/python%2Fv0.2.2), [java/v0.1.5](https://github.com/runapi-ai/seedance-sdk/releases/tag/java%2Fv0.1.5) - 2026-07-29
 
 ### Removed

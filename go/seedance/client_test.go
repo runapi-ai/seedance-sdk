@@ -140,6 +140,33 @@ func TestTextToVideoCreateMini(t *testing.T) {
 	}
 }
 
+func TestTextToVideoCreateSeedance25(t *testing.T) {
+	stub := &stubHTTPClient{}
+	client := NewClientWithHTTP(stub)
+	duration := -1
+	returnLastFrame := true
+	_, err := client.TextToVideo.Create(context.Background(), TextToVideoParams{
+		Prompt:             "match the reference media",
+		Model:              ModelSeedance25,
+		ReferenceImageURLs: []string{"https://cdn.runapi.ai/public/samples/reference.jpg"},
+		ReferenceVideoURLs: []string{"https://cdn.runapi.ai/public/samples/reference.mp4"},
+		DurationSeconds:    &duration,
+		ReturnLastFrame:    &returnLastFrame,
+		OutputFormat:       "mov",
+		OutputResolution:   "720p",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	body := stub.body.(map[string]any)
+	if body["model"] != "seedance-2.5" || body["duration_seconds"] != float64(-1) {
+		t.Fatalf("unexpected Seedance 2.5 body: %v", body)
+	}
+	if body["return_last_frame"] != true || body["output_format"] != "mov" {
+		t.Fatalf("missing Seedance 2.5 fields: %v", body)
+	}
+}
+
 func TestTextToVideoCreate15Pro(t *testing.T) {
 	stub := &stubHTTPClient{}
 	client := NewClientWithHTTP(stub)

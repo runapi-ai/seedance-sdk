@@ -14,6 +14,8 @@ public final class TextToVideoParams {
   private final Integer durationSeconds;
   private final Boolean generateAudio;
   private final Boolean enableSafetyChecker;
+  private final Boolean returnLastFrame;
+  private final String outputFormat;
   private final List<String> sourceImageUrls;
   private final Boolean lockCamera;
   private final String firstFrameImageUrl;
@@ -33,6 +35,8 @@ public final class TextToVideoParams {
     this.durationSeconds = builder.durationSeconds;
     this.generateAudio = builder.generateAudio;
     this.enableSafetyChecker = builder.enableSafetyChecker;
+    this.returnLastFrame = builder.returnLastFrame;
+    this.outputFormat = builder.outputFormat;
     this.sourceImageUrls = SeedanceParamUtils.strings(builder.sourceImageUrls);
     this.lockCamera = builder.lockCamera;
     this.firstFrameImageUrl = builder.firstFrameImageUrl;
@@ -65,6 +69,8 @@ public final class TextToVideoParams {
     raw.put("duration_seconds", SeedanceParamUtils.wireValue(durationSeconds));
     raw.put("generate_audio", SeedanceParamUtils.wireValue(generateAudio));
     raw.put("enable_safety_checker", SeedanceParamUtils.wireValue(enableSafetyChecker));
+    raw.put("return_last_frame", SeedanceParamUtils.wireValue(returnLastFrame));
+    raw.put("output_format", SeedanceParamUtils.wireValue(outputFormat));
     raw.put("source_image_urls", SeedanceParamUtils.wireValue(sourceImageUrls));
     raw.put("lock_camera", SeedanceParamUtils.wireValue(lockCamera));
     raw.put("first_frame_image_url", SeedanceParamUtils.wireValue(firstFrameImageUrl));
@@ -87,6 +93,8 @@ public final class TextToVideoParams {
     private Integer durationSeconds;
     private Boolean generateAudio;
     private Boolean enableSafetyChecker;
+    private Boolean returnLastFrame;
+    private String outputFormat;
     private List<String> sourceImageUrls;
     private Boolean lockCamera;
     private String firstFrameImageUrl;
@@ -151,6 +159,18 @@ public final class TextToVideoParams {
     /** Sets the content safety checker toggle. */
     public Builder enableSafetyChecker(boolean value) {
       this.enableSafetyChecker = value;
+      return this;
+    }
+
+    /** Sets whether Seedance 2.5 returns the generated video's last frame. */
+    public Builder returnLastFrame(boolean value) {
+      this.returnLastFrame = value;
+      return this;
+    }
+
+    /** Sets the Seedance 2.5 output video container. */
+    public Builder outputFormat(String value) {
+      this.outputFormat = SeedanceParamUtils.requireNonBlank(value, "outputFormat");
       return this;
     }
 

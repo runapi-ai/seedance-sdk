@@ -167,6 +167,25 @@ def test_v2_mini_accepts_reference_mode():
     assert http.calls[0][2]["model"] == "seedance-2-mini"
 
 
+def test_v2_5_accepts_multimodal_fields():
+    http = FakeHttp({"id": "task-25", "status": "processing"})
+    client = SeedanceClient(api_key="k", http_client=http)
+
+    client.text_to_video.create(
+        model="seedance-2.5",
+        prompt="Match the reference media",
+        reference_image_urls=["https://cdn.runapi.ai/public/samples/reference.jpg"],
+        reference_video_urls=["https://cdn.runapi.ai/public/samples/reference.mp4"],
+        duration_seconds=-1,
+        return_last_frame=True,
+        output_format="mov",
+    )
+
+    assert http.calls[0][2]["model"] == "seedance-2.5"
+    assert http.calls[0][2]["return_last_frame"] is True
+    assert http.calls[0][2]["output_format"] == "mov"
+
+
 def test_v2_mini_resolution_excludes_1080p():
     client = SeedanceClient(api_key="k", http_client=FakeHttp())
     with pytest.raises(ValidationError, match="output_resolution must be one of:"):

@@ -139,6 +139,22 @@ RSpec.describe RunApi::Seedance::Resources::TextToVideo do
       text_to_video.create(**params)
     end
 
+    it "accepts Seedance 2.5 multimodal fields" do
+      params = {
+        model: "seedance-2.5",
+        prompt: "Match the reference media",
+        reference_image_urls: ["https://cdn.runapi.ai/public/samples/reference.jpg"],
+        reference_video_urls: ["https://cdn.runapi.ai/public/samples/reference.mp4"],
+        duration_seconds: -1,
+        return_last_frame: true,
+        output_format: "mov"
+      }
+      expect(http).to receive(:request).with(:post, endpoint, body: params)
+        .and_return("id" => "task-25")
+
+      text_to_video.create(**params)
+    end
+
     it "rejects frame mode combined with reference mode" do
       expect do
         text_to_video.create(

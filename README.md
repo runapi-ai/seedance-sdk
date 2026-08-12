@@ -39,7 +39,7 @@ Gradle:
 
 ```kotlin
 dependencies {
-  implementation("ai.runapi:runapi-seedance:0.1.5")
+  implementation("ai.runapi:runapi-seedance:0.1.6")
 }
 ```
 
@@ -49,7 +49,7 @@ Maven:
 <dependency>
   <groupId>ai.runapi</groupId>
   <artifactId>runapi-seedance</artifactId>
-  <version>0.1.5</version>
+  <version>0.1.6</version>
 </dependency>
 ```
 
@@ -57,7 +57,7 @@ Use the Java BOM when installing multiple RunAPI Java modules:
 
 ```kotlin
 dependencies {
-  implementation(platform("ai.runapi:runapi-bom:0.2.9"))
+  implementation(platform("ai.runapi:runapi-bom:0.4.1"))
   implementation("ai.runapi:runapi-seedance")
 }
 ```
@@ -86,11 +86,13 @@ SeedanceClient client = SeedanceClient.builder()
 
 CompletedTextToVideoResponse result = client.textToVideo().run(
     TextToVideoParams.builder()
-        .model(TextToVideoModel.SEEDANCE_1_5_PRO)
-        .durationSeconds(5)
+        .model(TextToVideoModel.SEEDANCE_2_5)
+        .durationSeconds(-1)
         .prompt("A fast tracking shot through a futuristic train station")
-        .aspectRatio("16:9")
-        .outputResolution("480p")
+        .aspectRatio("auto")
+        .outputResolution("720p")
+        .returnLastFrame(true)
+        .outputFormat("mp4")
         .build()
 );
 ```
@@ -129,6 +131,7 @@ Use the most specific Seedance variant page for pricing, rate limits, and commer
 - [2.0](https://runapi.ai/models/seedance/2.0)
 - [2.0 fast](https://runapi.ai/models/seedance/2.0-fast)
 - [2.0 mini](https://runapi.ai/models/seedance/2-mini)
+- [2.5](https://runapi.ai/models/seedance/2.5)
 
 Default pricing link for the Seedance SDK: https://runapi.ai/models/seedance/v1-pro
 

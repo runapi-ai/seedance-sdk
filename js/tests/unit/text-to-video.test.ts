@@ -189,6 +189,38 @@ describe('TextToVideo', () => {
       );
     });
 
+    it('should send Seedance 2.5 multimodal fields', async () => {
+      const mockResponse: TaskCreateResponse = { id: 'task-25' };
+      vi.mocked(mockHttp.request).mockResolvedValueOnce(mockResponse);
+
+      const textToVideo = new TextToVideo(mockHttp);
+      await textToVideo.create({
+        model: 'seedance-2.5',
+        prompt: 'Match the reference media',
+        reference_image_urls: ['https://cdn.runapi.ai/public/samples/reference.jpg'],
+        reference_video_urls: ['https://cdn.runapi.ai/public/samples/reference.mp4'],
+        duration_seconds: -1,
+        return_last_frame: true,
+        output_format: 'mov',
+      });
+
+      expect(mockHttp.request).toHaveBeenCalledWith(
+        'POST',
+        '/api/v1/seedance/text_to_video',
+        {
+          body: {
+            model: 'seedance-2.5',
+            prompt: 'Match the reference media',
+            reference_image_urls: ['https://cdn.runapi.ai/public/samples/reference.jpg'],
+            reference_video_urls: ['https://cdn.runapi.ai/public/samples/reference.mp4'],
+            duration_seconds: -1,
+            return_last_frame: true,
+            output_format: 'mov',
+          },
+        }
+      );
+    });
+
     it('should include optional parameters', async () => {
       const mockResponse: TaskCreateResponse = { id: 'task-opt' };
       vi.mocked(mockHttp.request).mockResolvedValueOnce(mockResponse);

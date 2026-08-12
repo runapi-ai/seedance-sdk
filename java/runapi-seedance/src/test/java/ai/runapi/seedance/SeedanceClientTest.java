@@ -83,6 +83,29 @@ class SeedanceClientTest {
   }
 
   @Test
+  void createSendsSeedance25Fields() throws Exception {
+    CapturingTransport transport = new CapturingTransport("{\"id\":\"task_25\",\"status\":\"processing\"}");
+    SeedanceClient client = SeedanceClient.builder().apiKey("sk-test").transport(transport).build();
+
+    client.textToVideo().create(
+        TextToVideoParams.builder()
+            .prompt("Match the reference media")
+            .model(TextToVideoModel.SEEDANCE_2_5)
+            .referenceImageUrls(java.util.Collections.singletonList("https://cdn.runapi.ai/public/samples/reference.jpg"))
+            .referenceVideoUrls(java.util.Collections.singletonList("https://cdn.runapi.ai/public/samples/reference.mp4"))
+            .durationSeconds(-1)
+            .returnLastFrame(true)
+            .outputFormat("mov")
+            .build()
+    );
+
+    JsonNode body = bodyJson(transport.request);
+    assertEquals("seedance-2.5", body.get("model").asText());
+    assertEquals(true, body.get("return_last_frame").asBoolean());
+    assertEquals("mov", body.get("output_format").asText());
+  }
+
+  @Test
   void createAcceptsSeedance2Generated4k() throws Exception {
     CapturingTransport transport = new CapturingTransport("{\"id\":\"task_4k\",\"status\":\"processing\"}");
     SeedanceClient client = SeedanceClient.builder().apiKey("sk-test").transport(transport).build();
