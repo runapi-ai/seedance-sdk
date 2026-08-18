@@ -1,5 +1,11 @@
 # Changelog
 
+## [ruby/v0.2.15](https://github.com/runapi-ai/seedance-sdk/releases/tag/ruby%2Fv0.2.15) - 2026-08-18
+
+### Changed
+- Allow Ruby clients to install the core SDK release that adds persistent Files and multipart Uploads alongside this model SDK.
+
+
 ## [js/v0.2.14](https://github.com/runapi-ai/seedance-sdk/releases/tag/js%2Fv0.2.14), [ruby/v0.2.14](https://github.com/runapi-ai/seedance-sdk/releases/tag/ruby%2Fv0.2.14), [go/v0.2.14](https://github.com/runapi-ai/seedance-sdk/releases/tag/go%2Fv0.2.14), [python/v0.2.3](https://github.com/runapi-ai/seedance-sdk/releases/tag/python%2Fv0.2.3), [java/v0.1.6](https://github.com/runapi-ai/seedance-sdk/releases/tag/java%2Fv0.1.6) - 2026-08-12
 
 ### Added
