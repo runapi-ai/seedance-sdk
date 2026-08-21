@@ -1,5 +1,11 @@
 # Changelog
 
+## [js/v0.3.0](https://github.com/runapi-ai/seedance-sdk/releases/tag/js%2Fv0.3.0), [ruby/v0.3.0](https://github.com/runapi-ai/seedance-sdk/releases/tag/ruby%2Fv0.3.0), [go/v0.3.0](https://github.com/runapi-ai/seedance-sdk/releases/tag/go%2Fv0.3.0), [python/v0.3.0](https://github.com/runapi-ai/seedance-sdk/releases/tag/python%2Fv0.3.0) - 2026-08-21
+
+### Added
+- Accept 1080p output resolution for Seedance 2.5 video generation.
+
+
 ## [ruby/v0.2.15](https://github.com/runapi-ai/seedance-sdk/releases/tag/ruby%2Fv0.2.15) - 2026-08-18
 
 ### Changed

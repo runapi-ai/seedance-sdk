@@ -201,7 +201,8 @@ export const contract = {
         "output_resolution": {
           "enum": [
             "480p",
-            "720p"
+            "720p",
+            "1080p"
           ]
         },
         "prompt": {

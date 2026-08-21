@@ -153,7 +153,7 @@ func TestTextToVideoCreateSeedance25(t *testing.T) {
 		DurationSeconds:    &duration,
 		ReturnLastFrame:    &returnLastFrame,
 		OutputFormat:       "mov",
-		OutputResolution:   "720p",
+		OutputResolution:   "1080p",
 	})
 	if err != nil {
 		t.Fatal(err)
@@ -164,6 +164,9 @@ func TestTextToVideoCreateSeedance25(t *testing.T) {
 	}
 	if body["return_last_frame"] != true || body["output_format"] != "mov" {
 		t.Fatalf("missing Seedance 2.5 fields: %v", body)
+	}
+	if body["output_resolution"] != "1080p" {
+		t.Fatalf("unexpected Seedance 2.5 output_resolution: %v", body["output_resolution"])
 	}
 }
 

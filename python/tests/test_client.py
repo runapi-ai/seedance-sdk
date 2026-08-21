@@ -176,12 +176,14 @@ def test_v2_5_accepts_multimodal_fields():
         prompt="Match the reference media",
         reference_image_urls=["https://cdn.runapi.ai/public/samples/reference.jpg"],
         reference_video_urls=["https://cdn.runapi.ai/public/samples/reference.mp4"],
+        output_resolution="1080p",
         duration_seconds=-1,
         return_last_frame=True,
         output_format="mov",
     )
 
     assert http.calls[0][2]["model"] == "seedance-2.5"
+    assert http.calls[0][2]["output_resolution"] == "1080p"
     assert http.calls[0][2]["return_last_frame"] is True
     assert http.calls[0][2]["output_format"] == "mov"
 

@@ -93,6 +93,7 @@ class SeedanceClientTest {
             .model(TextToVideoModel.SEEDANCE_2_5)
             .referenceImageUrls(java.util.Collections.singletonList("https://cdn.runapi.ai/public/samples/reference.jpg"))
             .referenceVideoUrls(java.util.Collections.singletonList("https://cdn.runapi.ai/public/samples/reference.mp4"))
+            .outputResolution("1080p")
             .durationSeconds(-1)
             .returnLastFrame(true)
             .outputFormat("mov")
@@ -101,6 +102,7 @@ class SeedanceClientTest {
 
     JsonNode body = bodyJson(transport.request);
     assertEquals("seedance-2.5", body.get("model").asText());
+    assertEquals("1080p", body.get("output_resolution").asText());
     assertEquals(true, body.get("return_last_frame").asBoolean());
     assertEquals("mov", body.get("output_format").asText());
   }

@@ -105,7 +105,7 @@ CONTRACT = {
                     "enum": ["mp4", "mov"]
                 },
                 "output_resolution": {
-                    "enum": ["480p", "720p"]
+                    "enum": ["480p", "720p", "1080p"]
                 },
                 "prompt": {
                     "required": True,

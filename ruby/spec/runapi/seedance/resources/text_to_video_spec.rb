@@ -145,6 +145,7 @@ RSpec.describe RunApi::Seedance::Resources::TextToVideo do
         prompt: "Match the reference media",
         reference_image_urls: ["https://cdn.runapi.ai/public/samples/reference.jpg"],
         reference_video_urls: ["https://cdn.runapi.ai/public/samples/reference.mp4"],
+        output_resolution: "1080p",
         duration_seconds: -1,
         return_last_frame: true,
         output_format: "mov"

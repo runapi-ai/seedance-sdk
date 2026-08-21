@@ -57,7 +57,7 @@ subprojects {
   }
 }
 
-project(":runapi-core").version = "0.5.0"
+project(":runapi-core").version = "0.6.0"
 
 subprojects {
   if (name != "runapi-core") {
