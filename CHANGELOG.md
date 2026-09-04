@@ -1,5 +1,11 @@
 # Changelog
 
+## [ruby/v0.3.1](https://github.com/runapi-ai/seedance-sdk/releases/tag/ruby%2Fv0.3.1) - 2026-09-04
+
+### Changed
+- Update the `runapi-core` dependency range so this package remains installable with other current RunAPI Ruby SDKs.
+
+
 ## [js/v0.3.0](https://github.com/runapi-ai/seedance-sdk/releases/tag/js%2Fv0.3.0), [ruby/v0.3.0](https://github.com/runapi-ai/seedance-sdk/releases/tag/ruby%2Fv0.3.0), [go/v0.3.0](https://github.com/runapi-ai/seedance-sdk/releases/tag/go%2Fv0.3.0), [python/v0.3.0](https://github.com/runapi-ai/seedance-sdk/releases/tag/python%2Fv0.3.0) - 2026-08-21
 
 ### Added

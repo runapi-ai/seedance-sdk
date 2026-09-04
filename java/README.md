@@ -34,7 +34,7 @@ Use the BOM when multiple RunAPI Java modules are installed:
 
 ```kotlin
 dependencies {
-  implementation(platform("ai.runapi:runapi-bom:0.6.0"))
+  implementation(platform("ai.runapi:runapi-bom:0.6.2"))
   implementation("ai.runapi:runapi-seedance")
 }
 ```
@@ -47,7 +47,7 @@ Maven BOM:
     <dependency>
       <groupId>ai.runapi</groupId>
       <artifactId>runapi-bom</artifactId>
-      <version>0.6.0</version>
+      <version>0.6.2</version>
       <type>pom</type>
       <scope>import</scope>
     </dependency>
