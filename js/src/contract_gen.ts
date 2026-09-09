@@ -278,6 +278,11 @@ export const contract = {
     },
     "rules": [
       {
+        "enum": {
+          "aspect_ratio": [
+            "auto"
+          ]
+        },
         "when": {
           "model": "seedance-2.5",
           "first_frame_image_url": {
