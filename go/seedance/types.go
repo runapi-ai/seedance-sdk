@@ -92,7 +92,7 @@ type TextToVideoParams struct {
 // AsyncTaskResponse is the base response for async generation tasks, embedded
 // in endpoint-specific response types. It implements the core polling interface.
 type AsyncTaskResponse struct {
-	core.TaskBillingFacts
+	Usage *core.TaskUsage `json:"usage,omitempty"`
 	ID     string     `json:"id"`
 	Status TaskStatus `json:"status"`
 	Error  string     `json:"error,omitempty"`
