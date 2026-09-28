@@ -76,8 +76,7 @@ def test_create_posts_compacted_body():
             "post",
             "/api/v1/seedance/text_to_video",
             {"model": "seedance-2.0", "prompt": "a serene lake at dawn", "duration_seconds": 8},
-        ),
-    ]
+        )]
     assert isinstance(result, TextToVideoResponse)
 
 
@@ -91,7 +90,7 @@ def test_get_fetches_by_id():
 def test_run_narrows_completed_type():
     fake = FakeHttp(
         {"id": "t1", "status": "pending"},
-        {"id": "t1", "status": "completed", "videos": [{"url": "https://x/y.mp4"}]},
+        {"id": "t1", "status": "completed", "usage": {"cost": 0.05}, "videos": [{"url": "https://x/y.mp4"}]},
     )
     client = SeedanceClient(api_key="k", http_client=fake)
     result = client.text_to_video.run(
@@ -211,10 +210,8 @@ def test_v2_accepts_generated_4k():
             {
                 "model": "seedance-2.0",
                 "prompt": "a cinematic city flyover",
-                "output_resolution": "4k",
-            },
-        ),
-    ]
+                "output_resolution": "4k"},
+        )]
 
 
 def test_v2_rejects_frame_4k():

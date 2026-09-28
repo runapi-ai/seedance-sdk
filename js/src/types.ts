@@ -1,4 +1,4 @@
-import type { AsyncTaskStatus, TaskBillingResponse, TaskResponse } from '@runapi.ai/core';
+import type { AsyncTaskStatus, TaskResponse } from '@runapi.ai/core';
 
 // Model types
 export type SeedanceModel =
@@ -230,7 +230,7 @@ export type TextToVideoParams =
 
 // Response types
 
-export interface TaskCreateResponse extends TaskBillingResponse {
+export interface TaskCreateResponse {
   id: string;
 }
 
