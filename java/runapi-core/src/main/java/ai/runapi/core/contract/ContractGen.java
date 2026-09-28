@@ -42,6 +42,9 @@ public final class ContractGen {
     addActions18(contract);
     addActions19(contract);
     addActions20(contract);
+    addActions21(contract);
+    addActions22(contract);
+    addActions23(contract);
     return Collections.unmodifiableMap(contract);
   }
 
@@ -440,6 +443,52 @@ contract.put("gpt-4o-image/text-to-image", new ContractAction(
                     {"source_image_urls", field(maxItems(5))},
             })},
           })));
+contract.put("gpt-image-2.5/edit-image", new ContractAction(
+    list("gpt-image-2.5-flare", "gpt-image-2.5-sunburst"),
+          fieldsByModel(new Object[][] {
+            {"gpt-image-2.5-flare", fields(new Object[][] {
+                    {"aspect_ratio", field(enumValues("auto", "1:1", "3:2", "2:3", "4:3", "3:4", "5:4", "4:5", "16:9", "9:16", "2:1", "1:2", "3:1", "1:3", "21:9", "9:21"))},
+                    {"callback_url", field()},
+                    {"model", field()},
+                    {"output_resolution", field(enumValues("1k", "2k", "4k"))},
+                    {"prompt", field(required())},
+                    {"source_image_urls", field(required(), maxItems(16))},
+            })},
+            {"gpt-image-2.5-sunburst", fields(new Object[][] {
+                    {"aspect_ratio", field(enumValues("auto", "1:1", "3:2", "2:3", "4:3", "3:4", "5:4", "4:5", "16:9", "9:16", "2:1", "1:2", "3:1", "1:3", "21:9", "9:21"))},
+                    {"callback_url", field()},
+                    {"model", field()},
+                    {"output_resolution", field(enumValues("1k", "2k", "4k"))},
+                    {"prompt", field(required())},
+                    {"source_image_urls", field(required(), maxItems(16))},
+            })},
+          }),
+          rulesByModel(new Object[][] {
+{"gpt-image-2.5-flare", rules(rule(conditions(new Object[][] {{"aspect_ratio", "1:1"}, {"output_resolution", "4k"}}), list(), list(), list("aspect_ratio"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"aspect_ratio", "auto"}, {"output_resolution", "4k"}}), list(), list(), list("aspect_ratio"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"aspect_ratio", presence(false)}, {"output_resolution", "4k"}}), list(), list(), list("output_resolution"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"aspect_ratio", "auto"}, {"output_resolution", "2k"}}), list(), list(), list("aspect_ratio"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"aspect_ratio", presence(false)}, {"output_resolution", "2k"}}), list(), list(), list("output_resolution"), narrowedEnums(new Object[][] {})))},
+{"gpt-image-2.5-sunburst", rules(rule(conditions(new Object[][] {{"aspect_ratio", "1:1"}, {"output_resolution", "4k"}}), list(), list(), list("aspect_ratio"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"aspect_ratio", "auto"}, {"output_resolution", "4k"}}), list(), list(), list("aspect_ratio"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"aspect_ratio", presence(false)}, {"output_resolution", "4k"}}), list(), list(), list("output_resolution"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"aspect_ratio", "auto"}, {"output_resolution", "2k"}}), list(), list(), list("aspect_ratio"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"aspect_ratio", presence(false)}, {"output_resolution", "2k"}}), list(), list(), list("output_resolution"), narrowedEnums(new Object[][] {})))},
+          })));
+contract.put("gpt-image-2.5/text-to-image", new ContractAction(
+    list("gpt-image-2.5-flare", "gpt-image-2.5-sunburst"),
+          fieldsByModel(new Object[][] {
+            {"gpt-image-2.5-flare", fields(new Object[][] {
+                    {"aspect_ratio", field(enumValues("auto", "1:1", "3:2", "2:3", "4:3", "3:4", "5:4", "4:5", "16:9", "9:16", "2:1", "1:2", "3:1", "1:3", "21:9", "9:21"))},
+                    {"callback_url", field()},
+                    {"model", field()},
+                    {"output_resolution", field(enumValues("1k", "2k", "4k"))},
+                    {"prompt", field(required())},
+            })},
+            {"gpt-image-2.5-sunburst", fields(new Object[][] {
+                    {"aspect_ratio", field(enumValues("auto", "1:1", "3:2", "2:3", "4:3", "3:4", "5:4", "4:5", "16:9", "9:16", "2:1", "1:2", "3:1", "1:3", "21:9", "9:21"))},
+                    {"callback_url", field()},
+                    {"model", field()},
+                    {"output_resolution", field(enumValues("1k", "2k", "4k"))},
+                    {"prompt", field(required())},
+            })},
+          }),
+          rulesByModel(new Object[][] {
+{"gpt-image-2.5-flare", rules(rule(conditions(new Object[][] {{"aspect_ratio", "1:1"}, {"output_resolution", "4k"}}), list(), list(), list("aspect_ratio"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"aspect_ratio", "auto"}, {"output_resolution", "4k"}}), list(), list(), list("aspect_ratio"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"aspect_ratio", presence(false)}, {"output_resolution", "4k"}}), list(), list(), list("output_resolution"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"aspect_ratio", "auto"}, {"output_resolution", "2k"}}), list(), list(), list("aspect_ratio"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"aspect_ratio", presence(false)}, {"output_resolution", "2k"}}), list(), list(), list("output_resolution"), narrowedEnums(new Object[][] {})))},
+{"gpt-image-2.5-sunburst", rules(rule(conditions(new Object[][] {{"aspect_ratio", "1:1"}, {"output_resolution", "4k"}}), list(), list(), list("aspect_ratio"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"aspect_ratio", "auto"}, {"output_resolution", "4k"}}), list(), list(), list("aspect_ratio"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"aspect_ratio", presence(false)}, {"output_resolution", "4k"}}), list(), list(), list("output_resolution"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"aspect_ratio", "auto"}, {"output_resolution", "2k"}}), list(), list(), list("aspect_ratio"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"aspect_ratio", presence(false)}, {"output_resolution", "2k"}}), list(), list(), list("output_resolution"), narrowedEnums(new Object[][] {})))},
+          })));
 contract.put("gpt-image-2/edit-image", new ContractAction(
     list("gpt-image-2"),
           fieldsByModel(new Object[][] {
@@ -475,6 +524,9 @@ contract.put("gpt-image/edit-image", new ContractAction(
                     {"source_image_urls", field(required())},
             })},
           })));
+  }
+
+  private static void addActions3(Map<String, ContractAction> contract) {
 contract.put("gpt-image/text-to-image", new ContractAction(
     list("gpt-image-1.5"),
           fieldsByModel(new Object[][] {
@@ -516,9 +568,6 @@ contract.put("grok-imagine/edit-image", new ContractAction(
 {"grok-imagine-edit-image", rules(rule(conditions(new Object[][] {{"model", "grok-imagine-edit-image"}}), list(), list(), list("source_task_id", "mask_indices", "source_image_urls", "aspect_ratio"), narrowedEnums(new Object[][] {})))},
 {"grok-imagine-image-2-0", rules(rule(conditions(new Object[][] {{"model", "grok-imagine-image-2-0"}}), list(), list(), list("source_image_url", "source_task_id", "mask_indices", "enable_safety_checker"), narrowedEnums(new Object[][] {})))},
           })));
-  }
-
-  private static void addActions3(Map<String, ContractAction> contract) {
 contract.put("grok-imagine/extend", new ContractAction(
     list(),
           fieldsByModel(new Object[][] {
@@ -667,6 +716,9 @@ contract.put("grok-imagine/upscale-image", new ContractAction(
                     {"source_task_id", field(required())},
             })},
           })));
+  }
+
+  private static void addActions4(Map<String, ContractAction> contract) {
 contract.put("hailuo/image-to-video", new ContractAction(
     list("hailuo-02-image-to-video-pro", "hailuo-02-image-to-video-standard", "hailuo-2.3-image-to-video-pro", "hailuo-2.3-image-to-video-standard"),
           fieldsByModel(new Object[][] {
@@ -735,9 +787,6 @@ contract.put("hailuo/text-to-video", new ContractAction(
                     {"prompt_optimizer", field()},
             })},
           })));
-  }
-
-  private static void addActions4(Map<String, ContractAction> contract) {
 contract.put("happyhorse/edit-video", new ContractAction(
     list("happyhorse-edit-video"),
           fieldsByModel(new Object[][] {
@@ -900,6 +949,9 @@ contract.put("ideogram-v3/remix-image", new ContractAction(
                     {"style_reference_image_urls", field()},
             })},
           })));
+  }
+
+  private static void addActions5(Map<String, ContractAction> contract) {
 contract.put("ideogram-v3/text-to-image", new ContractAction(
     list("ideogram-v3-character", "ideogram-v3-text-to-image"),
           fieldsByModel(new Object[][] {
@@ -943,9 +995,6 @@ contract.put("imagen-4/remix-image", new ContractAction(
                     {"source_image_urls", field(required(), minItems(1), maxItems(8))},
             })},
           })));
-  }
-
-  private static void addActions5(Map<String, ContractAction> contract) {
 contract.put("imagen-4/text-to-image", new ContractAction(
     list("imagen-4", "imagen-4-fast", "imagen-4-ultra"),
           fieldsByModel(new Object[][] {
@@ -1048,8 +1097,8 @@ contract.put("kling/edit-video", new ContractAction(
             })},
           }),
           rulesByModel(new Object[][] {
-{"kling-v3-omni-edit", rules(rule(conditions(new Object[][] {{"model", "kling-v3-omni-edit"}, {"source_task_id", presence(false)}, {"source_video_url", presence(false)}}), list(), list("source_video_url", "source_task_id"), list(), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"model", "kling-v3-omni-edit"}, {"source_video_url", presence(true)}}), list(), list(), list("source_task_id"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"model", "kling-v3-omni-edit"}, {"source_task_id", presence(true)}}), list(), list(), list("source_video_url"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"model", "kling-v3-omni-edit"}, {"reference_image_urls", presence(false)}, {"source_video_url", presence(true)}}), list("aspect_ratio"), list(), list(), narrowedEnums(new Object[][] {{"aspect_ratio", values("auto")}, {"duration_seconds", values(Integer.valueOf(5))}})), rule(conditions(new Object[][] {{"model", "kling-v3-omni-edit"}, {"reference_image_urls", presence(false)}, {"source_task_id", presence(true)}}), list("aspect_ratio"), list(), list(), narrowedEnums(new Object[][] {{"aspect_ratio", values("auto")}, {"duration_seconds", values(Integer.valueOf(5))}})), rule(conditions(new Object[][] {{"model", "kling-v3-omni-edit"}, {"reference_image_urls", presence(true)}, {"source_video_url", presence(true)}}), list("aspect_ratio"), list(), list(), narrowedEnums(new Object[][] {{"aspect_ratio", values("16:9", "9:16", "1:1")}})), rule(conditions(new Object[][] {{"model", "kling-v3-omni-edit"}, {"reference_image_urls", presence(true)}, {"source_task_id", presence(true)}}), list("aspect_ratio"), list(), list(), narrowedEnums(new Object[][] {{"aspect_ratio", values("16:9", "9:16", "1:1")}})))},
-{"kling-v3-omni-reference", rules(rule(conditions(new Object[][] {{"model", "kling-v3-omni-reference"}, {"source_task_id", presence(false)}, {"source_video_url", presence(false)}}), list(), list("source_video_url", "source_task_id"), list(), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"model", "kling-v3-omni-reference"}, {"source_video_url", presence(true)}}), list(), list(), list("source_task_id"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"model", "kling-v3-omni-reference"}, {"source_task_id", presence(true)}}), list(), list(), list("source_video_url"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"model", "kling-v3-omni-reference"}, {"reference_image_urls", presence(false)}, {"source_video_url", presence(true)}}), list("aspect_ratio"), list(), list(), narrowedEnums(new Object[][] {{"aspect_ratio", values("auto")}, {"duration_seconds", values(Integer.valueOf(5))}, {"enable_sound", values(false)}})), rule(conditions(new Object[][] {{"model", "kling-v3-omni-reference"}, {"reference_image_urls", presence(false)}, {"source_task_id", presence(true)}}), list("aspect_ratio"), list(), list(), narrowedEnums(new Object[][] {{"aspect_ratio", values("auto")}, {"duration_seconds", values(Integer.valueOf(5))}, {"enable_sound", values(false)}})), rule(conditions(new Object[][] {{"model", "kling-v3-omni-reference"}, {"reference_image_urls", presence(true)}, {"source_video_url", presence(true)}}), list("aspect_ratio"), list(), list(), narrowedEnums(new Object[][] {{"aspect_ratio", values("16:9", "9:16", "1:1")}, {"enable_sound", values(false)}})), rule(conditions(new Object[][] {{"model", "kling-v3-omni-reference"}, {"reference_image_urls", presence(true)}, {"source_task_id", presence(true)}}), list("aspect_ratio"), list(), list(), narrowedEnums(new Object[][] {{"aspect_ratio", values("16:9", "9:16", "1:1")}, {"enable_sound", values(false)}})))},
+{"kling-v3-omni-edit", rules(rule(conditions(new Object[][] {{"model", "kling-v3-omni-edit"}, {"source_video_url", presence(true)}}), list(), list(), list("source_task_id"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"model", "kling-v3-omni-edit"}, {"source_task_id", presence(true)}}), list(), list(), list("source_video_url"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"model", "kling-v3-omni-edit"}, {"reference_image_urls", presence(false)}, {"source_video_url", presence(true)}}), list("aspect_ratio"), list(), list(), narrowedEnums(new Object[][] {{"aspect_ratio", values("auto")}, {"duration_seconds", values(Integer.valueOf(5))}})), rule(conditions(new Object[][] {{"model", "kling-v3-omni-edit"}, {"reference_image_urls", presence(false)}, {"source_task_id", presence(true)}}), list("aspect_ratio"), list(), list(), narrowedEnums(new Object[][] {{"aspect_ratio", values("auto")}, {"duration_seconds", values(Integer.valueOf(5))}})), rule(conditions(new Object[][] {{"model", "kling-v3-omni-edit"}, {"reference_image_urls", presence(true)}, {"source_video_url", presence(true)}}), list("aspect_ratio"), list(), list(), narrowedEnums(new Object[][] {{"aspect_ratio", values("16:9", "9:16", "1:1")}})), rule(conditions(new Object[][] {{"model", "kling-v3-omni-edit"}, {"reference_image_urls", presence(true)}, {"source_task_id", presence(true)}}), list("aspect_ratio"), list(), list(), narrowedEnums(new Object[][] {{"aspect_ratio", values("16:9", "9:16", "1:1")}})), rule(conditions(new Object[][] {{"model", "kling-v3-omni-edit"}, {"source_task_id", presence(false)}, {"source_video_url", presence(false)}}), list(), list("source_video_url", "source_task_id"), list(), narrowedEnums(new Object[][] {})))},
+{"kling-v3-omni-reference", rules(rule(conditions(new Object[][] {{"model", "kling-v3-omni-reference"}, {"reference_image_urls", presence(true)}, {"source_task_id", presence(true)}}), list("aspect_ratio"), list(), list(), narrowedEnums(new Object[][] {{"aspect_ratio", values("16:9", "9:16", "1:1")}, {"enable_sound", values(false)}})), rule(conditions(new Object[][] {{"model", "kling-v3-omni-reference"}, {"source_task_id", presence(false)}, {"source_video_url", presence(false)}}), list(), list("source_video_url", "source_task_id"), list(), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"model", "kling-v3-omni-reference"}, {"source_video_url", presence(true)}}), list(), list(), list("source_task_id"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"model", "kling-v3-omni-reference"}, {"source_task_id", presence(true)}}), list(), list(), list("source_video_url"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"model", "kling-v3-omni-reference"}, {"reference_image_urls", presence(false)}, {"source_video_url", presence(true)}}), list("aspect_ratio"), list(), list(), narrowedEnums(new Object[][] {{"aspect_ratio", values("auto")}, {"duration_seconds", values(Integer.valueOf(5))}, {"enable_sound", values(false)}})), rule(conditions(new Object[][] {{"model", "kling-v3-omni-reference"}, {"reference_image_urls", presence(false)}, {"source_task_id", presence(true)}}), list("aspect_ratio"), list(), list(), narrowedEnums(new Object[][] {{"aspect_ratio", values("auto")}, {"duration_seconds", values(Integer.valueOf(5))}, {"enable_sound", values(false)}})), rule(conditions(new Object[][] {{"model", "kling-v3-omni-reference"}, {"reference_image_urls", presence(true)}, {"source_video_url", presence(true)}}), list("aspect_ratio"), list(), list(), narrowedEnums(new Object[][] {{"aspect_ratio", values("16:9", "9:16", "1:1")}, {"enable_sound", values(false)}})))},
           })));
 contract.put("kling/extend-video", new ContractAction(
     list("kling-v2.5-turbo-image-to-video-pro", "kling-v2.5-turbo-text-to-video-pro"),
@@ -2246,6 +2295,15 @@ contract.put("suno/add-vocals", new ContractAction(
                     {"weirdness_constraint", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
             })},
           })));
+contract.put("suno/audio-exports", new ContractAction(
+    list(),
+          fieldsByModel(new Object[][] {
+            {"_", fields(new Object[][] {
+                    {"callback_url", field()},
+                    {"source_audio_id", field(required())},
+                    {"source_task_id", field()},
+            })},
+          })));
 contract.put("suno/blend-lyrics", new ContractAction(
     list(),
           fieldsByModel(new Object[][] {
@@ -2262,6 +2320,9 @@ contract.put("suno/boost-style", new ContractAction(
                     {"description", field(required())},
             })},
           })));
+  }
+
+  private static void addActions13(Map<String, ContractAction> contract) {
 contract.put("suno/check-voice", new ContractAction(
     list(),
           fieldsByModel(new Object[][] {
@@ -2269,9 +2330,6 @@ contract.put("suno/check-voice", new ContractAction(
                     {"task_id", field(required())},
             })},
           })));
-  }
-
-  private static void addActions13(Map<String, ContractAction> contract) {
 contract.put("suno/convert-audio", new ContractAction(
     list(),
           fieldsByModel(new Object[][] {
@@ -2281,138 +2339,25 @@ contract.put("suno/convert-audio", new ContractAction(
                     {"task_id", field(required())},
             })},
           })));
-contract.put("suno/cover-audio", new ContractAction(
-    list("suno-v4", "suno-v4.5", "suno-v4.5-all", "suno-v4.5-plus", "suno-v5", "suno-v5.5"),
-          fieldsByModel(new Object[][] {
-            {"suno-v4", fields(new Object[][] {
-                    {"audio_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
-                    {"callback_url", field()},
-                    {"lyrics", field(max(Double.valueOf(5000.0)), length())},
-                    {"model", field(required())},
-                    {"negative_tags", field()},
-                    {"persona_id", field()},
-                    {"persona_type", field(enumValues("style", "voice"))},
-                    {"prompt", field(max(Double.valueOf(5000.0)), length())},
-                    {"style", field(max(Double.valueOf(1000.0)), length())},
-                    {"style_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
-                    {"title", field(max(Double.valueOf(80.0)), length())},
-                    {"upload_url", field(required())},
-                    {"vocal_gender", field(enumValues("male", "female"))},
-                    {"vocal_mode", field(required(), enumValues("auto_lyrics", "exact_lyrics", "instrumental"))},
-                    {"weirdness_constraint", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
-            })},
-            {"suno-v4.5", fields(new Object[][] {
-                    {"audio_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
-                    {"callback_url", field()},
-                    {"lyrics", field(max(Double.valueOf(5000.0)), length())},
-                    {"model", field(required())},
-                    {"negative_tags", field()},
-                    {"persona_id", field()},
-                    {"persona_type", field(enumValues("style", "voice"))},
-                    {"prompt", field(max(Double.valueOf(5000.0)), length())},
-                    {"style", field(max(Double.valueOf(1000.0)), length())},
-                    {"style_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
-                    {"title", field(max(Double.valueOf(80.0)), length())},
-                    {"upload_url", field(required())},
-                    {"vocal_gender", field(enumValues("male", "female"))},
-                    {"vocal_mode", field(required(), enumValues("auto_lyrics", "exact_lyrics", "instrumental"))},
-                    {"weirdness_constraint", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
-            })},
-            {"suno-v4.5-all", fields(new Object[][] {
-                    {"audio_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
-                    {"callback_url", field()},
-                    {"lyrics", field(max(Double.valueOf(5000.0)), length())},
-                    {"model", field(required())},
-                    {"negative_tags", field()},
-                    {"persona_id", field()},
-                    {"persona_type", field(enumValues("style", "voice"))},
-                    {"prompt", field(max(Double.valueOf(5000.0)), length())},
-                    {"style", field(max(Double.valueOf(1000.0)), length())},
-                    {"style_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
-                    {"title", field(max(Double.valueOf(80.0)), length())},
-                    {"upload_url", field(required())},
-                    {"vocal_gender", field(enumValues("male", "female"))},
-                    {"vocal_mode", field(required(), enumValues("auto_lyrics", "exact_lyrics", "instrumental"))},
-                    {"weirdness_constraint", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
-            })},
-            {"suno-v4.5-plus", fields(new Object[][] {
-                    {"audio_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
-                    {"callback_url", field()},
-                    {"lyrics", field(max(Double.valueOf(5000.0)), length())},
-                    {"model", field(required())},
-                    {"negative_tags", field()},
-                    {"persona_id", field()},
-                    {"persona_type", field(enumValues("style", "voice"))},
-                    {"prompt", field(max(Double.valueOf(5000.0)), length())},
-                    {"style", field(max(Double.valueOf(1000.0)), length())},
-                    {"style_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
-                    {"title", field(max(Double.valueOf(80.0)), length())},
-                    {"upload_url", field(required())},
-                    {"vocal_gender", field(enumValues("male", "female"))},
-                    {"vocal_mode", field(required(), enumValues("auto_lyrics", "exact_lyrics", "instrumental"))},
-                    {"weirdness_constraint", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
-            })},
-            {"suno-v5", fields(new Object[][] {
-                    {"audio_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
-                    {"callback_url", field()},
-                    {"lyrics", field(max(Double.valueOf(5000.0)), length())},
-                    {"model", field(required())},
-                    {"negative_tags", field()},
-                    {"persona_id", field()},
-                    {"persona_type", field(enumValues("style", "voice"))},
-                    {"prompt", field(max(Double.valueOf(5000.0)), length())},
-                    {"style", field(max(Double.valueOf(1000.0)), length())},
-                    {"style_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
-                    {"title", field(max(Double.valueOf(80.0)), length())},
-                    {"upload_url", field(required())},
-                    {"vocal_gender", field(enumValues("male", "female"))},
-                    {"vocal_mode", field(required(), enumValues("auto_lyrics", "exact_lyrics", "instrumental"))},
-                    {"weirdness_constraint", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
-            })},
-            {"suno-v5.5", fields(new Object[][] {
-                    {"audio_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
-                    {"callback_url", field()},
-                    {"lyrics", field(max(Double.valueOf(5000.0)), length())},
-                    {"model", field(required())},
-                    {"negative_tags", field()},
-                    {"persona_id", field()},
-                    {"persona_type", field(enumValues("style", "voice"))},
-                    {"prompt", field(max(Double.valueOf(5000.0)), length())},
-                    {"style", field(max(Double.valueOf(1000.0)), length())},
-                    {"style_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
-                    {"title", field(max(Double.valueOf(80.0)), length())},
-                    {"upload_url", field(required())},
-                    {"vocal_gender", field(enumValues("male", "female"))},
-                    {"vocal_mode", field(required(), enumValues("auto_lyrics", "exact_lyrics", "instrumental"))},
-                    {"weirdness_constraint", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
-            })},
-          }),
-          rulesByModel(new Object[][] {
-{"suno-v4", rules(rule(conditions(new Object[][] {{"vocal_mode", "auto_lyrics"}}), list("prompt"), list(), list("lyrics", "style", "title"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "exact_lyrics"}}), list("lyrics", "style", "title"), list(), list("prompt"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "instrumental"}}), list("style", "title"), list(), list("prompt", "lyrics"), narrowedEnums(new Object[][] {})))},
-{"suno-v4.5", rules(rule(conditions(new Object[][] {{"vocal_mode", "auto_lyrics"}}), list("prompt"), list(), list("lyrics", "style", "title"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "exact_lyrics"}}), list("lyrics", "style", "title"), list(), list("prompt"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "instrumental"}}), list("style", "title"), list(), list("prompt", "lyrics"), narrowedEnums(new Object[][] {})))},
-{"suno-v4.5-all", rules(rule(conditions(new Object[][] {{"vocal_mode", "auto_lyrics"}}), list("prompt"), list(), list("lyrics", "style", "title"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "exact_lyrics"}}), list("lyrics", "style", "title"), list(), list("prompt"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "instrumental"}}), list("style", "title"), list(), list("prompt", "lyrics"), narrowedEnums(new Object[][] {})))},
-{"suno-v4.5-plus", rules(rule(conditions(new Object[][] {{"vocal_mode", "auto_lyrics"}}), list("prompt"), list(), list("lyrics", "style", "title"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "exact_lyrics"}}), list("lyrics", "style", "title"), list(), list("prompt"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "instrumental"}}), list("style", "title"), list(), list("prompt", "lyrics"), narrowedEnums(new Object[][] {})))},
-{"suno-v5", rules(rule(conditions(new Object[][] {{"vocal_mode", "auto_lyrics"}}), list("prompt"), list(), list("lyrics", "style", "title"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "exact_lyrics"}}), list("lyrics", "style", "title"), list(), list("prompt"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "instrumental"}}), list("style", "title"), list(), list("prompt", "lyrics"), narrowedEnums(new Object[][] {})))},
-{"suno-v5.5", rules(rule(conditions(new Object[][] {{"vocal_mode", "auto_lyrics"}}), list("prompt"), list(), list("lyrics", "style", "title"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "exact_lyrics"}}), list("lyrics", "style", "title"), list(), list("prompt"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "instrumental"}}), list("style", "title"), list(), list("prompt", "lyrics"), narrowedEnums(new Object[][] {})))},
-          })));
   }
 
   private static void addActions14(Map<String, ContractAction> contract) {
-contract.put("suno/create-mashup", new ContractAction(
-    list("suno-v4", "suno-v4.5", "suno-v4.5-all", "suno-v4.5-plus", "suno-v5", "suno-v5.5"),
+contract.put("suno/cover-audio", new ContractAction(
+    list("suno-v4", "suno-v4.5", "suno-v4.5-all", "suno-v4.5-plus", "suno-v5", "suno-v5.5", "suno-v6", "suno-v6-mini", "suno-v6-wild"),
           fieldsByModel(new Object[][] {
             {"suno-v4", fields(new Object[][] {
                     {"audio_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
                     {"callback_url", field()},
                     {"lyrics", field(max(Double.valueOf(5000.0)), length())},
                     {"model", field(required())},
+                    {"negative_tags", field()},
                     {"persona_id", field()},
                     {"persona_type", field(enumValues("style", "voice"))},
                     {"prompt", field(max(Double.valueOf(5000.0)), length())},
                     {"style", field(max(Double.valueOf(1000.0)), length())},
                     {"style_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
                     {"title", field(max(Double.valueOf(80.0)), length())},
-                    {"upload_url_list", field(required(), minItems(2), maxItems(2))},
+                    {"upload_url", field(required())},
                     {"vocal_gender", field(enumValues("male", "female"))},
                     {"vocal_mode", field(required(), enumValues("auto_lyrics", "exact_lyrics", "instrumental"))},
                     {"weirdness_constraint", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
@@ -2422,13 +2367,14 @@ contract.put("suno/create-mashup", new ContractAction(
                     {"callback_url", field()},
                     {"lyrics", field(max(Double.valueOf(5000.0)), length())},
                     {"model", field(required())},
+                    {"negative_tags", field()},
                     {"persona_id", field()},
                     {"persona_type", field(enumValues("style", "voice"))},
                     {"prompt", field(max(Double.valueOf(5000.0)), length())},
                     {"style", field(max(Double.valueOf(1000.0)), length())},
                     {"style_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
                     {"title", field(max(Double.valueOf(80.0)), length())},
-                    {"upload_url_list", field(required(), minItems(2), maxItems(2))},
+                    {"upload_url", field(required())},
                     {"vocal_gender", field(enumValues("male", "female"))},
                     {"vocal_mode", field(required(), enumValues("auto_lyrics", "exact_lyrics", "instrumental"))},
                     {"weirdness_constraint", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
@@ -2438,13 +2384,14 @@ contract.put("suno/create-mashup", new ContractAction(
                     {"callback_url", field()},
                     {"lyrics", field(max(Double.valueOf(5000.0)), length())},
                     {"model", field(required())},
+                    {"negative_tags", field()},
                     {"persona_id", field()},
                     {"persona_type", field(enumValues("style", "voice"))},
                     {"prompt", field(max(Double.valueOf(5000.0)), length())},
                     {"style", field(max(Double.valueOf(1000.0)), length())},
                     {"style_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
                     {"title", field(max(Double.valueOf(80.0)), length())},
-                    {"upload_url_list", field(required(), minItems(2), maxItems(2))},
+                    {"upload_url", field(required())},
                     {"vocal_gender", field(enumValues("male", "female"))},
                     {"vocal_mode", field(required(), enumValues("auto_lyrics", "exact_lyrics", "instrumental"))},
                     {"weirdness_constraint", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
@@ -2454,13 +2401,14 @@ contract.put("suno/create-mashup", new ContractAction(
                     {"callback_url", field()},
                     {"lyrics", field(max(Double.valueOf(5000.0)), length())},
                     {"model", field(required())},
+                    {"negative_tags", field()},
                     {"persona_id", field()},
                     {"persona_type", field(enumValues("style", "voice"))},
                     {"prompt", field(max(Double.valueOf(5000.0)), length())},
                     {"style", field(max(Double.valueOf(1000.0)), length())},
                     {"style_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
                     {"title", field(max(Double.valueOf(80.0)), length())},
-                    {"upload_url_list", field(required(), minItems(2), maxItems(2))},
+                    {"upload_url", field(required())},
                     {"vocal_gender", field(enumValues("male", "female"))},
                     {"vocal_mode", field(required(), enumValues("auto_lyrics", "exact_lyrics", "instrumental"))},
                     {"weirdness_constraint", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
@@ -2470,13 +2418,14 @@ contract.put("suno/create-mashup", new ContractAction(
                     {"callback_url", field()},
                     {"lyrics", field(max(Double.valueOf(5000.0)), length())},
                     {"model", field(required())},
+                    {"negative_tags", field()},
                     {"persona_id", field()},
                     {"persona_type", field(enumValues("style", "voice"))},
                     {"prompt", field(max(Double.valueOf(5000.0)), length())},
                     {"style", field(max(Double.valueOf(1000.0)), length())},
                     {"style_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
                     {"title", field(max(Double.valueOf(80.0)), length())},
-                    {"upload_url_list", field(required(), minItems(2), maxItems(2))},
+                    {"upload_url", field(required())},
                     {"vocal_gender", field(enumValues("male", "female"))},
                     {"vocal_mode", field(required(), enumValues("auto_lyrics", "exact_lyrics", "instrumental"))},
                     {"weirdness_constraint", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
@@ -2486,13 +2435,65 @@ contract.put("suno/create-mashup", new ContractAction(
                     {"callback_url", field()},
                     {"lyrics", field(max(Double.valueOf(5000.0)), length())},
                     {"model", field(required())},
+                    {"negative_tags", field()},
                     {"persona_id", field()},
                     {"persona_type", field(enumValues("style", "voice"))},
                     {"prompt", field(max(Double.valueOf(5000.0)), length())},
                     {"style", field(max(Double.valueOf(1000.0)), length())},
                     {"style_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
                     {"title", field(max(Double.valueOf(80.0)), length())},
-                    {"upload_url_list", field(required(), minItems(2), maxItems(2))},
+                    {"upload_url", field(required())},
+                    {"vocal_gender", field(enumValues("male", "female"))},
+                    {"vocal_mode", field(required(), enumValues("auto_lyrics", "exact_lyrics", "instrumental"))},
+                    {"weirdness_constraint", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+            })},
+            {"suno-v6", fields(new Object[][] {
+                    {"audio_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+                    {"callback_url", field()},
+                    {"lyrics", field(max(Double.valueOf(5000.0)), length())},
+                    {"model", field(required())},
+                    {"negative_tags", field()},
+                    {"persona_id", field()},
+                    {"persona_type", field(enumValues("style", "voice"))},
+                    {"prompt", field(max(Double.valueOf(5000.0)), length())},
+                    {"style", field(max(Double.valueOf(1000.0)), length())},
+                    {"style_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+                    {"title", field(max(Double.valueOf(80.0)), length())},
+                    {"upload_url", field(required())},
+                    {"vocal_gender", field(enumValues("male", "female"))},
+                    {"vocal_mode", field(required(), enumValues("auto_lyrics", "exact_lyrics", "instrumental"))},
+                    {"weirdness_constraint", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+            })},
+            {"suno-v6-mini", fields(new Object[][] {
+                    {"audio_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+                    {"callback_url", field()},
+                    {"lyrics", field(max(Double.valueOf(5000.0)), length())},
+                    {"model", field(required())},
+                    {"negative_tags", field()},
+                    {"persona_id", field()},
+                    {"persona_type", field(enumValues("style", "voice"))},
+                    {"prompt", field(max(Double.valueOf(5000.0)), length())},
+                    {"style", field(max(Double.valueOf(1000.0)), length())},
+                    {"style_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+                    {"title", field(max(Double.valueOf(80.0)), length())},
+                    {"upload_url", field(required())},
+                    {"vocal_gender", field(enumValues("male", "female"))},
+                    {"vocal_mode", field(required(), enumValues("auto_lyrics", "exact_lyrics", "instrumental"))},
+                    {"weirdness_constraint", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+            })},
+            {"suno-v6-wild", fields(new Object[][] {
+                    {"audio_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+                    {"callback_url", field()},
+                    {"lyrics", field(max(Double.valueOf(5000.0)), length())},
+                    {"model", field(required())},
+                    {"negative_tags", field()},
+                    {"persona_id", field()},
+                    {"persona_type", field(enumValues("style", "voice"))},
+                    {"prompt", field(max(Double.valueOf(5000.0)), length())},
+                    {"style", field(max(Double.valueOf(1000.0)), length())},
+                    {"style_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+                    {"title", field(max(Double.valueOf(80.0)), length())},
+                    {"upload_url", field(required())},
                     {"vocal_gender", field(enumValues("male", "female"))},
                     {"vocal_mode", field(required(), enumValues("auto_lyrics", "exact_lyrics", "instrumental"))},
                     {"weirdness_constraint", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
@@ -2505,12 +2506,177 @@ contract.put("suno/create-mashup", new ContractAction(
 {"suno-v4.5-plus", rules(rule(conditions(new Object[][] {{"vocal_mode", "auto_lyrics"}}), list("prompt"), list(), list("lyrics", "style", "title"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "exact_lyrics"}}), list("lyrics", "style", "title"), list(), list("prompt"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "instrumental"}}), list("style", "title"), list(), list("prompt", "lyrics"), narrowedEnums(new Object[][] {})))},
 {"suno-v5", rules(rule(conditions(new Object[][] {{"vocal_mode", "auto_lyrics"}}), list("prompt"), list(), list("lyrics", "style", "title"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "exact_lyrics"}}), list("lyrics", "style", "title"), list(), list("prompt"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "instrumental"}}), list("style", "title"), list(), list("prompt", "lyrics"), narrowedEnums(new Object[][] {})))},
 {"suno-v5.5", rules(rule(conditions(new Object[][] {{"vocal_mode", "auto_lyrics"}}), list("prompt"), list(), list("lyrics", "style", "title"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "exact_lyrics"}}), list("lyrics", "style", "title"), list(), list("prompt"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "instrumental"}}), list("style", "title"), list(), list("prompt", "lyrics"), narrowedEnums(new Object[][] {})))},
+{"suno-v6", rules(rule(conditions(new Object[][] {{"vocal_mode", "auto_lyrics"}}), list("prompt"), list(), list("lyrics", "style", "title"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "exact_lyrics"}}), list("lyrics", "style", "title"), list(), list("prompt"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "instrumental"}}), list("style", "title"), list(), list("prompt", "lyrics"), narrowedEnums(new Object[][] {})))},
+{"suno-v6-mini", rules(rule(conditions(new Object[][] {{"vocal_mode", "auto_lyrics"}}), list("prompt"), list(), list("lyrics", "style", "title"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "exact_lyrics"}}), list("lyrics", "style", "title"), list(), list("prompt"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "instrumental"}}), list("style", "title"), list(), list("prompt", "lyrics"), narrowedEnums(new Object[][] {})))},
+{"suno-v6-wild", rules(rule(conditions(new Object[][] {{"vocal_mode", "auto_lyrics"}}), list("prompt"), list(), list("lyrics", "style", "title"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "exact_lyrics"}}), list("lyrics", "style", "title"), list(), list("prompt"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "instrumental"}}), list("style", "title"), list(), list("prompt", "lyrics"), narrowedEnums(new Object[][] {})))},
           })));
   }
 
   private static void addActions15(Map<String, ContractAction> contract) {
+contract.put("suno/create-mashup", new ContractAction(
+    list("suno-v4", "suno-v4.5", "suno-v4.5-all", "suno-v4.5-plus", "suno-v5", "suno-v5.5", "suno-v6", "suno-v6-mini", "suno-v6-wild"),
+          fieldsByModel(new Object[][] {
+            {"suno-v4", fields(new Object[][] {
+                    {"audio_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+                    {"callback_url", field()},
+                    {"lyrics", field(max(Double.valueOf(5000.0)), length())},
+                    {"model", field(required())},
+                    {"persona_id", field()},
+                    {"persona_type", field(enumValues("style", "voice"))},
+                    {"prompt", field(max(Double.valueOf(5000.0)), length())},
+                    {"style", field(max(Double.valueOf(1000.0)), length())},
+                    {"style_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+                    {"title", field(max(Double.valueOf(80.0)), length())},
+                    {"upload_url_list", field(required(), minItems(2), maxItems(2))},
+                    {"vocal_gender", field(enumValues("male", "female"))},
+                    {"vocal_mode", field(required(), enumValues("auto_lyrics", "exact_lyrics", "instrumental"))},
+                    {"weirdness_constraint", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+            })},
+            {"suno-v4.5", fields(new Object[][] {
+                    {"audio_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+                    {"callback_url", field()},
+                    {"lyrics", field(max(Double.valueOf(5000.0)), length())},
+                    {"model", field(required())},
+                    {"persona_id", field()},
+                    {"persona_type", field(enumValues("style", "voice"))},
+                    {"prompt", field(max(Double.valueOf(5000.0)), length())},
+                    {"style", field(max(Double.valueOf(1000.0)), length())},
+                    {"style_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+                    {"title", field(max(Double.valueOf(80.0)), length())},
+                    {"upload_url_list", field(required(), minItems(2), maxItems(2))},
+                    {"vocal_gender", field(enumValues("male", "female"))},
+                    {"vocal_mode", field(required(), enumValues("auto_lyrics", "exact_lyrics", "instrumental"))},
+                    {"weirdness_constraint", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+            })},
+            {"suno-v4.5-all", fields(new Object[][] {
+                    {"audio_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+                    {"callback_url", field()},
+                    {"lyrics", field(max(Double.valueOf(5000.0)), length())},
+                    {"model", field(required())},
+                    {"persona_id", field()},
+                    {"persona_type", field(enumValues("style", "voice"))},
+                    {"prompt", field(max(Double.valueOf(5000.0)), length())},
+                    {"style", field(max(Double.valueOf(1000.0)), length())},
+                    {"style_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+                    {"title", field(max(Double.valueOf(80.0)), length())},
+                    {"upload_url_list", field(required(), minItems(2), maxItems(2))},
+                    {"vocal_gender", field(enumValues("male", "female"))},
+                    {"vocal_mode", field(required(), enumValues("auto_lyrics", "exact_lyrics", "instrumental"))},
+                    {"weirdness_constraint", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+            })},
+            {"suno-v4.5-plus", fields(new Object[][] {
+                    {"audio_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+                    {"callback_url", field()},
+                    {"lyrics", field(max(Double.valueOf(5000.0)), length())},
+                    {"model", field(required())},
+                    {"persona_id", field()},
+                    {"persona_type", field(enumValues("style", "voice"))},
+                    {"prompt", field(max(Double.valueOf(5000.0)), length())},
+                    {"style", field(max(Double.valueOf(1000.0)), length())},
+                    {"style_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+                    {"title", field(max(Double.valueOf(80.0)), length())},
+                    {"upload_url_list", field(required(), minItems(2), maxItems(2))},
+                    {"vocal_gender", field(enumValues("male", "female"))},
+                    {"vocal_mode", field(required(), enumValues("auto_lyrics", "exact_lyrics", "instrumental"))},
+                    {"weirdness_constraint", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+            })},
+            {"suno-v5", fields(new Object[][] {
+                    {"audio_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+                    {"callback_url", field()},
+                    {"lyrics", field(max(Double.valueOf(5000.0)), length())},
+                    {"model", field(required())},
+                    {"persona_id", field()},
+                    {"persona_type", field(enumValues("style", "voice"))},
+                    {"prompt", field(max(Double.valueOf(5000.0)), length())},
+                    {"style", field(max(Double.valueOf(1000.0)), length())},
+                    {"style_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+                    {"title", field(max(Double.valueOf(80.0)), length())},
+                    {"upload_url_list", field(required(), minItems(2), maxItems(2))},
+                    {"vocal_gender", field(enumValues("male", "female"))},
+                    {"vocal_mode", field(required(), enumValues("auto_lyrics", "exact_lyrics", "instrumental"))},
+                    {"weirdness_constraint", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+            })},
+            {"suno-v5.5", fields(new Object[][] {
+                    {"audio_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+                    {"callback_url", field()},
+                    {"lyrics", field(max(Double.valueOf(5000.0)), length())},
+                    {"model", field(required())},
+                    {"persona_id", field()},
+                    {"persona_type", field(enumValues("style", "voice"))},
+                    {"prompt", field(max(Double.valueOf(5000.0)), length())},
+                    {"style", field(max(Double.valueOf(1000.0)), length())},
+                    {"style_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+                    {"title", field(max(Double.valueOf(80.0)), length())},
+                    {"upload_url_list", field(required(), minItems(2), maxItems(2))},
+                    {"vocal_gender", field(enumValues("male", "female"))},
+                    {"vocal_mode", field(required(), enumValues("auto_lyrics", "exact_lyrics", "instrumental"))},
+                    {"weirdness_constraint", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+            })},
+            {"suno-v6", fields(new Object[][] {
+                    {"audio_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+                    {"callback_url", field()},
+                    {"lyrics", field(max(Double.valueOf(5000.0)), length())},
+                    {"model", field(required())},
+                    {"persona_id", field()},
+                    {"persona_type", field(enumValues("style", "voice"))},
+                    {"prompt", field(max(Double.valueOf(5000.0)), length())},
+                    {"style", field(max(Double.valueOf(1000.0)), length())},
+                    {"style_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+                    {"title", field(max(Double.valueOf(80.0)), length())},
+                    {"upload_url_list", field(required(), minItems(2), maxItems(2))},
+                    {"vocal_gender", field(enumValues("male", "female"))},
+                    {"vocal_mode", field(required(), enumValues("auto_lyrics", "exact_lyrics", "instrumental"))},
+                    {"weirdness_constraint", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+            })},
+            {"suno-v6-mini", fields(new Object[][] {
+                    {"audio_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+                    {"callback_url", field()},
+                    {"lyrics", field(max(Double.valueOf(5000.0)), length())},
+                    {"model", field(required())},
+                    {"persona_id", field()},
+                    {"persona_type", field(enumValues("style", "voice"))},
+                    {"prompt", field(max(Double.valueOf(5000.0)), length())},
+                    {"style", field(max(Double.valueOf(1000.0)), length())},
+                    {"style_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+                    {"title", field(max(Double.valueOf(80.0)), length())},
+                    {"upload_url_list", field(required(), minItems(2), maxItems(2))},
+                    {"vocal_gender", field(enumValues("male", "female"))},
+                    {"vocal_mode", field(required(), enumValues("auto_lyrics", "exact_lyrics", "instrumental"))},
+                    {"weirdness_constraint", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+            })},
+            {"suno-v6-wild", fields(new Object[][] {
+                    {"audio_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+                    {"callback_url", field()},
+                    {"lyrics", field(max(Double.valueOf(5000.0)), length())},
+                    {"model", field(required())},
+                    {"persona_id", field()},
+                    {"persona_type", field(enumValues("style", "voice"))},
+                    {"prompt", field(max(Double.valueOf(5000.0)), length())},
+                    {"style", field(max(Double.valueOf(1000.0)), length())},
+                    {"style_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+                    {"title", field(max(Double.valueOf(80.0)), length())},
+                    {"upload_url_list", field(required(), minItems(2), maxItems(2))},
+                    {"vocal_gender", field(enumValues("male", "female"))},
+                    {"vocal_mode", field(required(), enumValues("auto_lyrics", "exact_lyrics", "instrumental"))},
+                    {"weirdness_constraint", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+            })},
+          }),
+          rulesByModel(new Object[][] {
+{"suno-v4", rules(rule(conditions(new Object[][] {{"vocal_mode", "auto_lyrics"}}), list("prompt"), list(), list("lyrics", "style", "title"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "exact_lyrics"}}), list("lyrics", "style", "title"), list(), list("prompt"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "instrumental"}}), list("style", "title"), list(), list("prompt", "lyrics"), narrowedEnums(new Object[][] {})))},
+{"suno-v4.5", rules(rule(conditions(new Object[][] {{"vocal_mode", "auto_lyrics"}}), list("prompt"), list(), list("lyrics", "style", "title"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "exact_lyrics"}}), list("lyrics", "style", "title"), list(), list("prompt"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "instrumental"}}), list("style", "title"), list(), list("prompt", "lyrics"), narrowedEnums(new Object[][] {})))},
+{"suno-v4.5-all", rules(rule(conditions(new Object[][] {{"vocal_mode", "auto_lyrics"}}), list("prompt"), list(), list("lyrics", "style", "title"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "exact_lyrics"}}), list("lyrics", "style", "title"), list(), list("prompt"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "instrumental"}}), list("style", "title"), list(), list("prompt", "lyrics"), narrowedEnums(new Object[][] {})))},
+{"suno-v4.5-plus", rules(rule(conditions(new Object[][] {{"vocal_mode", "auto_lyrics"}}), list("prompt"), list(), list("lyrics", "style", "title"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "exact_lyrics"}}), list("lyrics", "style", "title"), list(), list("prompt"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "instrumental"}}), list("style", "title"), list(), list("prompt", "lyrics"), narrowedEnums(new Object[][] {})))},
+{"suno-v5", rules(rule(conditions(new Object[][] {{"vocal_mode", "auto_lyrics"}}), list("prompt"), list(), list("lyrics", "style", "title"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "exact_lyrics"}}), list("lyrics", "style", "title"), list(), list("prompt"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "instrumental"}}), list("style", "title"), list(), list("prompt", "lyrics"), narrowedEnums(new Object[][] {})))},
+{"suno-v5.5", rules(rule(conditions(new Object[][] {{"vocal_mode", "auto_lyrics"}}), list("prompt"), list(), list("lyrics", "style", "title"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "exact_lyrics"}}), list("lyrics", "style", "title"), list(), list("prompt"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "instrumental"}}), list("style", "title"), list(), list("prompt", "lyrics"), narrowedEnums(new Object[][] {})))},
+{"suno-v6", rules(rule(conditions(new Object[][] {{"vocal_mode", "auto_lyrics"}}), list("prompt"), list(), list("lyrics", "style", "title"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "exact_lyrics"}}), list("lyrics", "style", "title"), list(), list("prompt"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "instrumental"}}), list("style", "title"), list(), list("prompt", "lyrics"), narrowedEnums(new Object[][] {})))},
+{"suno-v6-mini", rules(rule(conditions(new Object[][] {{"vocal_mode", "auto_lyrics"}}), list("prompt"), list(), list("lyrics", "style", "title"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "exact_lyrics"}}), list("lyrics", "style", "title"), list(), list("prompt"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "instrumental"}}), list("style", "title"), list(), list("prompt", "lyrics"), narrowedEnums(new Object[][] {})))},
+{"suno-v6-wild", rules(rule(conditions(new Object[][] {{"vocal_mode", "auto_lyrics"}}), list("prompt"), list(), list("lyrics", "style", "title"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "exact_lyrics"}}), list("lyrics", "style", "title"), list(), list("prompt"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "instrumental"}}), list("style", "title"), list(), list("prompt", "lyrics"), narrowedEnums(new Object[][] {})))},
+          })));
+  }
+
+  private static void addActions16(Map<String, ContractAction> contract) {
 contract.put("suno/extend-music", new ContractAction(
-    list("suno-v4", "suno-v4.5", "suno-v4.5-all", "suno-v4.5-plus", "suno-v5", "suno-v5.5"),
+    list("suno-v4", "suno-v4.5", "suno-v4.5-all", "suno-v4.5-plus", "suno-v5", "suno-v5.5", "suno-v6", "suno-v6-mini", "suno-v6-wild"),
           fieldsByModel(new Object[][] {
             {"suno-v4", fields(new Object[][] {
                     {"audio_id", field()},
@@ -2623,6 +2789,72 @@ contract.put("suno/extend-music", new ContractAction(
                     {"weirdness_constraint", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
             })},
             {"suno-v5.5", fields(new Object[][] {
+                    {"audio_id", field()},
+                    {"audio_url", field()},
+                    {"audio_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+                    {"callback_url", field()},
+                    {"continue_at", field()},
+                    {"instrumental", field()},
+                    {"lyrics", field(max(Double.valueOf(5000.0)), length())},
+                    {"model", field(required())},
+                    {"negative_tags", field()},
+                    {"parameter_mode", field(required(), enumValues("source", "custom"))},
+                    {"persona_id", field()},
+                    {"persona_type", field(enumValues("style", "voice"))},
+                    {"prompt", field(max(Double.valueOf(5000.0)), length())},
+                    {"style", field(max(Double.valueOf(1000.0)), length())},
+                    {"style_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+                    {"task_id", field()},
+                    {"title", field(max(Double.valueOf(80.0)), length())},
+                    {"upload_url", field()},
+                    {"vocal_gender", field(enumValues("male", "female"))},
+                    {"weirdness_constraint", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+            })},
+            {"suno-v6", fields(new Object[][] {
+                    {"audio_id", field()},
+                    {"audio_url", field()},
+                    {"audio_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+                    {"callback_url", field()},
+                    {"continue_at", field()},
+                    {"instrumental", field()},
+                    {"lyrics", field(max(Double.valueOf(5000.0)), length())},
+                    {"model", field(required())},
+                    {"negative_tags", field()},
+                    {"parameter_mode", field(required(), enumValues("source", "custom"))},
+                    {"persona_id", field()},
+                    {"persona_type", field(enumValues("style", "voice"))},
+                    {"prompt", field(max(Double.valueOf(5000.0)), length())},
+                    {"style", field(max(Double.valueOf(1000.0)), length())},
+                    {"style_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+                    {"task_id", field()},
+                    {"title", field(max(Double.valueOf(80.0)), length())},
+                    {"upload_url", field()},
+                    {"vocal_gender", field(enumValues("male", "female"))},
+                    {"weirdness_constraint", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+            })},
+            {"suno-v6-mini", fields(new Object[][] {
+                    {"audio_id", field()},
+                    {"audio_url", field()},
+                    {"audio_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+                    {"callback_url", field()},
+                    {"continue_at", field()},
+                    {"instrumental", field()},
+                    {"lyrics", field(max(Double.valueOf(5000.0)), length())},
+                    {"model", field(required())},
+                    {"negative_tags", field()},
+                    {"parameter_mode", field(required(), enumValues("source", "custom"))},
+                    {"persona_id", field()},
+                    {"persona_type", field(enumValues("style", "voice"))},
+                    {"prompt", field(max(Double.valueOf(5000.0)), length())},
+                    {"style", field(max(Double.valueOf(1000.0)), length())},
+                    {"style_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+                    {"task_id", field()},
+                    {"title", field(max(Double.valueOf(80.0)), length())},
+                    {"upload_url", field()},
+                    {"vocal_gender", field(enumValues("male", "female"))},
+                    {"weirdness_constraint", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+            })},
+            {"suno-v6-wild", fields(new Object[][] {
                     {"audio_id", field()},
                     {"audio_url", field()},
                     {"audio_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
@@ -2700,6 +2932,9 @@ contract.put("suno/get-timestamped-lyrics", new ContractAction(
                     {"task_id", field(required())},
             })},
           })));
+  }
+
+  private static void addActions17(Map<String, ContractAction> contract) {
 contract.put("suno/inspire-music", new ContractAction(
     list("suno-v4", "suno-v4.5", "suno-v4.5-plus", "suno-v5", "suno-v5.5"),
           fieldsByModel(new Object[][] {
@@ -2729,9 +2964,71 @@ contract.put("suno/inspire-music", new ContractAction(
                     {"model", field(required())},
             })},
           })));
-  }
-
-  private static void addActions16(Map<String, ContractAction> contract) {
+contract.put("suno/music-from-sample", new ContractAction(
+    list("suno-v4", "suno-v4.5", "suno-v4.5-plus", "suno-v5", "suno-v5.5"),
+          fieldsByModel(new Object[][] {
+            {"suno-v4", fields(new Object[][] {
+                    {"audio_url", field(required())},
+                    {"callback_url", field()},
+                    {"end_seconds", field(required(), min(Double.valueOf(0.0)))},
+                    {"model", field(required())},
+                    {"prompt", field()},
+                    {"start_seconds", field(required(), min(Double.valueOf(0.0)))},
+            })},
+            {"suno-v4.5", fields(new Object[][] {
+                    {"audio_url", field(required())},
+                    {"callback_url", field()},
+                    {"end_seconds", field(required(), min(Double.valueOf(0.0)))},
+                    {"model", field(required())},
+                    {"prompt", field()},
+                    {"start_seconds", field(required(), min(Double.valueOf(0.0)))},
+            })},
+            {"suno-v4.5-plus", fields(new Object[][] {
+                    {"audio_url", field(required())},
+                    {"callback_url", field()},
+                    {"end_seconds", field(required(), min(Double.valueOf(0.0)))},
+                    {"model", field(required())},
+                    {"prompt", field()},
+                    {"start_seconds", field(required(), min(Double.valueOf(0.0)))},
+            })},
+            {"suno-v5", fields(new Object[][] {
+                    {"audio_url", field(required())},
+                    {"callback_url", field()},
+                    {"end_seconds", field(required(), min(Double.valueOf(0.0)))},
+                    {"model", field(required())},
+                    {"prompt", field()},
+                    {"start_seconds", field(required(), min(Double.valueOf(0.0)))},
+            })},
+            {"suno-v5.5", fields(new Object[][] {
+                    {"audio_url", field(required())},
+                    {"callback_url", field()},
+                    {"end_seconds", field(required(), min(Double.valueOf(0.0)))},
+                    {"model", field(required())},
+                    {"prompt", field()},
+                    {"start_seconds", field(required(), min(Double.valueOf(0.0)))},
+            })},
+          })));
+contract.put("suno/music-visualizations", new ContractAction(
+    list(),
+          fieldsByModel(new Object[][] {
+            {"_", fields(new Object[][] {
+                    {"author", field()},
+                    {"callback_url", field()},
+                    {"domain_name", field()},
+                    {"source_audio_id", field(required())},
+                    {"source_task_id", field()},
+            })},
+          })));
+contract.put("suno/personas", new ContractAction(
+    list(),
+          fieldsByModel(new Object[][] {
+            {"_", fields(new Object[][] {
+                    {"description", field(required())},
+                    {"name", field(required())},
+                    {"source_audio_id", field(required())},
+                    {"source_task_id", field(required())},
+            })},
+          })));
 contract.put("suno/regenerate-validation-phrase", new ContractAction(
     list(),
           fieldsByModel(new Object[][] {
@@ -2748,30 +3045,35 @@ contract.put("suno/remaster-audio", new ContractAction(
                     {"callback_url", field()},
                     {"model", field(required())},
                     {"source_task_id", field(required())},
+                    {"variation_category", field(enumValues("subtle", "normal", "high"))},
             })},
             {"suno-v4.5", fields(new Object[][] {
                     {"audio_id", field(required())},
                     {"callback_url", field()},
                     {"model", field(required())},
                     {"source_task_id", field(required())},
+                    {"variation_category", field(enumValues("subtle", "normal", "high"))},
             })},
             {"suno-v4.5-plus", fields(new Object[][] {
                     {"audio_id", field(required())},
                     {"callback_url", field()},
                     {"model", field(required())},
                     {"source_task_id", field(required())},
+                    {"variation_category", field(enumValues("subtle", "normal", "high"))},
             })},
             {"suno-v5", fields(new Object[][] {
                     {"audio_id", field(required())},
                     {"callback_url", field()},
                     {"model", field(required())},
                     {"source_task_id", field(required())},
+                    {"variation_category", field(enumValues("subtle", "normal", "high"))},
             })},
             {"suno-v5.5", fields(new Object[][] {
                     {"audio_id", field(required())},
                     {"callback_url", field()},
                     {"model", field(required())},
                     {"source_task_id", field(required())},
+                    {"variation_category", field(enumValues("subtle", "normal", "high"))},
             })},
           })));
 contract.put("suno/replace-section", new ContractAction(
@@ -2784,7 +3086,7 @@ contract.put("suno/replace-section", new ContractAction(
                     {"infill_end_time", field(required())},
                     {"infill_start_time", field(required())},
                     {"lyrics", field(required(), max(Double.valueOf(5000.0)), length())},
-                    {"model", field(enumValues("suno-v4", "suno-v4.5", "suno-v4.5-all", "suno-v4.5-plus", "suno-v5", "suno-v5.5"))},
+                    {"model", field(enumValues("suno-v6", "suno-v6-wild", "suno-v6-mini", "suno-v4", "suno-v4.5", "suno-v4.5-all", "suno-v4.5-plus", "suno-v5", "suno-v5.5"))},
                     {"negative_tags", field()},
                     {"tags", field(required(), max(Double.valueOf(1000.0)), length())},
                     {"task_id", field()},
@@ -2806,6 +3108,9 @@ contract.put("suno/separate-audio-stems", new ContractAction(
           rulesByModel(new Object[][] {
 {"_", rules(rule(conditions(new Object[][] {{"type", "split_stem_advanced"}}), list("stem_name"), list(), list(), narrowedEnums(new Object[][] {})))},
           })));
+  }
+
+  private static void addActions18(Map<String, ContractAction> contract) {
 contract.put("suno/stitch-audio", new ContractAction(
     list("suno-v4", "suno-v4.5", "suno-v4.5-plus", "suno-v5", "suno-v5.5"),
           fieldsByModel(new Object[][] {
@@ -2840,11 +3145,18 @@ contract.put("suno/stitch-audio", new ContractAction(
                     {"source_task_id", field(required())},
             })},
           })));
+contract.put("suno/style-expansions", new ContractAction(
+    list(),
+          fieldsByModel(new Object[][] {
+            {"_", fields(new Object[][] {
+                    {"description", field(required())},
+            })},
+          })));
   }
 
-  private static void addActions17(Map<String, ContractAction> contract) {
+  private static void addActions19(Map<String, ContractAction> contract) {
 contract.put("suno/text-to-music", new ContractAction(
-    list("suno-v4", "suno-v4.5", "suno-v4.5-all", "suno-v4.5-plus", "suno-v5", "suno-v5.5"),
+    list("suno-v4", "suno-v4.5", "suno-v4.5-all", "suno-v4.5-plus", "suno-v5", "suno-v5.5", "suno-v6", "suno-v6-mini", "suno-v6-wild"),
           fieldsByModel(new Object[][] {
             {"suno-v4", fields(new Object[][] {
                     {"audio_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
@@ -2862,6 +3174,7 @@ contract.put("suno/text-to-music", new ContractAction(
                     {"title", field(max(Double.valueOf(80.0)), length())},
                     {"vocal_gender", field(enumValues("male", "female"))},
                     {"vocal_mode", field(required(), enumValues("auto_lyrics", "exact_lyrics", "instrumental"))},
+                    {"voice_id", field()},
                     {"weirdness_constraint", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
             })},
             {"suno-v4.5", fields(new Object[][] {
@@ -2880,6 +3193,7 @@ contract.put("suno/text-to-music", new ContractAction(
                     {"title", field(max(Double.valueOf(80.0)), length())},
                     {"vocal_gender", field(enumValues("male", "female"))},
                     {"vocal_mode", field(required(), enumValues("auto_lyrics", "exact_lyrics", "instrumental"))},
+                    {"voice_id", field()},
                     {"weirdness_constraint", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
             })},
             {"suno-v4.5-all", fields(new Object[][] {
@@ -2898,6 +3212,7 @@ contract.put("suno/text-to-music", new ContractAction(
                     {"title", field(max(Double.valueOf(80.0)), length())},
                     {"vocal_gender", field(enumValues("male", "female"))},
                     {"vocal_mode", field(required(), enumValues("auto_lyrics", "exact_lyrics", "instrumental"))},
+                    {"voice_id", field()},
                     {"weirdness_constraint", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
             })},
             {"suno-v4.5-plus", fields(new Object[][] {
@@ -2916,6 +3231,7 @@ contract.put("suno/text-to-music", new ContractAction(
                     {"title", field(max(Double.valueOf(80.0)), length())},
                     {"vocal_gender", field(enumValues("male", "female"))},
                     {"vocal_mode", field(required(), enumValues("auto_lyrics", "exact_lyrics", "instrumental"))},
+                    {"voice_id", field()},
                     {"weirdness_constraint", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
             })},
             {"suno-v5", fields(new Object[][] {
@@ -2934,6 +3250,7 @@ contract.put("suno/text-to-music", new ContractAction(
                     {"title", field(max(Double.valueOf(80.0)), length())},
                     {"vocal_gender", field(enumValues("male", "female"))},
                     {"vocal_mode", field(required(), enumValues("auto_lyrics", "exact_lyrics", "instrumental"))},
+                    {"voice_id", field()},
                     {"weirdness_constraint", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
             })},
             {"suno-v5.5", fields(new Object[][] {
@@ -2952,17 +3269,81 @@ contract.put("suno/text-to-music", new ContractAction(
                     {"title", field(max(Double.valueOf(80.0)), length())},
                     {"vocal_gender", field(enumValues("male", "female"))},
                     {"vocal_mode", field(required(), enumValues("auto_lyrics", "exact_lyrics", "instrumental"))},
+                    {"voice_id", field()},
+                    {"weirdness_constraint", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+            })},
+            {"suno-v6", fields(new Object[][] {
+                    {"audio_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+                    {"callback_url", field()},
+                    {"continue_at", field()},
+                    {"duration_seconds", field(min(Double.valueOf(10.0)), max(Double.valueOf(360.0)))},
+                    {"lyrics", field(max(Double.valueOf(5000.0)), length())},
+                    {"model", field(required())},
+                    {"negative_tags", field()},
+                    {"persona_id", field()},
+                    {"persona_type", field(enumValues("style", "voice"))},
+                    {"prompt", field(max(Double.valueOf(5000.0)), length())},
+                    {"style", field(max(Double.valueOf(1000.0)), length())},
+                    {"style_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+                    {"title", field(max(Double.valueOf(80.0)), length())},
+                    {"vocal_gender", field(enumValues("male", "female"))},
+                    {"vocal_mode", field(required(), enumValues("auto_lyrics", "exact_lyrics", "instrumental"))},
+                    {"voice_id", field()},
+                    {"weirdness_constraint", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+            })},
+            {"suno-v6-mini", fields(new Object[][] {
+                    {"audio_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+                    {"callback_url", field()},
+                    {"continue_at", field()},
+                    {"duration_seconds", field(min(Double.valueOf(10.0)), max(Double.valueOf(360.0)))},
+                    {"lyrics", field(max(Double.valueOf(5000.0)), length())},
+                    {"model", field(required())},
+                    {"negative_tags", field()},
+                    {"persona_id", field()},
+                    {"persona_type", field(enumValues("style", "voice"))},
+                    {"prompt", field(max(Double.valueOf(5000.0)), length())},
+                    {"style", field(max(Double.valueOf(1000.0)), length())},
+                    {"style_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+                    {"title", field(max(Double.valueOf(80.0)), length())},
+                    {"vocal_gender", field(enumValues("male", "female"))},
+                    {"vocal_mode", field(required(), enumValues("auto_lyrics", "exact_lyrics", "instrumental"))},
+                    {"voice_id", field()},
+                    {"weirdness_constraint", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+            })},
+            {"suno-v6-wild", fields(new Object[][] {
+                    {"audio_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+                    {"callback_url", field()},
+                    {"continue_at", field()},
+                    {"duration_seconds", field(min(Double.valueOf(10.0)), max(Double.valueOf(360.0)))},
+                    {"lyrics", field(max(Double.valueOf(5000.0)), length())},
+                    {"model", field(required())},
+                    {"negative_tags", field()},
+                    {"persona_id", field()},
+                    {"persona_type", field(enumValues("style", "voice"))},
+                    {"prompt", field(max(Double.valueOf(5000.0)), length())},
+                    {"style", field(max(Double.valueOf(1000.0)), length())},
+                    {"style_weight", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
+                    {"title", field(max(Double.valueOf(80.0)), length())},
+                    {"vocal_gender", field(enumValues("male", "female"))},
+                    {"vocal_mode", field(required(), enumValues("auto_lyrics", "exact_lyrics", "instrumental"))},
+                    {"voice_id", field()},
                     {"weirdness_constraint", field(min(Double.valueOf(0.0)), max(Double.valueOf(1.0)))},
             })},
           }),
           rulesByModel(new Object[][] {
-{"suno-v4", rules(rule(conditions(new Object[][] {{"vocal_mode", "auto_lyrics"}}), list("prompt"), list(), list("lyrics", "style", "title", "negative_tags", "vocal_gender", "duration_seconds"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "exact_lyrics"}}), list("lyrics", "style", "title"), list(), list("prompt"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "instrumental"}}), list("style", "title"), list(), list("prompt", "lyrics", "vocal_gender"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"model", "suno-v4"}}), list(), list(), list("duration_seconds"), narrowedEnums(new Object[][] {})))},
-{"suno-v4.5", rules(rule(conditions(new Object[][] {{"vocal_mode", "auto_lyrics"}}), list("prompt"), list(), list("lyrics", "style", "title", "negative_tags", "vocal_gender", "duration_seconds"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "exact_lyrics"}}), list("lyrics", "style", "title"), list(), list("prompt"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "instrumental"}}), list("style", "title"), list(), list("prompt", "lyrics", "vocal_gender"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"model", "suno-v4.5"}}), list(), list(), list("duration_seconds"), narrowedEnums(new Object[][] {})))},
-{"suno-v4.5-all", rules(rule(conditions(new Object[][] {{"vocal_mode", "auto_lyrics"}}), list("prompt"), list(), list("lyrics", "style", "title", "negative_tags", "vocal_gender", "duration_seconds"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "exact_lyrics"}}), list("lyrics", "style", "title"), list(), list("prompt"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "instrumental"}}), list("style", "title"), list(), list("prompt", "lyrics", "vocal_gender"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"model", "suno-v4.5-all"}}), list(), list(), list("duration_seconds"), narrowedEnums(new Object[][] {})))},
-{"suno-v4.5-plus", rules(rule(conditions(new Object[][] {{"vocal_mode", "auto_lyrics"}}), list("prompt"), list(), list("lyrics", "style", "title", "negative_tags", "vocal_gender", "duration_seconds"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "exact_lyrics"}}), list("lyrics", "style", "title"), list(), list("prompt"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "instrumental"}}), list("style", "title"), list(), list("prompt", "lyrics", "vocal_gender"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"model", "suno-v4.5-plus"}}), list(), list(), list("duration_seconds"), narrowedEnums(new Object[][] {})))},
-{"suno-v5", rules(rule(conditions(new Object[][] {{"vocal_mode", "auto_lyrics"}}), list("prompt"), list(), list("lyrics", "style", "title", "negative_tags", "vocal_gender", "duration_seconds"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "exact_lyrics"}}), list("lyrics", "style", "title"), list(), list("prompt"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "instrumental"}}), list("style", "title"), list(), list("prompt", "lyrics", "vocal_gender"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"model", "suno-v5"}}), list(), list(), list("duration_seconds"), narrowedEnums(new Object[][] {})))},
-{"suno-v5.5", rules(rule(conditions(new Object[][] {{"vocal_mode", "auto_lyrics"}}), list("prompt"), list(), list("lyrics", "style", "title", "negative_tags", "vocal_gender", "duration_seconds"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "exact_lyrics"}}), list("lyrics", "style", "title"), list(), list("prompt"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "instrumental"}}), list("style", "title"), list(), list("prompt", "lyrics", "vocal_gender"), narrowedEnums(new Object[][] {})))},
+{"suno-v4", rules(rule(conditions(new Object[][] {{"vocal_mode", "auto_lyrics"}}), list("prompt"), list(), list("lyrics", "style", "title", "negative_tags", "vocal_gender", "duration_seconds"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "exact_lyrics"}}), list("lyrics", "style", "title"), list(), list("prompt"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "instrumental"}}), list("style", "title"), list(), list("prompt", "lyrics", "vocal_gender"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"model", "suno-v4"}}), list(), list(), list("duration_seconds"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"voice_id", presence(true)}}), list(), list(), list("persona_id", "persona_type"), narrowedEnums(new Object[][] {})))},
+{"suno-v4.5", rules(rule(conditions(new Object[][] {{"vocal_mode", "auto_lyrics"}}), list("prompt"), list(), list("lyrics", "style", "title", "negative_tags", "vocal_gender", "duration_seconds"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "exact_lyrics"}}), list("lyrics", "style", "title"), list(), list("prompt"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "instrumental"}}), list("style", "title"), list(), list("prompt", "lyrics", "vocal_gender"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"model", "suno-v4.5"}}), list(), list(), list("duration_seconds"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"voice_id", presence(true)}}), list(), list(), list("persona_id", "persona_type"), narrowedEnums(new Object[][] {})))},
+{"suno-v4.5-all", rules(rule(conditions(new Object[][] {{"vocal_mode", "auto_lyrics"}}), list("prompt"), list(), list("lyrics", "style", "title", "negative_tags", "vocal_gender", "duration_seconds"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "exact_lyrics"}}), list("lyrics", "style", "title"), list(), list("prompt"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "instrumental"}}), list("style", "title"), list(), list("prompt", "lyrics", "vocal_gender"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"model", "suno-v4.5-all"}}), list(), list(), list("duration_seconds"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"voice_id", presence(true)}}), list(), list(), list("persona_id", "persona_type"), narrowedEnums(new Object[][] {})))},
+{"suno-v4.5-plus", rules(rule(conditions(new Object[][] {{"vocal_mode", "auto_lyrics"}}), list("prompt"), list(), list("lyrics", "style", "title", "negative_tags", "vocal_gender", "duration_seconds"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "exact_lyrics"}}), list("lyrics", "style", "title"), list(), list("prompt"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "instrumental"}}), list("style", "title"), list(), list("prompt", "lyrics", "vocal_gender"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"model", "suno-v4.5-plus"}}), list(), list(), list("duration_seconds"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"voice_id", presence(true)}}), list(), list(), list("persona_id", "persona_type"), narrowedEnums(new Object[][] {})))},
+{"suno-v5", rules(rule(conditions(new Object[][] {{"vocal_mode", "auto_lyrics"}}), list("prompt"), list(), list("lyrics", "style", "title", "negative_tags", "vocal_gender", "duration_seconds"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "exact_lyrics"}}), list("lyrics", "style", "title"), list(), list("prompt"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "instrumental"}}), list("style", "title"), list(), list("prompt", "lyrics", "vocal_gender"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"model", "suno-v5"}}), list(), list(), list("duration_seconds"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"voice_id", presence(true)}}), list(), list(), list("persona_id", "persona_type"), narrowedEnums(new Object[][] {})))},
+{"suno-v5.5", rules(rule(conditions(new Object[][] {{"vocal_mode", "auto_lyrics"}}), list("prompt"), list(), list("lyrics", "style", "title", "negative_tags", "vocal_gender", "duration_seconds"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "exact_lyrics"}}), list("lyrics", "style", "title"), list(), list("prompt"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "instrumental"}}), list("style", "title"), list(), list("prompt", "lyrics", "vocal_gender"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"voice_id", presence(true)}}), list(), list(), list("persona_id", "persona_type"), narrowedEnums(new Object[][] {})))},
+{"suno-v6", rules(rule(conditions(new Object[][] {{"vocal_mode", "auto_lyrics"}}), list("prompt"), list(), list("lyrics", "style", "title", "negative_tags", "vocal_gender", "duration_seconds"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "exact_lyrics"}}), list("lyrics", "style", "title"), list(), list("prompt"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "instrumental"}}), list("style", "title"), list(), list("prompt", "lyrics", "vocal_gender"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"voice_id", presence(true)}}), list(), list(), list("persona_id", "persona_type"), narrowedEnums(new Object[][] {})))},
+{"suno-v6-mini", rules(rule(conditions(new Object[][] {{"vocal_mode", "auto_lyrics"}}), list("prompt"), list(), list("lyrics", "style", "title", "negative_tags", "vocal_gender", "duration_seconds"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "exact_lyrics"}}), list("lyrics", "style", "title"), list(), list("prompt"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "instrumental"}}), list("style", "title"), list(), list("prompt", "lyrics", "vocal_gender"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"voice_id", presence(true)}}), list(), list(), list("persona_id", "persona_type"), narrowedEnums(new Object[][] {})))},
+{"suno-v6-wild", rules(rule(conditions(new Object[][] {{"vocal_mode", "auto_lyrics"}}), list("prompt"), list(), list("lyrics", "style", "title", "negative_tags", "vocal_gender", "duration_seconds"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "exact_lyrics"}}), list("lyrics", "style", "title"), list(), list("prompt"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"vocal_mode", "instrumental"}}), list("style", "title"), list(), list("prompt", "lyrics", "vocal_gender"), narrowedEnums(new Object[][] {})), rule(conditions(new Object[][] {{"voice_id", presence(true)}}), list(), list(), list("persona_id", "persona_type"), narrowedEnums(new Object[][] {})))},
           })));
+  }
+
+  private static void addActions20(Map<String, ContractAction> contract) {
 contract.put("suno/text-to-sound", new ContractAction(
     list("suno-v5", "suno-v5.5"),
           fieldsByModel(new Object[][] {
@@ -2983,6 +3364,14 @@ contract.put("suno/text-to-sound", new ContractAction(
                     {"sound_key", field(enumValues("Cm", "C#m", "Dm", "D#m", "Em", "Fm", "F#m", "Gm", "G#m", "Am", "A#m", "Bm", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"))},
                     {"sound_loop", field()},
                     {"sound_tempo", field()},
+            })},
+          })));
+contract.put("suno/timestamped-lyrics", new ContractAction(
+    list(),
+          fieldsByModel(new Object[][] {
+            {"_", fields(new Object[][] {
+                    {"source_audio_id", field(required())},
+                    {"source_task_id", field()},
             })},
           })));
 contract.put("suno/visualize-music", new ContractAction(
@@ -3007,6 +3396,14 @@ contract.put("suno/voice-to-validation-phrase", new ContractAction(
                     {"voice_url", field(required())},
             })},
           })));
+contract.put("suno/voices", new ContractAction(
+    list(),
+          fieldsByModel(new Object[][] {
+            {"_", fields(new Object[][] {
+                    {"name", field()},
+                    {"source_audio_url", field(required())},
+            })},
+          })));
 contract.put("topaz/upscale-image", new ContractAction(
     list("topaz-upscale-image"),
           fieldsByModel(new Object[][] {
@@ -3027,6 +3424,18 @@ contract.put("topaz/upscale-video", new ContractAction(
                     {"upscale_factor", field(enumValues(Integer.valueOf(1), Integer.valueOf(2), Integer.valueOf(4)))},
             })},
           })));
+contract.put("typesafe/system-one", new ContractAction(
+    list("jev-latest"),
+          fieldsByModel(new Object[][] {
+            {"jev-latest", fields(new Object[][] {
+                    {"model", field(required(), enumValues("jev-latest"))},
+                    {"questions", field(required())},
+                    {"state", field(required())},
+            })},
+          })));
+  }
+
+  private static void addActions21(Map<String, ContractAction> contract) {
 contract.put("veo-3-1/extend-video", new ContractAction(
     list(),
           fieldsByModel(new Object[][] {
@@ -3038,9 +3447,6 @@ contract.put("veo-3-1/extend-video", new ContractAction(
                     {"watermark", field()},
             })},
           })));
-  }
-
-  private static void addActions18(Map<String, ContractAction> contract) {
 contract.put("veo-3-1/text-to-video", new ContractAction(
     list("veo-3.1", "veo-3.1-fast", "veo-3.1-lite"),
           fieldsByModel(new Object[][] {
@@ -3205,7 +3611,7 @@ contract.put("wan/edit-video", new ContractAction(
           })));
   }
 
-  private static void addActions19(Map<String, ContractAction> contract) {
+  private static void addActions22(Map<String, ContractAction> contract) {
 contract.put("wan/image-to-video", new ContractAction(
     list("wan-2.2-a14b-image-to-video-turbo", "wan-2.5-image-to-video", "wan-2.6-flash-image-to-video", "wan-2.6-image-to-video", "wan-2.7-image-to-video"),
           fieldsByModel(new Object[][] {
@@ -3498,7 +3904,7 @@ contract.put("wan/text-to-video", new ContractAction(
           })));
   }
 
-  private static void addActions20(Map<String, ContractAction> contract) {
+  private static void addActions23(Map<String, ContractAction> contract) {
 contract.put("z-image/text-to-image", new ContractAction(
     list("z-image"),
           fieldsByModel(new Object[][] {

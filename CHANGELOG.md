@@ -1,5 +1,15 @@
 # Changelog
 
+## [js/v0.3.2](https://github.com/runapi-ai/seedance-sdk/releases/tag/js%2Fv0.3.2), [go/v0.3.2](https://github.com/runapi-ai/seedance-sdk/releases/tag/go%2Fv0.3.2) - 2026-09-28
+
+### Added
+- Return usage.cost as a float USD amount on completed async Task query and webhook envelopes.
+
+### Removed
+- Remove the public Task billing object from Task envelopes.
+  Migration: Read usage.cost on completed Task envelopes. Create, processing, and failed envelopes omit usage.
+
+
 ## [js/v0.3.1](https://github.com/runapi-ai/seedance-sdk/releases/tag/js%2Fv0.3.1), [ruby/v0.3.2](https://github.com/runapi-ai/seedance-sdk/releases/tag/ruby%2Fv0.3.2), [go/v0.3.1](https://github.com/runapi-ai/seedance-sdk/releases/tag/go%2Fv0.3.1), [python/v0.3.1](https://github.com/runapi-ai/seedance-sdk/releases/tag/python%2Fv0.3.1) - 2026-09-09
 
 ### Fixed
