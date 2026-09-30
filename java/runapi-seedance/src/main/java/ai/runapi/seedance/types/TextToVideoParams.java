@@ -109,7 +109,7 @@ public final class TextToVideoParams {
 
     /** Sets the text prompt. */
     public Builder prompt(String value) {
-      this.prompt = SeedanceParamUtils.requireNonBlank(value, "prompt");
+      this.prompt = value;
       return this;
     }
 
@@ -121,26 +121,26 @@ public final class TextToVideoParams {
 
     /** Sets the model slug using a string value. */
     public Builder model(String value) {
-      this.model = SeedanceParamUtils.requireNonBlankTrim(value, "model");
+      this.model = value;
       return this;
     }
 
 
     /** Sets the webhook URL for task completion notifications. */
     public Builder callbackUrl(String value) {
-      this.callbackUrl = SeedanceParamUtils.requireNonBlank(value, "callbackUrl");
+      this.callbackUrl = value;
       return this;
     }
 
     /** Sets the output aspect ratio. */
     public Builder aspectRatio(String value) {
-      this.aspectRatio = SeedanceParamUtils.requireNonBlank(value, "aspectRatio");
+      this.aspectRatio = value;
       return this;
     }
 
     /** Sets the output resolution. */
     public Builder outputResolution(String value) {
-      this.outputResolution = SeedanceParamUtils.requireNonBlank(value, "outputResolution");
+      this.outputResolution = value;
       return this;
     }
 
@@ -170,7 +170,7 @@ public final class TextToVideoParams {
 
     /** Sets the Seedance 2.5 output video container. */
     public Builder outputFormat(String value) {
-      this.outputFormat = SeedanceParamUtils.requireNonBlank(value, "outputFormat");
+      this.outputFormat = value;
       return this;
     }
 
@@ -188,13 +188,13 @@ public final class TextToVideoParams {
 
     /** Sets the first frame image URL. */
     public Builder firstFrameImageUrl(String value) {
-      this.firstFrameImageUrl = SeedanceParamUtils.requireNonBlank(value, "firstFrameImageUrl");
+      this.firstFrameImageUrl = value;
       return this;
     }
 
     /** Sets the last frame image URL. */
     public Builder lastFrameImageUrl(String value) {
-      this.lastFrameImageUrl = SeedanceParamUtils.requireNonBlank(value, "lastFrameImageUrl");
+      this.lastFrameImageUrl = value;
       return this;
     }
 

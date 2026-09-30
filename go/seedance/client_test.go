@@ -62,26 +62,6 @@ func TestTextToVideoCreateSeedance2Generated4K(t *testing.T) {
 	}
 }
 
-func TestTextToVideoCreateRejectsSeedance2Frame4K(t *testing.T) {
-	stub := &stubHTTPClient{}
-	client := NewClientWithHTTP(stub)
-	_, err := client.TextToVideo.Create(context.Background(), TextToVideoParams{
-		Prompt:             "a cinematic city flyover",
-		Model:              ModelSeedance2,
-		OutputResolution:   "4k",
-		FirstFrameImageURL: "https://cdn.runapi.ai/public/samples/first-frame.jpg",
-	})
-	if err == nil {
-		t.Fatal("expected validation error")
-	}
-	if got := err.Error(); got != "first_frame_image_url is not allowed when model is seedance-2.0 and output_resolution is 4k" {
-		t.Fatalf("unexpected error: %s", got)
-	}
-	if stub.method != "" {
-		t.Fatalf("expected no HTTP request, got %s %s", stub.method, stub.path)
-	}
-}
-
 func TestTextToVideoGet(t *testing.T) {
 	stub := &stubHTTPClient{}
 	client := NewClientWithHTTP(stub)

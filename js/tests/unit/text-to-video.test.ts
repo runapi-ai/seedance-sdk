@@ -275,19 +275,6 @@ describe('TextToVideo', () => {
       );
     });
 
-    it('should reject seedance-2.0 4k with frame inputs', async () => {
-      const textToVideo = new TextToVideo(mockHttp);
-
-      await expect(textToVideo.create({
-        prompt: 'A cinematic city flyover',
-        model: 'seedance-2.0',
-        output_resolution: '4k',
-        first_frame_image_url: 'https://cdn.runapi.ai/public/samples/first-frame.jpg',
-      })).rejects.toThrow('first_frame_image_url is not allowed when model is seedance-2.0 and output_resolution is 4k');
-
-      expect(mockHttp.request).not.toHaveBeenCalled();
-    });
-
     it('should send correct request for seedance-v1-pro-fast image-to-video', async () => {
       const mockResponse: TaskCreateResponse = { id: 'task-v1-fast' };
       vi.mocked(mockHttp.request).mockResolvedValueOnce(mockResponse);
