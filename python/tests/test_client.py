@@ -142,6 +142,20 @@ def test_v2_5_accepts_multimodal_fields():
     assert http.calls[0][2]["output_format"] == "mov"
 
 
+@pytest.mark.parametrize("model", ["seedance-2.0", "seedance-2.0-fast", "seedance-2-mini"])
+def test_v2_sends_automatic_duration(model):
+    http = FakeHttp({"id": "task-auto", "status": "pending"})
+    client = SeedanceClient(api_key="k", http_client=http)
+
+    client.text_to_video.create(model=model, prompt="A drone shot over mountains", duration_seconds=-1)
+
+    assert http.calls[0] == (
+        "post",
+        "/api/v1/seedance/text_to_video",
+        {"model": model, "prompt": "A drone shot over mountains", "duration_seconds": -1},
+    )
+
+
 def test_v2_accepts_generated_4k():
     fake = FakeHttp({"id": "t1", "status": "pending"})
     client = SeedanceClient(api_key="k", http_client=fake)

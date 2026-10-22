@@ -150,6 +150,28 @@ func TestTextToVideoCreateSeedance25(t *testing.T) {
 	}
 }
 
+func TestTextToVideoCreateSeedance2AutomaticDuration(t *testing.T) {
+	for _, model := range []SeedanceModel{ModelSeedance2, ModelSeedance2Fast, ModelSeedance2Mini} {
+		t.Run(string(model), func(t *testing.T) {
+			stub := &stubHTTPClient{}
+			client := NewClientWithHTTP(stub)
+			duration := -1
+			_, err := client.TextToVideo.Create(context.Background(), TextToVideoParams{
+				Prompt:          "a drone shot over mountains",
+				Model:           model,
+				DurationSeconds: &duration,
+			})
+			if err != nil {
+				t.Fatal(err)
+			}
+			body := stub.body.(map[string]any)
+			if body["model"] != string(model) || body["duration_seconds"] != float64(-1) {
+				t.Fatalf("unexpected automatic duration body: %v", body)
+			}
+		})
+	}
+}
+
 func TestTextToVideoCreate15Pro(t *testing.T) {
 	stub := &stubHTTPClient{}
 	client := NewClientWithHTTP(stub)

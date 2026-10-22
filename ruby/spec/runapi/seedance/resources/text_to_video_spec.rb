@@ -107,6 +107,16 @@ RSpec.describe RunApi::Seedance::Resources::TextToVideo do
       text_to_video.create(**params)
     end
 
+    %w[seedance-2.0 seedance-2.0-fast seedance-2-mini].each do |model|
+      it "sends automatic duration -1 for #{model}" do
+        params = {model: model, prompt: "A drone shot over mountains", duration_seconds: -1}
+        expect(http).to receive(:request).with(:post, endpoint, body: params)
+          .and_return("id" => "task-auto")
+
+        text_to_video.create(**params)
+      end
+    end
+
     it "accepts auto aspect_ratio (2.x only)" do
       params = {model: "seedance-2.0", prompt: "test", aspect_ratio: "auto"}
       expect(http).to receive(:request).with(:post, endpoint, body: params)

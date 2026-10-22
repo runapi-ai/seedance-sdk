@@ -108,6 +108,29 @@ class SeedanceClientTest {
   }
 
   @Test
+  void createSendsSeedance2AutomaticDuration() throws Exception {
+    TextToVideoModel[] models = {
+        TextToVideoModel.SEEDANCE_2_0, TextToVideoModel.SEEDANCE_2_0_FAST, TextToVideoModel.SEEDANCE_2_MINI
+    };
+    for (TextToVideoModel model : models) {
+      CapturingTransport transport = new CapturingTransport("{\"id\":\"task_auto\",\"status\":\"processing\"}");
+      SeedanceClient client = SeedanceClient.builder().apiKey("sk-test").transport(transport).build();
+
+      client.textToVideo().create(
+          TextToVideoParams.builder()
+              .prompt("A drone shot over mountains")
+              .model(model)
+              .durationSeconds(-1)
+              .build()
+      );
+
+      JsonNode body = bodyJson(transport.request);
+      assertEquals(model.value(), body.get("model").asText());
+      assertEquals(-1, body.get("duration_seconds").asInt());
+    }
+  }
+
+  @Test
   void createAcceptsSeedance2Generated4k() throws Exception {
     CapturingTransport transport = new CapturingTransport("{\"id\":\"task_4k\",\"status\":\"processing\"}");
     SeedanceClient client = SeedanceClient.builder().apiKey("sk-test").transport(transport).build();

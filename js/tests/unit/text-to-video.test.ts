@@ -223,6 +223,20 @@ describe('TextToVideo', () => {
       );
     });
 
+    it.each(['seedance-2.0', 'seedance-2.0-fast', 'seedance-2-mini'] as const)(
+      'should send automatic duration -1 for %s',
+      async (model) => {
+        vi.mocked(mockHttp.request).mockResolvedValueOnce({ id: 'task-auto' });
+
+        const textToVideo = new TextToVideo(mockHttp);
+        await textToVideo.create({ model, prompt: 'A drone shot over mountains', duration_seconds: -1 });
+
+        expect(mockHttp.request).toHaveBeenCalledWith('POST', '/api/v1/seedance/text_to_video', {
+          body: { model, prompt: 'A drone shot over mountains', duration_seconds: -1 },
+        });
+      }
+    );
+
     it('should include optional parameters', async () => {
       const mockResponse: TaskCreateResponse = { id: 'task-opt' };
       vi.mocked(mockHttp.request).mockResolvedValueOnce(mockResponse);

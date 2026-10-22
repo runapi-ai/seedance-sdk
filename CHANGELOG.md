@@ -1,5 +1,12 @@
 # Changelog
 
+## [js/v0.4.1](https://github.com/runapi-ai/seedance-sdk/releases/tag/js%2Fv0.4.1), [go/v0.4.1](https://github.com/runapi-ai/seedance-sdk/releases/tag/go%2Fv0.4.1) - 2026-10-22
+
+### Changed
+- seedance-2.0, seedance-2.0-fast, and seedance-2-mini accept duration_seconds -1 to select video duration automatically; the type documentation and help text describe the new option.
+- Seedance 2.5 prompts now accept up to 20480 characters.
+
+
 ## [js/v0.4.0](https://github.com/runapi-ai/seedance-sdk/releases/tag/js%2Fv0.4.0), [ruby/v0.4.0](https://github.com/runapi-ai/seedance-sdk/releases/tag/ruby%2Fv0.4.0), [go/v0.4.0](https://github.com/runapi-ai/seedance-sdk/releases/tag/go%2Fv0.4.0), [python/v0.4.0](https://github.com/runapi-ai/seedance-sdk/releases/tag/python%2Fv0.4.0), [java/v0.2.0](https://github.com/runapi-ai/seedance-sdk/releases/tag/java%2Fv0.2.0) - 2026-09-30
 
 ### Changed
