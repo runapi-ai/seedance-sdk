@@ -1,5 +1,18 @@
 # Changelog
 
+## [js/v0.4.2](https://github.com/runapi-ai/seedance-sdk/releases/tag/js%2Fv0.4.2) - 2026-10-28
+
+### Changed
+- Update development test tooling to Vitest 3 with Vite 6.
+- Update development test tooling to Vitest 4.1.11 with Vite 6.4.4.
+- Document fixed 4-15 second durations for unconfirmed Seedance 2.0, 2.0-fast and 2-mini; retain released Seedance 2.5 automatic duration.
+
+## [go/v0.4.2](https://github.com/runapi-ai/seedance-sdk/releases/tag/go%2Fv0.4.2) - 2026-10-28
+
+### Changed
+- Document fixed 4-15 second durations for unconfirmed Seedance 2.0, 2.0-fast and 2-mini; retain released Seedance 2.5 automatic duration.
+
+
 ## [js/v0.4.1](https://github.com/runapi-ai/seedance-sdk/releases/tag/js%2Fv0.4.1), [go/v0.4.1](https://github.com/runapi-ai/seedance-sdk/releases/tag/go%2Fv0.4.1) - 2026-10-22
 
 ### Changed

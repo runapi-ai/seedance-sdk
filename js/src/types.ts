@@ -75,7 +75,7 @@ export interface Generation15ProParams extends GenerationCommonParams, AudioGene
 interface Generation2BaseFields extends GenerationCommonParams, AudioGenerationParams {
   aspect_ratio?: AspectRatio2;
   output_resolution?: Resolution2;
-  /** `-1` selects duration automatically; explicit durations are integers from 4 through 15. */
+  /** Integer duration from 4 through 15 seconds. */
   duration_seconds?: number;
 }
 

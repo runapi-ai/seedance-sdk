@@ -18,7 +18,7 @@ const (
 	// ModelSeedance2 is the latest generation model with the highest quality
 	// output. Supports frame mode (first/last frame images), reference mode
 	// (up to 9 reference images, 3 videos, 3 audio files), web search, audio
-	// generation, and automatic (-1) or 4-15 second durations. Prompts up to 20000
+	// generation, and 4-15 second durations. Prompts up to 20000
 	// characters.
 	ModelSeedance2 SeedanceModel = "seedance-2.0"
 
@@ -31,7 +31,7 @@ const (
 	ModelSeedance25 SeedanceModel = "seedance-2.5"
 
 	// ModelSeedance2Mini is the compact 2.x model with frame mode, reference
-	// mode, audio generation, web search, and automatic (-1) or 4-15 second durations.
+	// mode, audio generation, web search, and 4-15 second durations.
 	ModelSeedance2Mini SeedanceModel = "seedance-2-mini"
 
 	// ModelSeedanceV1Pro is the high-quality V1 model. Supports image-to-video
@@ -63,7 +63,7 @@ type TextToVideoParams struct {
 	// Common optional fields
 	AspectRatio         string `json:"aspect_ratio,omitempty" help:"required for seedance-1.5-pro and v1 text-to-video. 1.5/2.x: 1:1, 4:3, 3:4, 16:9, 9:16, 21:9; output aspect ratio"`
 	OutputResolution    string `json:"output_resolution,omitempty" help:"optional; output resolution"`
-	DurationSeconds     *int   `json:"duration_seconds,omitempty" help:"required for seedance-1.5-pro: 4-12. Optional for 2.0/2.0-fast/2-mini: -1 for automatic or 4-15; 2.5: -1 for automatic or 4-30. For v1 JSON files, use 5 or 10; duration in seconds"`
+	DurationSeconds     *int   `json:"duration_seconds,omitempty" help:"required for seedance-1.5-pro: 4-12. Optional for 2.0/2.0-fast/2-mini: 4-15; 2.5: -1 for automatic or 4-30. For v1 JSON files, use 5 or 10; duration in seconds"`
 	GenerateAudio       *bool  `json:"generate_audio,omitempty" help:"optional; seedance-1.5-pro and 2.x only"`
 	EnableSafetyChecker *bool  `json:"enable_safety_checker,omitempty" help:"optional; content safety check toggle"`
 	ReturnLastFrame     *bool  `json:"return_last_frame,omitempty" help:"optional for seedance-2.5; return the generated video's last frame"`
